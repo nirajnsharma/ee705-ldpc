@@ -1,0 +1,112 @@
+% vim: set tabstop=8:softtabstop=4:shiftwidth=4:textwidth:78:formatoptions+=t
+\documentclass[11pt, a4paper]{article}
+\usepackage{noweb}
+\usepackage{amsmath}
+\usepackage{a4wide}  % Set margins automatically for wider use of A4
+
+% ----------
+% Margins
+% Left margin, odd pages: ("0.125" + 1)
+\setlength{\oddsidemargin}{0.125in}
+% Left margin, even pages: ("0.125" + 1)
+\setlength{\evensidemargin}{0.125in}
+% Text width 6.5 inch (so other margin is 1 inch).
+\setlength{\textwidth}{6.125in}
+% ----------
+
+\title{Nodes of the LDPC Decoder}
+\author{Kim Jong Un}
+\begin{document}
+\maketitle
+
+<<boilerplate>>=
+// EE-705 Course Project -- LDPC Decoder
+
+package Nodes;
+
+// -----------------------------------------------------------------
+// This package defines:
+//
+//    CheckNode   : Interface to the Check Nodes
+//    BitNode     : Interface to the Bit Nodes
+//    mkCheckNode : Micro-arch of the Check Node
+//    mkBitNode   : Micro-arch of the Bit Node
+//
+//    v1.0        : The nodes can handle one code-word at a time
+//
+// -----------------------------------------------------------------
+
+import GetPut           :: *;
+import FIFO             :: *;
+import Vector           :: *;
+
+<<type definitions>>
+
+<<module definition>>
+
+@
+The Bit-node and the Check-node are the two types of computation nodes in
+the LDPC decoder. One iteration consists of processing at both of these
+nodes. The interconnections between them is described by the incidence
+matrix (H matrix).
+
+<<type definitions>>=
+<<interface definition>>
+
+@
+Two interface types, one each for the Bit and Check nodes are defined in
+this package. Both interfaces are parameterized by the numeric types
+[[nRConnections]], and [[nCConnections]]. 
+
+The numeric type, [[nRConnections]] indicates the number of 1s along a
+particular row of the incidence matrix, while [[nCConnections]] indicaes
+the number of 1s along a particular column of the same matrix.
+
+<<interface definition>>=
+// nRConnections indicates the number of connections that a particular
+// check-node has with the bit-nodes
+interface CheckNode # (numeric type nRConnections);
+   interface Vector  #(nRConnections, Put #(Bit #(1))) b2c;
+   interface Vector  #(nRConnections, Get #(Bit #(1))) c2b;
+endinterface
+
+@
+In addition to the [[c2b]] and [[b2c]] sub-interfaces to connect the check
+and bit nodes, bit-nodes also have the additional interfaces to receive the
+code and send back the decoded data. Since each bit-node only deals with a
+part of the code-word, it is sufficient to receive those bits only. The
+final decoded word is also constructed from the responses of the different
+bit-nodes.
+
+<<interface definition>>=
+// nCConnections indicates the number of connections that a particular
+// bit-node has with the check-nodes
+interface BitNode # (numeric type nCConnections);
+   interface Put     #(Bit #(nConnections)) codeIn;
+   interface Vector  #(nCConnections, Put #(Bit #(1))) c2b;
+   interface Vector  #(nCConnections, Get #(Bit #(1))) b2c;
+   interface Get     #(Bit #(nConnections)) dataOut;
+endinterface
+
+// -----------------------------------------------------------------
+
+@
+Two different modules are defined in this package. 
+<<module definition>>=
+//
+// Module definition
+module mkTbEPipes (Empty);
+`endif
+<<state>>
+<<rules>>
+<<interfaces>>
+<<wrap up>>
+// -----------------------------------------------------------------
+
+<<wrap up>>=
+endmodule
+endpackage
+
+@
+\end{document}
+
