@@ -51,9 +51,12 @@ nodes. The interconnections between them is described by the incidence
 matrix (H matrix).
 
 <<type definitions>>=
+typedef 8 NUM_MAX_ITERATION;
+
 <<interface definition>>
 
 @
+\section{Interfaces of the Bit and Check Nodes}
 Two interface types, one each for the Bit and Check nodes are defined in
 this package. Both interfaces are parameterized by the numeric types
 [[nRConnections]], and [[nCConnections]]. 
@@ -94,6 +97,7 @@ endinterface
 // -----------------------------------------------------------------
 
 @
+\section{The Bit Node}
 The [[mkBitNode]] module receives the code word and initiates the
 iterations.  Based on [[nCConnections]] it is connected to a set of
 [[mkCheckNodes]] representing the edges of the bipartite tanner graph.
@@ -105,7 +109,6 @@ parameterized by a [[nodeId]].
 //
 // Module definition
 module mkBitNode #(Bit #(8) nodeId) (BitNode #(nCConnections));
-`endif
    <<state bitNode>>
    <<rules bitNode>>
    <<interfaces bitNode>>
@@ -113,7 +116,7 @@ module mkBitNode #(Bit #(8) nodeId) (BitNode #(nCConnections));
 // -----------------------------------------------------------------
 
 @
-The input FIFO [[ffCodeIn]] received the part of the code word meant for this
+The input FIFO [[ffCodeIn]] receives the part of the code word meant for this
 bit-node. The output FIFO [[ffDataOut]] holds the decoded code word.
 
 <<state bitNode>>=
@@ -251,24 +254,96 @@ input and output FIFOs using library functions -- [[toPut]] and [[toGet]].
 // Interface
 interface codeIn     = toPut (ffCodeIn);
 interface dataOut    = toGet (ffDataOut);
-interface ffb2c      = toGet (ffb2c);
-interface ffc2b      = toPut (ffc2b);
+interface b2c        = toGet (ffb2c);
+interface c2b        = toPut (ffc2b);
 
 // -----------------------------------------------------------------
 
 <<wrap up bitNode>>=
 endmodule : mkBitNode
 
+@
+\section{The Check Node}
+The [[mkCheckNode]] module receives the partially decoded code word from
+the [[mkBitNode]]. It operates in \emph{slave} mode and processes all
+inputs in the same manner. The [[mkCheckNode]] does not keep track of
+iterations.
+
+The [[mkCheckNode]] provides an interface of type [[CheckNode]] and is
+parameterized by a [[nodeId]].
 
 <<module definition>>=
 //
 // Module definition
 module mkCheckNode #(Bit #(8) nodeId) (BitNode #(nRConnections));
-`endif
-<<state checkNode>>
-<<rules checkNode>>
-<<interfaces checkNode>>
-<<wrap up checkNode>>
+   <<state checkNode>>
+   <<rules checkNode>>
+   <<interfaces checkNode>>
+   <<wrap up checkNode>>
+// -----------------------------------------------------------------
+
+@
+The input FIFO [[ffb2c]] receives the partially processed part of the code
+word meant for this check-node. The output FIFO [[ffc2b]] holds the
+partially decoded code word.
+
+<<state checkNode>>=
+// Sub-modules and state
+// Input FIFO - code word
+FIFO  #(Bit #(nRConnections))    ffb2c          <- mkFIFO;
+
+// Output FIFO - decoded code word
+FIFO  #(Bit #(nRConnections))    ffc2b          <- mkFIFO;
+
+@
+The rule [[rlProcessIteration]] executes the actions for to process the
+input from the bit nodes.
+
+\begin{itemize}
+\item Consume the codeword which is currently in [[ffCodeIn]]
+\item Carry out the computation on the codeword
+\item Enqueue the result into the [[ffb2c]] for checknode processing
+\item Update the iteration count - this is updated by $2$ as the count is
+maintained only in the bit node, and the check node acts as a purely
+passive device.
+\end{itemize}
+
+<<rules checkNode>>=
+// Rules and behaviour
+<<functions checkNode>>
+rule rlProcessIteration;
+   // get the partial result
+   let codeIn = ffb2c.first; ffb2c.deq;
+
+   // Process the partial result further
+   let codeOut = fnCheckNodeProcessing (codeIn);
+
+   // Send the partial result to the bit node
+   ffc2b.enq (codeOut);
+endrule
+
+// -----------------------------------------------------------------
+
+@
+The function [[fnCheckNodeProcessing]], carries out the actual bit
+manipulation of the codeword bits as per the XXX-insert-algorithm-here.
+
+<<functions checkNode>>=
+function Bit #(nRConnections) fnCheckNodeProcessing (Bit #(nRConnections) x);
+   // XXX This is at present a dummy function which simply does an
+   // inverting of the bits
+   return (~x);
+endfunction
+
+@
+Creating the interfaces simply involves stitching up the connections to the
+input and output FIFOs using library functions -- [[toPut]] and [[toGet]].
+
+<<interfaces checkNode>>=
+// Interface
+interface b2c = toPut (ffb2c);
+interface c2b = toGet (ffc2b);
+
 // -----------------------------------------------------------------
 
 <<wrap up checkNode>>=
