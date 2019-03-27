@@ -1,0 +1,24 @@
+.PHONY : all
+all : documentation doc_clean rtl
+DOC ?= fileName
+ROOT ?= boilerplate
+SOURCES = $(DOC).bsv.nw
+ROOT ?= includes
+
+all : documentation tangle clean
+
+weave: $(SOURCES)
+	noweave -delay -index $(SOURCES) > $(DOC).tex
+tangle: $(SOURCES)
+	notangle -R$(ROOT) $(SOURCES) > $(DOC).bsv
+documentation: weave
+	pdflatex $(DOC).tex; pdflatex $(DOC).tex; pdflatex $(DOC).tex
+	mv $(DOC).pdf ../../doc
+rtl: tangle
+	make -f Makefile.hw compile
+
+.PHONY: clean
+doc_clean:
+	rm -f *.log *.aux $(DOC).tex
+full_clean:
+	rm -f *.log *.aux $(DOC).tex $(DOC).bsv $(DOC).pdf

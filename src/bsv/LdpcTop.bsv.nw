@@ -1,0 +1,47 @@
+% vim: set tabstop=8:softtabstop=4:shiftwidth=4:textwidth:78:formatoptions+=t
+\documentclass[11pt, a4paper]{article}
+\usepackage{noweb}
+\usepackage{amsmath}
+\usepackage{a4wide}  % Set margins automatically for wider use of A4
+
+% ----------
+% Margins
+% Left margin, odd pages: ("0.125" + 1)
+\setlength{\oddsidemargin}{0.125in}
+% Left margin, even pages: ("0.125" + 1)
+\setlength{\evensidemargin}{0.125in}
+% Text width 6.5 inch (so other margin is 1 inch).
+\setlength{\textwidth}{6.125in}
+% ----------
+
+\title{LDPC Decoder Top-level}
+\author{Kim Jong Un}
+\begin{document}
+\maketitle
+
+<<boilerplate>>=
+// EE-705 Course Project -- LDPC Decoder
+
+package Nodes;
+
+// -----------------------------------------------------------------
+// This package defines:
+//
+//    CheckNode   : Interface to the Check Nodes
+//    BitNode     : Interface to the Bit Nodes
+//    mkCheckNode : Micro-arch of the Check Node
+//    mkBitNode   : Micro-arch of the Bit Node
+//
+//    v1.0        : The nodes can handle one code-word at a time
+//
+// -----------------------------------------------------------------
+
+import GetPut           :: *;
+import FIFO             :: *;
+import Vector           :: *;
+
+<<type definitions>>
+
+<<module definition>>
+
+

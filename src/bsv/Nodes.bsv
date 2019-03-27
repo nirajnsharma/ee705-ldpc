@@ -1,77 +1,173 @@
-// EE705 - Course Project
-// Node for LDPC decoder.
+// EE-705 Course Project -- LDPC Decoder
 
 package Nodes;
 
-import Vector :: *;
+// -----------------------------------------------------------------
+// This package defines:
+//
+//    CheckNode   : Interface to the Check Nodes
+//    BitNode     : Interface to the Bit Nodes
+//    mkCheckNode : Micro-arch of the Check Node
+//    mkBitNode   : Micro-arch of the Bit Node
+//
+//    v1.0        : The nodes can handle one code-word at a time
+//
+// -----------------------------------------------------------------
 
-interface CheckNode # (numeric type nIncidence, numeric type nReverseIncidence);
-   (* always_ready, always_enabled *)
-   method Action b2c (Vector #(nIncidence, Bit #(1)) x);
-   (* always_ready *)
-   method Vector #(nReverseIncidence, Bit #(1)) c2b;
+import GetPut           :: *;
+import FIFO             :: *;
+import Vector           :: *;
+
+typedef 8 NUM_MAX_ITERATION;
+
+// nRConnections indicates the number of connections that a particular
+// check-node has with the bit-nodes
+interface CheckNode # (numeric type nRConnections);
+   interface Vector  #(nRConnections, Put #(Bit #(1))) b2c;
+   interface Vector  #(nRConnections, Get #(Bit #(1))) c2b;
 endinterface
 
-interface BitNode # (numeric type nReverseIncidence, numeric type nIncidence);
-   (* always_ready, always_enabled *)
-   method Action c2b (Vector #(nReverseIncidence, Bit #(1)) x);
-   (* always_ready *)
-   method Vector #(nIncidence, Bit #(1)) b2c;
+// nCConnections indicates the number of connections that a particular
+// bit-node has with the check-nodes
+interface BitNode # (numeric type nCConnections);
+   // External interfaces for receving code word and returning result
+   interface Put     #(Bit #(nCConnections))    codeIn;
+   interface Get     #(Bit #(nCConnections))    dataOut;
+
+   // Bit Node-Check Node Interface
+   interface Put     #(Bit #(nCConnections))    c2b;
+   interface Get     #(Bit #(nCConnections))    b2c;
 endinterface
 
-module mkCheckNode #(Bit #(8) nodeId) (
-      CheckNode #(nIncidence, nReverseIncidence)) provisos (
-      Add #(a__, nReverseIncidence, nIncidence));
-   // The nodeId identifies a node
+// -----------------------------------------------------------------
 
-   // Output register
-   Reg #(Bit #(nReverseIncidence)) rg_y <- mkRegU;
 
-   // interfaces
-   // incoming bits from the bit-node
-   method Action b2c (Vector #(nIncidence, Bit#(1)) x);
-      // Just copying x to y for now with size adjustment
-      // XXX replace with real operation
-      rg_y <= unpack (truncate (pack (x)));
-   endmethod
 
-   // outgoing bits to the bit-node
-   method Vector #(nReverseIncidence, Bit #(1)) c2b;
-      return unpack (rg_y);
-   endmethod
-endmodule
+//
+// Module definition
+module mkBitNode #(Bit #(8) nodeId) (BitNode #(nCConnections));
+   // Sub-modules and state
+   // Input FIFO - code word
+   FIFO  #(Bit #(nCConnections))    ffCodeIn       <- mkFIFO;
 
-module mkBitNode #(Bit #(8) nodeId) (
-      BitNode #(nReverseIncidence, nIncidence)) provisos (
-      Add #(a__, nReverseIncidence, nIncidence));
-   // The nodeId identifies a node
+   // Output FIFO - decoded code word
+   FIFO  #(Bit #(nCConnections))    ffDataOut      <- mkFIFO;
 
-   // Output register
-   Reg #(Bit #(nIncidence)) rg_y <- mkRegU;
+   // Partially processed codeword meant for the checknodes
+   FIFO  #(Bit #(nCConnections))    ffb2c       <- mkFIFO;
 
-   // interfaces
-   // incoming bits from the check-node
-   method Action c2b (Vector #(nReverseIncidence, Bit#(1)) x);
-      // Just copying x to y for now with size adjustment
-      // XXX replace with real operation
-      rg_y <= unpack (extend (pack (x)));
-   endmethod
+   // Partially processed codeword from the checknodes
+   FIFO  #(Bit #(nCConnections))    ffc2b       <- mkFIFO;
 
-   // outgoing bits to the bit-node
-   method Vector #(nIncidence, Bit #(1)) b2c;
-      return unpack (rg_y);
-   endmethod
-endmodule
+   Reg   #(Bit #(4))                rgIterationCount  <- mkReg (0);
 
-(* synthesize *)
-module mkBitNode_5_7 #(Bit# (8) nodeId) (BitNode #(5,7));
-   let _ifc <- mkBitNode (nodeId);
-   return (_ifc);
-endmodule
+   // -----------------------------------------------------------------
 
-(* synthesize *)
-module mkCheckNode_7_5 #(Bit# (8) nodeId) (CheckNode #(7,5));
-   let _ifc <- mkCheckNode (nodeId);
-   return (_ifc);
-endmodule
-endpackage
+   // Rules and behaviour
+   function Bit #(nCConnections) fnBitNodeProcessing (Bit #(nCConnections) x);
+      // XXX This is at present a dummy function which simply does an
+      // inverting of the bits
+      return (~x);
+   endfunction
+
+
+   // Rule to process the first iteration of a new code word
+   rule rlProcessFirstIteration (rgIterationCount == 0);
+      // As this is the first iteration, consume the codeword which is
+      // currently in ffCodeIn. Carry out the computation on the codeword
+      let codeIn = ffCodeIn.first; ffCodeIn.deq;
+      let codeOut = fnBitNodeProcessing (codeIn);
+
+      // Send the output to the check nodes
+      ffb2c.enq (codeOut);
+      
+      // Bookkeeping - keep track of iterations to know when to stop
+      rgIterationCount  <= rgIterationCount + 2;
+   endrule
+
+   // Rule to process remaining iterations
+   rule rlProcessRemIteration (
+         (rgIterationCount > 0)
+      && (rgIterationCount < fromInteger (valueOf (NUM_MAX_ITERATION))));
+      // As this iteration works of a partial result from the checknode,
+      // the input comes from ffc2b
+      let codeIn = ffc2b.first; ffc2b.deq;
+      let codeOut = fnBitNodeProcessing (codeIn);
+
+      // Send the output to the check nodes
+      ffb2c.enq (codeOut);
+      
+      // Bookkeeping - keep track of iterations to know when to stop
+      rgIterationCount  <= rgIterationCount + 2;
+   endrule
+
+   // Rule to process remaining iterations
+   rule rlProcessComplete (
+      (rgIterationCount == fromInteger (valueOf (NUM_MAX_ITERATION))));
+      // As this iteration works of a partial result from the checknode,
+      // the input comes from ffc2b
+      let codeIn = ffc2b.first; ffc2b.deq;
+
+      // Send the processed code word to the output
+      ffb2c.enq (ffDataOut);
+      
+      // Reset rgIterationCount for the next codeword
+      rgIterationCount  <= 0;
+   endrule
+
+   // -----------------------------------------------------------------
+
+   // Interface
+   interface codeIn     = toPut (ffCodeIn);
+   interface dataOut    = toGet (ffDataOut);
+   interface b2c        = toGet (ffb2c);
+   interface c2b        = toPut (ffc2b);
+
+   // -----------------------------------------------------------------
+
+   endmodule : mkBitNode
+
+// -----------------------------------------------------------------
+
+//
+// Module definition
+module mkCheckNode #(Bit #(8) nodeId) (BitNode #(nRConnections));
+   // Sub-modules and state
+   // Input FIFO - code word
+   FIFO  #(Bit #(nRConnections))    ffb2c          <- mkFIFO;
+
+   // Output FIFO - decoded code word
+   FIFO  #(Bit #(nRConnections))    ffc2b          <- mkFIFO;
+
+   // Rules and behaviour
+   function Bit #(nRConnections) fnCheckNodeProcessing (Bit #(nRConnections) x);
+      // XXX This is at present a dummy function which simply does an
+      // inverting of the bits
+      return (~x);
+   endfunction
+
+   rule rlProcessIteration;
+      // get the partial result
+      let codeIn = ffb2c.first; ffb2c.deq;
+
+      // Process the partial result further
+      let codeOut = fnCheckNodeProcessing (codeIn);
+
+      // Send the partial result to the bit node
+      ffc2b.enq (codeOut);
+   endrule
+
+   // -----------------------------------------------------------------
+
+   // Interface
+   interface b2c = toPut (ffb2c);
+   interface c2b = toGet (ffc2b);
+
+   // -----------------------------------------------------------------
+
+   endmodule : mkCheckNode
+   endpackage
+
+// -----------------------------------------------------------------
+
+
