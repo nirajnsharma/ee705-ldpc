@@ -39,6 +39,7 @@ package Nodes;
 import GetPut           :: *;
 import FIFO             :: *;
 import Vector           :: *;
+import LdpcTypes        :: *;
 
 <<type definitions>>
 
@@ -51,26 +52,24 @@ nodes. The interconnections between them is described by the incidence
 matrix (H matrix).
 
 <<type definitions>>=
-typedef 8 NUM_MAX_ITERATION;
-
 <<interface definition>>
 
 @
 \section{Interfaces of the Bit and Check Nodes}
 Two interface types, one each for the Bit and Check nodes are defined in
 this package. Both interfaces are parameterized by the numeric types
-[[nRConnections]], and [[nCConnections]]. 
+[[NRConnections]], and [[NCConnections]]. 
 
-The numeric type, [[nRConnections]] indicates the number of 1s along a
-particular row of the incidence matrix, while [[nCConnections]] indicaes
+The numeric type, [[NRConnections]] indicates the number of 1s along a
+particular row of the incidence matrix, while [[NCConnections]] indicaes
 the number of 1s along a particular column of the same matrix.
 
 <<interface definition>>=
-// nRConnections indicates the number of connections that a particular
+// NRConnections indicates the number of connections that a particular
 // check-node has with the bit-nodes
-interface CheckNode # (numeric type nRConnections);
-   interface Vector  #(nRConnections, Put #(Bit #(1))) b2c;
-   interface Vector  #(nRConnections, Get #(Bit #(1))) c2b;
+interface CheckNode # (numeric type NRConnections);
+   interface Vector  #(NRConnections, Put #(Bit #(1))) b2c;
+   interface Vector  #(NRConnections, Get #(Bit #(1))) c2b;
 endinterface
 
 @
@@ -82,16 +81,16 @@ final decoded word is also constructed from the responses of the different
 bit-nodes.
 
 <<interface definition>>=
-// nCConnections indicates the number of connections that a particular
+// NCConnections indicates the number of connections that a particular
 // bit-node has with the check-nodes
-interface BitNode # (numeric type nCConnections);
+interface BitNode # (numeric type NCConnections);
    // External interfaces for receving code word and returning result
-   interface Put     #(Bit #(nCConnections))    codeIn;
-   interface Get     #(Bit #(nCConnections))    dataOut;
+   interface Put     #(Bit #(NCConnections))    codeIn;
+   interface Get     #(Bit #(NCConnections))    dataOut;
 
    // Bit Node-Check Node Interface
-   interface Put     #(Bit #(nCConnections))    c2b;
-   interface Get     #(Bit #(nCConnections))    b2c;
+   interface Put     #(Bit #(NCConnections))    c2b;
+   interface Get     #(Bit #(NCConnections))    b2c;
 endinterface
 
 // -----------------------------------------------------------------
@@ -99,7 +98,7 @@ endinterface
 @
 \section{The Bit Node}
 The [[mkBitNode]] module receives the code word and initiates the
-iterations.  Based on [[nCConnections]] it is connected to a set of
+iterations.  Based on [[NCConnections]] it is connected to a set of
 [[mkCheckNodes]] representing the edges of the bipartite tanner graph.
 
 The [[mkBitNode]] provides an interface of type [[BitNode]] and is
@@ -108,7 +107,7 @@ parameterized by a [[nodeId]].
 <<module definition>>=
 //
 // Module definition
-module mkBitNode #(Bit #(8) nodeId) (BitNode #(nCConnections));
+module mkBitNode #(Bit #(8) nodeId) (BitNode #(NCConnections));
    <<state bitNode>>
    <<rules bitNode>>
    <<interfaces bitNode>>
@@ -122,23 +121,23 @@ bit-node. The output FIFO [[ffDataOut]] holds the decoded code word.
 <<state bitNode>>=
 // Sub-modules and state
 // Input FIFO - code word
-FIFO  #(Bit #(nCConnections))    ffCodeIn       <- mkFIFO;
+FIFO  #(Bit #(NCConnections))    ffCodeIn       <- mkFIFO;
 
 // Output FIFO - decoded code word
-FIFO  #(Bit #(nCConnections))    ffDataOut      <- mkFIFO;
+FIFO  #(Bit #(NCConnections))    ffDataOut      <- mkFIFO;
 
 @
-The [[ffb2c]] FIFO holds the partially processed codeword. The contents of
+The [[ffB2C]] FIFO holds the partially processed codeword. The contents of
 this FIFO will be consumed by the check node when they are ready. The
-[[ffc2b]] FIFO receives partially processed codewords from the check nodes
+[[ffC2B]] FIFO receives partially processed codewords from the check nodes
 for the next iteration of processing.
 
 <<state bitNode>>=
 // Partially processed codeword meant for the checknodes
-FIFO  #(Bit #(nCConnections))    ffb2c       <- mkFIFO;
+FIFO  #(Bit #(NCConnections))    ffB2C       <- mkFIFO;
 
 // Partially processed codeword from the checknodes
-FIFO  #(Bit #(nCConnections))    ffc2b       <- mkFIFO;
+FIFO  #(Bit #(NCConnections))    ffC2B       <- mkFIFO;
 
 @
 Behaviour is described in terms of atomic sets of actions called rules.
@@ -148,7 +147,7 @@ iteration of processing a new code word.
 \begin{itemize}
 \item Consume the codeword which is currently in [[ffCodeIn]]
 \item Carry out the computation on the codeword
-\item Enqueue the result into the [[ffb2c]] for checknode processing
+\item Enqueue the result into the [[ffB2C]] for checknode processing
 \item Update the iteration count - this is updated by $2$ as the count is
 maintained only in the bit node, and the check node acts as a purely
 passive device.
@@ -166,7 +165,7 @@ rule rlProcessFirstIteration (rgIterationCount == 0);
    let codeOut = fnBitNodeProcessing (codeIn);
 
    // Send the output to the check nodes
-   ffb2c.enq (codeOut);
+   ffB2C.enq (codeOut);
    
    // Bookkeeping - keep track of iterations to know when to stop
    rgIterationCount  <= rgIterationCount + 2;
@@ -187,7 +186,7 @@ The function [[fnBitNodeProcessing]], carries out the actual bit
 manipulation of the codeword bits as per the XXX-insert-algorithm-here.
 
 <<functions bitNode>>=
-function Bit #(nCConnections) fnBitNodeProcessing (Bit #(nCConnections) x);
+function Bit #(NCConnections) fnBitNodeProcessing (Bit #(NCConnections) x);
    // XXX This is at present a dummy function which simply does an
    // inverting of the bits
    return (~x);
@@ -196,12 +195,12 @@ endfunction
 @
 The rule [[rlProcessRemIteration]] executes the actions for the remaining
 iterations for processing a code word. The input for these iterations is
-from the partially processed word in [[ffc2b]].
+from the partially processed word in [[ffC2B]].
 
 \begin{itemize}
-\item Consume the codeword which is currently in [[ffc2b]]
+\item Consume the codeword which is currently in [[ffC2B]]
 \item Carry out the computation on the codeword
-\item Enqueue the result into the [[ffb2c]] for checknode processing
+\item Enqueue the result into the [[ffB2C]] for checknode processing
 \item Update the iteration count - this is updated by $2$ as the count is
 maintained only in the bit node, and the check node acts as a purely
 passive device.
@@ -211,14 +210,14 @@ passive device.
 // Rule to process remaining iterations
 rule rlProcessRemIteration (
       (rgIterationCount > 0)
-   && (rgIterationCount < fromInteger (valueOf (NUM_MAX_ITERATION))));
+   && (rgIterationCount < fromInteger (valueOf (NumIteration))));
    // As this iteration works of a partial result from the checknode,
-   // the input comes from ffc2b
-   let codeIn = ffc2b.first; ffc2b.deq;
+   // the input comes from ffC2B
+   let codeIn = ffC2B.first; ffC2B.deq;
    let codeOut = fnBitNodeProcessing (codeIn);
 
    // Send the output to the check nodes
-   ffb2c.enq (codeOut);
+   ffB2C.enq (codeOut);
    
    // Bookkeeping - keep track of iterations to know when to stop
    rgIterationCount  <= rgIterationCount + 2;
@@ -226,19 +225,19 @@ endrule
 
 @
 The final rule of the three rules (which effectively describe a FSM),
-simply copies the word from [[ffc2b]] to [[ffDataOut]], and resets the
+simply copies the word from [[ffC2B]] to [[ffDataOut]], and resets the
 counters for the next code word.
 
 <<rules bitNode>>=
 // Rule to process remaining iterations
 rule rlProcessComplete (
-   (rgIterationCount == fromInteger (valueOf (NUM_MAX_ITERATION))));
+   (rgIterationCount == fromInteger (valueOf (NumIteration))));
    // As this iteration works of a partial result from the checknode,
-   // the input comes from ffc2b
-   let codeIn = ffc2b.first; ffc2b.deq;
+   // the input comes from ffC2B
+   let codeIn = ffC2B.first; ffC2B.deq;
 
    // Send the processed code word to the output
-   ffb2c.enq (ffDataOut);
+   ffB2C.enq (ffDataOut);
    
    // Reset rgIterationCount for the next codeword
    rgIterationCount  <= 0;
@@ -254,8 +253,8 @@ input and output FIFOs using library functions -- [[toPut]] and [[toGet]].
 // Interface
 interface codeIn     = toPut (ffCodeIn);
 interface dataOut    = toGet (ffDataOut);
-interface b2c        = toGet (ffb2c);
-interface c2b        = toPut (ffc2b);
+interface b2c        = toGet (ffB2C);
+interface c2b        = toPut (ffC2B);
 
 // -----------------------------------------------------------------
 
@@ -275,7 +274,7 @@ parameterized by a [[nodeId]].
 <<module definition>>=
 //
 // Module definition
-module mkCheckNode #(Bit #(8) nodeId) (BitNode #(nRConnections));
+module mkCheckNode #(Bit #(8) nodeId) (BitNode #(NRConnections));
    <<state checkNode>>
    <<rules checkNode>>
    <<interfaces checkNode>>
@@ -283,17 +282,17 @@ module mkCheckNode #(Bit #(8) nodeId) (BitNode #(nRConnections));
 // -----------------------------------------------------------------
 
 @
-The input FIFO [[ffb2c]] receives the partially processed part of the code
-word meant for this check-node. The output FIFO [[ffc2b]] holds the
+The input FIFO [[ffB2C]] receives the partially processed part of the code
+word meant for this check-node. The output FIFO [[ffC2B]] holds the
 partially decoded code word.
 
 <<state checkNode>>=
 // Sub-modules and state
 // Input FIFO - code word
-FIFO  #(Bit #(nRConnections))    ffb2c          <- mkFIFO;
+FIFO  #(Bit #(NRConnections))    ffB2C          <- mkFIFO;
 
 // Output FIFO - decoded code word
-FIFO  #(Bit #(nRConnections))    ffc2b          <- mkFIFO;
+FIFO  #(Bit #(NRConnections))    ffC2B          <- mkFIFO;
 
 @
 The rule [[rlProcessIteration]] executes the actions for to process the
@@ -302,7 +301,7 @@ input from the bit nodes.
 \begin{itemize}
 \item Consume the codeword which is currently in [[ffCodeIn]]
 \item Carry out the computation on the codeword
-\item Enqueue the result into the [[ffb2c]] for checknode processing
+\item Enqueue the result into the [[ffB2C]] for checknode processing
 \item Update the iteration count - this is updated by $2$ as the count is
 maintained only in the bit node, and the check node acts as a purely
 passive device.
@@ -313,13 +312,13 @@ passive device.
 <<functions checkNode>>
 rule rlProcessIteration;
    // get the partial result
-   let codeIn = ffb2c.first; ffb2c.deq;
+   let codeIn = ffB2C.first; ffB2C.deq;
 
    // Process the partial result further
    let codeOut = fnCheckNodeProcessing (codeIn);
 
    // Send the partial result to the bit node
-   ffc2b.enq (codeOut);
+   ffC2B.enq (codeOut);
 endrule
 
 // -----------------------------------------------------------------
@@ -329,7 +328,7 @@ The function [[fnCheckNodeProcessing]], carries out the actual bit
 manipulation of the codeword bits as per the XXX-insert-algorithm-here.
 
 <<functions checkNode>>=
-function Bit #(nRConnections) fnCheckNodeProcessing (Bit #(nRConnections) x);
+function Bit #(NRConnections) fnCheckNodeProcessing (Bit #(NRConnections) x);
    // XXX This is at present a dummy function which simply does an
    // inverting of the bits
    return (~x);
@@ -341,8 +340,8 @@ input and output FIFOs using library functions -- [[toPut]] and [[toGet]].
 
 <<interfaces checkNode>>=
 // Interface
-interface b2c = toPut (ffb2c);
-interface c2b = toGet (ffc2b);
+interface b2c = toPut (ffB2C);
+interface c2b = toGet (ffC2B);
 
 // -----------------------------------------------------------------
 
