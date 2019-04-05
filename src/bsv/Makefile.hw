@@ -6,13 +6,13 @@ default: full_clean compile link simulate
 .PHONY: compile
 compile:
 	@echo Compiling...
-	bsc -u -verilog -elab -vdir ../Verilog -bdir build -info-dir . -keep-fires -p .:%/Prelude:%/Libraries:%/Libraries/BlueNoC -g mkTop  Nodes.bsv 
+	bsc -u -verilog -elab -vdir ../Verilog -bdir build -info-dir . -keep-fires -p .:%/Prelude:%/Libraries:%/Libraries/BlueNoC -g mkLdpcTop  Nodes.bsv 
 	@echo Compilation finished
 
 .PHONY: link
 link:
 	@echo Linking...
-	bsc -e mkTop -verilog -o ./out -vdir ../Verilog  -vsim cvc  -keep-fires ../Verilog/mkTop.v
+	bsc -e mkTop -verilog -o ./out -vdir ../Verilog  -vsim cvc  -keep-fires ../Verilog/mkLdpc.v
 	@echo Linking finished
 
 .PHONY: simulate

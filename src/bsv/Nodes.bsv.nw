@@ -36,6 +36,7 @@ package Nodes;
 //
 // -----------------------------------------------------------------
 
+import ClientServer     :: *;
 import GetPut           :: *;
 import FIFO             :: *;
 import Vector           :: *;
@@ -58,56 +59,70 @@ matrix (H matrix).
 \section{Interfaces of the Bit and Check Nodes}
 Two interface types, one each for the Bit and Check nodes are defined in
 this package. Both interfaces are parameterized by the numeric types
-[[NRConnections]], and [[NCConnections]]. 
+[[NConnections]].
 
-The numeric type, [[NRConnections]] indicates the number of 1s along a
-particular row of the incidence matrix, while [[NCConnections]] indicaes
-the number of 1s along a particular column of the same matrix.
+The numeric type, [[NConnections]] indicates the number of ones along a
+particular row of the incidence matrix, which is also same as the number of
+ones along a particular column of the incidence matrix.
 
 <<interface definition>>=
-// NRConnections indicates the number of connections that a particular
+// NConnections indicates the number of connections that a particular
 // check-node has with the bit-nodes
-interface CheckNode # (numeric type NRConnections);
-   interface Vector  #(NRConnections, Put #(Bit #(1))) b2c;
-   interface Vector  #(NRConnections, Get #(Bit #(1))) c2b;
+interface CheckNode;
+   interface Server #(Vector #(NConnections, Symbol), Symbol) iterate;
 endinterface
 
 @
-In addition to the [[c2b]] and [[b2c]] sub-interfaces to connect the check
-and bit nodes, bit-nodes also have the additional interfaces to receive the
-code and send back the decoded data. Since each bit-node only deals with a
-part of the code-word, it is sufficient to receive those bits only. The
-final decoded word is also constructed from the responses of the different
-bit-nodes.
+A check node can be imagined to receive a vector of [[Symbol]] values from
+different bit nodes, and that it returns a single [[Symbol]] values to all
+bit nodes. As the check node works only when it receives a symbol from the
+bit node, it can be thought of as the Server in a client-server protocol
+with the bit node as the server.
 
 <<interface definition>>=
-// NCConnections indicates the number of connections that a particular
+// NConnections indicates the number of connections that a particular
 // bit-node has with the check-nodes
-interface BitNode # (numeric type NCConnections);
-   // External interfaces for receving code word and returning result
-   interface Put     #(Bit #(NCConnections))    codeIn;
-   interface Get     #(Bit #(NCConnections))    dataOut;
-
+interface BitNode;
    // Bit Node-Check Node Interface
-   interface Put     #(Bit #(NCConnections))    c2b;
-   interface Get     #(Bit #(NCConnections))    b2c;
+   interface Client #(Symbol, Vector #(NConnections, Symbol)) iterate;
+
+@
+As far as the interface between the bit and check nodes are concerned, the
+bit nodes connect to the check nodes with the client end of the
+client-server protocol. This can be imagined as a protocol where the bit
+node sends a \emph{request} to the check nodes in the form of a single
+symbol and receives a vector of symbols as a \emph{response} from the check
+nodes.
+
+<<interface definition>>=
+
+   // External interfaces for receving code word and returning result
+   interface Put     #(Symbol)   codeIn;
+   interface Get     #(Symbol)   dataOut;
+
 endinterface
 
 // -----------------------------------------------------------------
 
 @
+In addition to the [[iterate]] sub-interfaces to connect the check
+and bit nodes, bit nodes also have the additional interfaces to receive the
+code and send back the decoded data. Since each bit-node only deals with a
+part of the code-word, it is sufficient to receive those symbols only. The
+final decoded word is also constructed from the responses of the different
+bit-nodes. Each bit node receives one symbol to decode at a time.
+
+@
 \section{The Bit Node}
 The [[mkBitNode]] module receives the code word and initiates the
-iterations.  Based on [[NCConnections]] it is connected to a set of
-[[mkCheckNodes]] representing the edges of the bipartite tanner graph.
-
-The [[mkBitNode]] provides an interface of type [[BitNode]] and is
-parameterized by a [[nodeId]].
+iterations.  Based on [[NConnections]] it is connected to a set of
+[[mkCheckNodes]] representing the edges of the bipartite tanner graph. The
+[[mkBitNode]] provides an interface of type [[BitNode]].
 
 <<module definition>>=
 //
 // Module definition
-module mkBitNode #(Bit #(8) nodeId) (BitNode #(NCConnections));
+module mkBitNode (BitNode #(NConnections));
    <<state bitNode>>
    <<rules bitNode>>
    <<interfaces bitNode>>
@@ -115,16 +130,16 @@ module mkBitNode #(Bit #(8) nodeId) (BitNode #(NCConnections));
 // -----------------------------------------------------------------
 
 @
-The input FIFO [[ffCodeIn]] receives the part of the code word meant for this
-bit-node. The output FIFO [[ffDataOut]] holds the decoded code word.
+The input FIFO [[ffCodeIn]] receives the symbol of the code word meant for this
+bit-node. The output FIFO [[ffDataOut]] holds the decoded symbol.
 
 <<state bitNode>>=
 // Sub-modules and state
 // Input FIFO - code word
-FIFO  #(Bit #(NCConnections))    ffCodeIn       <- mkFIFO;
+FIFO  #(Symbol)   ffCodeIn    <- mkFIFO;
 
 // Output FIFO - decoded code word
-FIFO  #(Bit #(NCConnections))    ffDataOut      <- mkFIFO;
+FIFO  #(Symbol)   ffDataOut   <- mkFIFO;
 
 @
 The [[ffB2C]] FIFO holds the partially processed codeword. The contents of
@@ -134,10 +149,12 @@ for the next iteration of processing.
 
 <<state bitNode>>=
 // Partially processed codeword meant for the checknodes
-FIFO  #(Bit #(NCConnections))    ffB2C       <- mkFIFO;
+FIFO  #(Symbol)   ffB2C       <- mkFIFO;
 
 // Partially processed codeword from the checknodes
-FIFO  #(Bit #(NCConnections))    ffC2B       <- mkFIFO;
+FIFO  #(Vector #(
+     NConnections
+   , Symbol))     ffC2B       <- mkFIFO;
 
 @
 Behaviour is described in terms of atomic sets of actions called rules.
@@ -186,10 +203,12 @@ The function [[fnBitNodeProcessing]], carries out the actual bit
 manipulation of the codeword bits as per the XXX-insert-algorithm-here.
 
 <<functions bitNode>>=
-function Bit #(NCConnections) fnBitNodeProcessing (Bit #(NCConnections) x);
+function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
    // XXX This is at present a dummy function which simply does an
-   // inverting of the bits
-   return (~x);
+   // XOR of the symbols
+   // It will actually do some sort of a zip function which goes:
+   // Vector#(N,Symbol) -> Symbol
+   return (foldl1 (\^, x));
 endfunction
 
 @
@@ -229,15 +248,16 @@ simply copies the word from [[ffC2B]] to [[ffDataOut]], and resets the
 counters for the next code word.
 
 <<rules bitNode>>=
-// Rule to process remaining iterations
+// Rule to complete processing on the bit node
 rule rlProcessComplete (
    (rgIterationCount == fromInteger (valueOf (NumIteration))));
    // As this iteration works of a partial result from the checknode,
    // the input comes from ffC2B
    let codeIn = ffC2B.first; ffC2B.deq;
+   let codeOut = fnBitNodeProcessing (codeIn);
 
    // Send the processed code word to the output
-   ffB2C.enq (ffDataOut);
+   ffDataOut.enq (codeOut);
    
    // Reset rgIterationCount for the next codeword
    rgIterationCount  <= 0;
@@ -247,14 +267,15 @@ endrule
 
 @
 Creating the interfaces simply involves stitching up the connections to the
-input and output FIFOs using library functions -- [[toPut]] and [[toGet]].
+input and output FIFOs using library functions -- [[toPut]], [[toGet]], and
+[[toGPServer]].
 
 <<interfaces bitNode>>=
 // Interface
 interface codeIn     = toPut (ffCodeIn);
 interface dataOut    = toGet (ffDataOut);
-interface b2c        = toGet (ffB2C);
-interface c2b        = toPut (ffC2B);
+interface iterate    = toGPServer (ffB2C, ffC2B);
+endinterface
 
 // -----------------------------------------------------------------
 
@@ -266,15 +287,12 @@ endmodule : mkBitNode
 The [[mkCheckNode]] module receives the partially decoded code word from
 the [[mkBitNode]]. It operates in \emph{slave} mode and processes all
 inputs in the same manner. The [[mkCheckNode]] does not keep track of
-iterations.
-
-The [[mkCheckNode]] provides an interface of type [[CheckNode]] and is
-parameterized by a [[nodeId]].
+iterations. The [[mkCheckNode]] provides an interface of type [[CheckNode]].
 
 <<module definition>>=
 //
 // Module definition
-module mkCheckNode #(Bit #(8) nodeId) (BitNode #(NRConnections));
+module mkCheckNode (CheckNode);
    <<state checkNode>>
    <<rules checkNode>>
    <<interfaces checkNode>>
@@ -289,13 +307,15 @@ partially decoded code word.
 <<state checkNode>>=
 // Sub-modules and state
 // Input FIFO - code word
-FIFO  #(Bit #(NRConnections))    ffB2C          <- mkFIFO;
+FIFO  #(Vector #(
+     NConnections
+   , Symbol))     ffB2C          <- mkFIFO;
 
 // Output FIFO - decoded code word
-FIFO  #(Bit #(NRConnections))    ffC2B          <- mkFIFO;
+FIFO  #(Symbol)    ffC2B         <- mkFIFO;
 
 @
-The rule [[rlProcessIteration]] executes the actions for to process the
+The rule [[rlProcessIteration]] executes the actions for process the
 input from the bit nodes.
 
 \begin{itemize}
@@ -328,10 +348,12 @@ The function [[fnCheckNodeProcessing]], carries out the actual bit
 manipulation of the codeword bits as per the XXX-insert-algorithm-here.
 
 <<functions checkNode>>=
-function Bit #(NRConnections) fnCheckNodeProcessing (Bit #(NRConnections) x);
+function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
    // XXX This is at present a dummy function which simply does an
    // inverting of the bits
-   return (~x);
+   // It will actually do some sort of a zip function which goes:
+   // Vector#(N,Symbol) -> Symbol
+   return (foldl1 (\^, x));
 endfunction
 
 @
@@ -340,8 +362,7 @@ input and output FIFOs using library functions -- [[toPut]] and [[toGet]].
 
 <<interfaces checkNode>>=
 // Interface
-interface b2c = toPut (ffB2C);
-interface c2b = toGet (ffC2B);
+interface iterate = toGPClient (ffB2C, ffC2B);
 
 // -----------------------------------------------------------------
 

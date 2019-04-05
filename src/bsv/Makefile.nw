@@ -2,23 +2,25 @@
 all : documentation doc_clean rtl
 DOC ?= fileName
 ROOT ?= boilerplate
-SOURCES = $(DOC).bsv.nw
-ROOT ?= includes
+SOURCES = LdpcTop.bsv.nw Nodes.bsv.nw
 
 all : documentation tangle clean
 
 weave: $(SOURCES)
-	noweave -delay -index $(SOURCES) > $(DOC).tex
+	noweave -delay -index LdpcTop.bsv.nw > LdpcTop.tex
+	noweave -delay -index Nodes.bsv.nw > Nodes.tex
 tangle: $(SOURCES)
-	notangle -R$(ROOT) $(SOURCES) > $(DOC).bsv
+	notangle -R"boilerplate" LdpcTop.bsv.nw > LdpcTop.bsv
+	notangle -R"type definitions" LdpcTop.bsv.nw  > LdpcTypes.bsv
+	notangle -R"boilerplate" Nodes.bsv.nw > Nodes.bsv
 documentation: weave
-	pdflatex $(DOC).tex; pdflatex $(DOC).tex; pdflatex $(DOC).tex
-	mv $(DOC).pdf ../../doc
+	pdflatex LdpcTop.tex; pdflatex LdpcTop.tex; pdflatex LdpcTop.tex
+	pdflatex Nodes.tex; pdflatex Nodes.tex; pdflatex Nodes.tex
 rtl: tangle
 	make -f Makefile.hw compile
 
 .PHONY: clean
 doc_clean:
-	rm -f *.log *.aux $(DOC).tex
+	rm -f *.log *.aux *.tex
 full_clean:
-	rm -f *.log *.aux $(DOC).tex $(DOC).bsv $(DOC).pdf
+	rm -f *.log *.aux *.tex *.bsv *.pdf
