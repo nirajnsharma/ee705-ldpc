@@ -191,31 +191,31 @@ mkConnMulti (
 // check-node to bit-node connections
 mkConnMulti (
      vCheckNodes[0].c2b
-   , vBitNodes[0].b2c[0], vBitNodes[1].b2c[0], vBitNodes[3].b2c[0]);
+   , vBitNodes[0].c2b[0], vBitNodes[1].c2b[0], vBitNodes[3].c2b[0]);
 
 mkConnMulti (
      vCheckNodes[1].c2b
-   , vBitNodes[1].b2c[1], vBitNodes[2].b2c[0], vBitNodes[4].b2c[0]);
+   , vBitNodes[1].c2b[1], vBitNodes[2].c2b[0], vBitNodes[4].c2b[0]);
 
 mkConnMulti (
      vCheckNodes[2].c2b
-   , vBitNodes[2].b2c[1], vBitNodes[3].b2c[1], vBitNodes[5].b2c[0]);
+   , vBitNodes[2].c2b[1], vBitNodes[3].c2b[1], vBitNodes[5].c2b[0]);
 
 mkConnMulti (
      vCheckNodes[3].c2b
-   , vBitNodes[3].b2c[2], vBitNodes[4].b2c[1], vBitNodes[6].b2c[0]);
+   , vBitNodes[3].c2b[2], vBitNodes[4].c2b[1], vBitNodes[6].c2b[0]);
 
 mkConnMulti (
      vCheckNodes[4].c2b
-   , vBitNodes[0].b2c[1], vBitNodes[4].b2c[2], vBitNodes[5].b2c[1]);
+   , vBitNodes[0].c2b[1], vBitNodes[4].c2b[2], vBitNodes[5].c2b[1]);
 
 mkConnMulti (
      vCheckNodes[5].c2b
-   , vBitNodes[1].b2c[2], vBitNodes[5].b2c[2], vBitNodes[6].b2c[1]);
+   , vBitNodes[1].c2b[2], vBitNodes[5].c2b[2], vBitNodes[6].c2b[1]);
 
 mkConnMulti (
      vCheckNodes[6].c2b
-   , vBitNodes[0].b2c[2], vBitNodes[2].b2c[2], vBitNodes[6].b2c[2]);
+   , vBitNodes[0].c2b[2], vBitNodes[2].c2b[2], vBitNodes[6].c2b[2]);
 
 @
 The connections between bit and check nodes take care of all the

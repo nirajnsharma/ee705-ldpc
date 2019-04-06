@@ -69,31 +69,30 @@ ones along a particular column of the incidence matrix.
 // NConnections indicates the number of connections that a particular
 // check-node has with the bit-nodes
 interface CheckNode;
-   interface Server #(Vector #(NConnections, Symbol), Symbol) iterate;
+   interface Vector #(NConnections, Put #(Symbol)) b2c;
+   interface Get #(Symbol) c2b;
 endinterface
 
 @
-A check node can be imagined to receive a vector of [[Symbol]] values from
-different bit nodes, and that it returns a single [[Symbol]] values to all
-bit nodes. As the check node works only when it receives a symbol from the
-bit node, it can be thought of as the Server in a client-server protocol
-with the bit node as the server.
+A check node can be imagined to receive [[Symbol]] values from a vector
+of interfaces. Each interface is connected to a different bit nodes. In
+turn, the check node returns a single [[Symbol]] values broadcast to all
+its bit nodes.
 
 <<interface definition>>=
 // NConnections indicates the number of connections that a particular
 // bit-node has with the check-nodes
 interface BitNode;
    // Bit Node-Check Node Interface
-   interface Client #(Symbol, Vector #(NConnections, Symbol)) iterate;
+   interface Vector #(NConnections, Put #(Symbol)) c2b;
+   interface Get #(Symbol) b2c;
 
 @
-As far as the interface between the bit and check nodes are concerned, the
-bit nodes connect to the check nodes with the client end of the
-client-server protocol. This can be imagined as a protocol where the bit
-node sends a \emph{request} to the check nodes in the form of a single
-symbol and receives a vector of symbols as a \emph{response} from the check
-nodes.
-
+The inverse applies for the bit-check node connection from the bit
+node's perspective. It sends a single [[Symbol]] values broadcast to all
+its check nodes, and collects responses through a vector of interfaces,
+each connected to a different check node.
+ 
 <<interface definition>>=
 
    // External interfaces for receving code word and returning result
@@ -105,7 +104,7 @@ endinterface
 // -----------------------------------------------------------------
 
 @
-In addition to the [[iterate]] sub-interfaces to connect the check
+In addition to the sub-interfaces to connect the check
 and bit nodes, bit nodes also have the additional interfaces to receive the
 code and send back the decoded data. Since each bit-node only deals with a
 part of the code-word, it is sufficient to receive those symbols only. The
@@ -144,17 +143,17 @@ FIFO  #(Symbol)   ffDataOut   <- mkFIFO;
 @
 The [[ffB2C]] FIFO holds the partially processed codeword. The contents of
 this FIFO will be consumed by the check node when they are ready. The
-[[ffC2B]] FIFO receives partially processed codewords from the check nodes
+[[vffC2B]] FIFO receives partially processed codewords from the check nodes
 for the next iteration of processing.
 
 <<state bitNode>>=
 // Partially processed codeword meant for the checknodes
-FIFO  #(Symbol)   ffB2C       <- mkFIFO;
+FIFO  #(Symbol)      ffB2C       <- mkFIFO;
 
 // Partially processed codeword from the checknodes
-FIFO  #(Vector #(
+Vector #(
      NConnections
-   , Symbol))     ffC2B       <- mkFIFO;
+   , FIFO #(Symbol)) vffC2B      <- replicateM (mkFIFO);
 
 @
 Behaviour is described in terms of atomic sets of actions called rules.
@@ -163,12 +162,15 @@ iteration of processing a new code word.
 
 \begin{itemize}
 \item Consume the codeword which is currently in [[ffCodeIn]]
-\item Carry out the computation on the codeword
+\item Carry out some initial processing on the codeword
 \item Enqueue the result into the [[ffB2C]] for checknode processing
 \item Update the iteration count - this is updated by $2$ as the count is
 maintained only in the bit node, and the check node acts as a purely
 passive device.
 \end{itemize}
+
+The first iteration is counted when the code word goes through the check
+node for the first time.
 
 <<rules bitNode>>=
 // Rules and behaviour
@@ -179,13 +181,15 @@ rule rlProcessFirstIteration (rgIterationCount == 0);
    // As this is the first iteration, consume the codeword which is
    // currently in ffCodeIn. Carry out the computation on the codeword
    let codeIn = ffCodeIn.first; ffCodeIn.deq;
-   let codeOut = fnBitNodeProcessing (codeIn);
+   let codeOut = fnInitialBitNodeProcessing (codeIn);
 
    // Send the output to the check nodes
    ffB2C.enq (codeOut);
    
-   // Bookkeeping - keep track of iterations to know when to stop
-   rgIterationCount  <= rgIterationCount + 2;
+   // Bookkeeping - keep track of iterations to know when to stop. The
+   // first iteration is treated as the first time the code word goes
+   // through the check node
+   rgIterationCount  <= rgIterationCount + 1;
 endrule
 
 @
@@ -200,7 +204,7 @@ Reg   #(Bit #(4))                rgIterationCount  <- mkReg (0);
 
 @
 The function [[fnBitNodeProcessing]], carries out the actual bit
-manipulation of the codeword bits as per the XXX-insert-algorithm-here.
+manipulation of the codeword symbols as per the min-sum-algorithm.
 
 <<functions bitNode>>=
 function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
@@ -212,17 +216,30 @@ function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
 endfunction
 
 @
+The function [[fnInitialBitNodeProcessing]], does not work on a vector
+of Symbols like [[fnBitNodeProcessing]]. It can be thought of as a
+function which prepares the input symbol for iterative processing. 
+
+<<functions bitNode>>=
+
+function Symbol fnInitialBitNodeProcessing (Symbol x);
+   // XXX This is at present a dummy function which simply does an
+   // forwards the signal to the output
+   return (x);
+endfunction
+
+@
 The rule [[rlProcessRemIteration]] executes the actions for the remaining
 iterations for processing a code word. The input for these iterations is
-from the partially processed word in [[ffC2B]].
+from the partially processed word in [[vffC2B]].
 
 \begin{itemize}
-\item Consume the codeword which is currently in [[ffC2B]]
+\item Consume the codeword which is currently in [[vffC2B]]
 \item Carry out the computation on the codeword
 \item Enqueue the result into the [[ffB2C]] for checknode processing
 \item Update the iteration count - this is updated by $2$ as the count is
 maintained only in the bit node, and the check node acts as a purely
-passive device.
+passive node.
 \end{itemize}
 
 <<rules bitNode>>=
@@ -231,50 +248,54 @@ rule rlProcessRemIteration (
       (rgIterationCount > 0)
    && (rgIterationCount < fromInteger (valueOf (NumIteration))));
    // As this iteration works of a partial result from the checknode,
-   // the input comes from ffC2B
-   let codeIn = ffC2B.first; ffC2B.deq;
+   // the input comes from the vector of fifos vffC2B
+   Vector #(NumConnections, Symbol) codeIn;
+   for (Integer i=0; i<valueOf(NumConnections); i=i+1) begin
+      codeIn[i] = vffC2B[i].first;
+      vffC2B[i].deq;
+   end
+
    let codeOut = fnBitNodeProcessing (codeIn);
 
-   // Send the output to the check nodes
-   ffB2C.enq (codeOut);
-   
    // Bookkeeping - keep track of iterations to know when to stop
-   rgIterationCount  <= rgIterationCount + 2;
-endrule
+   if (rgIterationCount == (fromInteger (valueOf (NumIteration))-1)) begin
+      // time to stop
+      rgIterationCount <= 0;
 
-@
-The final rule of the three rules (which effectively describe a FSM),
-simply copies the word from [[ffC2B]] to [[ffDataOut]], and resets the
-counters for the next code word.
-
-<<rules bitNode>>=
-// Rule to complete processing on the bit node
-rule rlProcessComplete (
-   (rgIterationCount == fromInteger (valueOf (NumIteration))));
-   // As this iteration works of a partial result from the checknode,
-   // the input comes from ffC2B
-   let codeIn = ffC2B.first; ffC2B.deq;
-   let codeOut = fnBitNodeProcessing (codeIn);
-
-   // Send the processed code word to the output
-   ffDataOut.enq (codeOut);
+      // Send the processed code word to the output
+      ffDataOut.enq (codeOut);
+   end
    
-   // Reset rgIterationCount for the next codeword
-   rgIterationCount  <= 0;
+   // continue with more iterations
+   else begin
+      rgIterationCount  <= rgIterationCount + 2;
+
+      // Send the output to the check nodes
+      ffB2C.enq (codeOut);
+   end
 endrule
 
 // -----------------------------------------------------------------
 
 @
+The [[rlProcessRemIteration]] rule also needs to check if the iterations
+are complete. If so, it should reset the [[rgIterationCount]] and
+instead of sending the output to the [[ffB2C]] it should sent it to
+[[ffDataOut]].
+
+
+@
 Creating the interfaces simply involves stitching up the connections to the
-input and output FIFOs using library functions -- [[toPut]], [[toGet]], and
-[[toGPServer]].
+input and output FIFOs using library functions -- [[toPut]], [[toGet]].
+Since the [[c2b]] interface is a vector, the [[map]] higher-order function is
+applied.
 
 <<interfaces bitNode>>=
 // Interface
 interface codeIn     = toPut (ffCodeIn);
 interface dataOut    = toGet (ffDataOut);
-interface iterate    = toGPServer (ffB2C, ffC2B);
+interface c2b        = map (toPut, vffC2B);
+interface b2c        = toGet (ffB2C);
 endinterface
 
 // -----------------------------------------------------------------
@@ -300,31 +321,28 @@ module mkCheckNode (CheckNode);
 // -----------------------------------------------------------------
 
 @
-The input FIFO [[ffB2C]] receives the partially processed part of the code
+The input FIFOs [[vffB2C]] receives the partially processed part of the code
 word meant for this check-node. The output FIFO [[ffC2B]] holds the
 partially decoded code word.
 
 <<state checkNode>>=
 // Sub-modules and state
 // Input FIFO - code word
-FIFO  #(Vector #(
+Vector #(
      NConnections
-   , Symbol))     ffB2C          <- mkFIFO;
+   , FIFO #(Symbol)) vffB2C        <- replicateM (mkFIFO);
 
 // Output FIFO - decoded code word
-FIFO  #(Symbol)    ffC2B         <- mkFIFO;
+FIFO  #(Symbol)      ffC2B         <- mkFIFO;
 
 @
 The rule [[rlProcessIteration]] executes the actions for process the
 input from the bit nodes.
 
 \begin{itemize}
-\item Consume the codeword which is currently in [[ffCodeIn]]
+\item Consume the codeword which is currently in [[vffB2C]]
 \item Carry out the computation on the codeword
-\item Enqueue the result into the [[ffB2C]] for checknode processing
-\item Update the iteration count - this is updated by $2$ as the count is
-maintained only in the bit node, and the check node acts as a purely
-passive device.
+\item Enqueue the result into the [[ffC2B]] for bit-node processing
 \end{itemize}
 
 <<rules checkNode>>=
@@ -332,7 +350,11 @@ passive device.
 <<functions checkNode>>
 rule rlProcessIteration;
    // get the partial result
-   let codeIn = ffB2C.first; ffB2C.deq;
+   Vector #(NumConnections, Symbol) codeIn;
+   for (Integer i=0; i<valueOf(NumConnections); i=i+1) begin
+      codeIn[i] = vffB2C[i].first;
+      vffB2C[i].deq;
+   end
 
    // Process the partial result further
    let codeOut = fnCheckNodeProcessing (codeIn);
@@ -345,7 +367,7 @@ endrule
 
 @
 The function [[fnCheckNodeProcessing]], carries out the actual bit
-manipulation of the codeword bits as per the XXX-insert-algorithm-here.
+manipulation of the codeword bits as per the min-sum algorithm.
 
 <<functions checkNode>>=
 function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
@@ -359,10 +381,13 @@ endfunction
 @
 Creating the interfaces simply involves stitching up the connections to the
 input and output FIFOs using library functions -- [[toPut]] and [[toGet]].
+Since the [[b2c]] interface is a vector, the [[map]] higher-order function is
+applied.
 
 <<interfaces checkNode>>=
 // Interface
-interface iterate = toGPClient (ffB2C, ffC2B);
+interface c2b = toGet (ffC2B);
+interface b2c = map (toPut, vffB2C);
 
 // -----------------------------------------------------------------
 
