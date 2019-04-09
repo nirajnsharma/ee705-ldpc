@@ -4,10 +4,6 @@ The work-horses of the decoder are the bit and check nodes. These iteratively
 decode the input code-word passing the partially decoded result back-and-forth
 for a fixed number of iterations.
 
-%\author{Kim Jong Un}
-%\begin{document}
-%\maketitle
-
 <<boilerplate>>=
 // EE-705 Course Project -- LDPC Decoder
 
@@ -110,6 +106,7 @@ iterations.  Based on [[NConnections]] it is connected to a set of
 <<module definition>>=
 //
 // Bit Node Module definition
+(* synthesize *)
 module mkBitNode (BitNode);
    <<state bitNode>>
    <<rules bitNode>>
@@ -301,6 +298,7 @@ iterations. The [[mkCheckNode]] provides an interface of type [[CheckNode]].
 <<module definition>>=
 //
 // Check Node Module definition
+(* synthesize *)
 module mkCheckNode (CheckNode);
    <<state checkNode>>
    <<rules checkNode>>

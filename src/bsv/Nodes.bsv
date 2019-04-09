@@ -47,6 +47,7 @@ endinterface
 
 //
 // Bit Node Module definition
+(* synthesize *)
 module mkBitNode (BitNode);
    // Sub-modules and state
    // Input FIFO - code word
@@ -148,6 +149,7 @@ endmodule : mkBitNode
 
 //
 // Check Node Module definition
+(* synthesize *)
 module mkCheckNode (CheckNode);
    // Sub-modules and state
    // Input FIFO - code word

@@ -25,6 +25,7 @@ typedef Server #(DataWord, DataWord) LdpcCore;
 // -----------------------------------------------------------------
 
 
+(* synthesize *)
 module mkLdpcCore (LdpcCore);
    // Bit nodes
    Vector #(NBitNodes, BitNode) vBitNodes <- replicateM (mkBitNode);
@@ -95,7 +96,7 @@ module mkLdpcCore (LdpcCore);
 
       // Send each bit-node a symbol
       for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
-         vCheckNodes[i].codeIn.put (codeIn[i]);
+         vBitNodes[i].codeIn.put (codeIn[i]);
    endrule
 
    rule rlGetDecodedWordOut;
@@ -103,7 +104,7 @@ module mkLdpcCore (LdpcCore);
 
       // Get a symbol from each bit-node
       for (Integer i=0; i<valueOf(NBitNodes); i=i+1) begin
-         let d <- vCheckNodes[i].dataOut.get ();
+         let d <- vBitNodes[i].dataOut.get ();
          dOut [i] = d;
       end
 
@@ -121,25 +122,16 @@ module mkConnMulti #(
      Get #(Symbol) src
    , Put #(Symbol) dst1
    , Put #(Symbol) dst2
-   , Put #(Symbol) dst3)
+   , Put #(Symbol) dst3) (Empty);
 
       // Connect a "SRC" to a "DST"
-      rule rlConnect ();
+      rule rlConnect;
          let s <- src.get();
          dst1.put (s); dst2.put (s); dst3.put (s);
       endrule
 
-   In order to get things started, the input code-word needs to be input
-   to the bit nodes. The input code word will be sitting in the [[ffI]] FIFO.
-   In the current architecture, we are sending one symbol per bit-node. In
-   general, it is possible to fold multiple symbols onto a bit node but this
-   will require more complex nodes.
 
-   A code-word can be sent to all bit-nodes only when all of them are ready to
-   receive the code words.
-
-
-   endmodule
-   endpackage : LdpcCore
+endmodule
+endpackage : LdpcCore
 
 

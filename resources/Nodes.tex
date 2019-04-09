@@ -4,10 +4,6 @@ The work-horses of the decoder are the bit and check nodes. These iteratively
 decode the input code-word passing the partially decoded result back-and-forth
 for a fixed number of iterations.
 
-%\author{Kim Jong Un}
-%\begin{document}
-%\maketitle
-
 \nwfilename{Nodes.bsv.nw}\nwbegincode{1}\sublabel{NW1v8dKs-To6Q8-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-To6Q8-1}}}\moddef{boilerplate~{\nwtagstyle{}\subpageref{NW1v8dKs-To6Q8-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 // EE-705 Course Project -- LDPC Decoder
 
@@ -110,6 +106,7 @@ iterations.  Based on {\Tt{}NConnections\nwendquote} it is connected to a set of
 \nwenddocs{}\nwbegincode{12}\sublabel{NW1v8dKs-1nQrPK-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\moddef{module definition~{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-To6Q8-1}}\nwprevnextdefs{\relax}{NW1v8dKs-1nQrPK-2}\nwenddeflinemarkup
 //
 // Bit Node Module definition
+(* synthesize *)
 module mkBitNode (BitNode);
    \LA{}state bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-3Q7ADd-1}}\RA{}
    \LA{}rules bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-1}}\RA{}
@@ -301,6 +298,7 @@ iterations. The {\Tt{}mkCheckNode\nwendquote} provides an interface of type {\Tt
 \nwenddocs{}\nwbegincode{32}\sublabel{NW1v8dKs-1nQrPK-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-2}}}\moddef{module definition~{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-To6Q8-1}}\nwprevnextdefs{NW1v8dKs-1nQrPK-1}{\relax}\nwenddeflinemarkup
 //
 // Check Node Module definition
+(* synthesize *)
 module mkCheckNode (CheckNode);
    \LA{}state checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2jCWTO-1}}\RA{}
    \LA{}rules checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-4bVYKS-1}}\RA{}
