@@ -1,0 +1,296 @@
+% vim: set tabstop=8:softtabstop=4:shiftwidth=4:textwidth:78:formatoptions+=t% ===> this file was generated automatically by noweave --- better not edit it
+\section{LDPC Decoder Core Top-level}
+The LDPC core integrates the bit and check nodes as per the topology specified
+by the $H$ matrix.
+
+\nwfilename{LdpcCore.bsv.nw}\nwbegincode{1}\sublabel{NW3fuPVj-To6Q8-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-To6Q8-1}}}\moddef{boilerplate~{\nwtagstyle{}\subpageref{NW3fuPVj-To6Q8-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+// EE-705 Course Project -- LDPC Decoder
+
+package LdpcCore;
+
+// -----------------------------------------------------------------
+// This package defines:
+//
+//    LdpcCore    : Interface of the LDPC Core module
+//    mkLdpcCore  : Top-level module of the LDPC core
+//
+//    v1.0        : Non-pipelined. The nodes can handle one code-word
+//                  at a time
+//
+// -----------------------------------------------------------------
+
+import GetPut           :: *;
+import ClientServer     :: *;
+import FIFO             :: *;
+import Vector           :: *;
+import LdpcTypes        :: *;
+import Nodes            :: *;
+
+\LA{}interface definition~{\nwtagstyle{}\subpageref{NW3fuPVj-3l1BOL-1}}\RA{}
+
+\LA{}LdpcCore module definition~{\nwtagstyle{}\subpageref{NW3fuPVj-lFjoa-1}}\RA{}
+
+\LA{}conn module definition~{\nwtagstyle{}\subpageref{NW3fuPVj-2insK6-1}}\RA{}
+
+\nwnotused{boilerplate}\nwendcode{}\nwbegindocs{2}\nwdocspar
+Global types for the LDPC decoder are defined in {\Tt{}LdpcTypes\nwendquote} package. The
+following types are global:
+
+\begin{description}
+\item[Symbol:] The bit pattern describing a soft-value
+\item[DataWord:] A collection of soft-value forming the code word or the
+decoded word
+\item[CodeLength:] The number of symbols in a DataWord. In this configuration,
+this is equal to the number of bit nodes and check nodes
+\item[NBitNodes:] The number of bit nodes. In this design each bit
+node manipulates a symbol. So, the number of bit nodes is same as the
+number of symbols.
+\item[NCheckNodes:] The number of check nodes. In this design each
+check node manipulates a symbol. So, the number of check nodes is same as the
+number of symbols.
+\item[NConnections:] Number of 1s in a row of the H matrix. Represents the
+fanouts/fanin from/to a check-node. Is also the number of 1s in a column of the
+H matrix, which represents the fanouts/fanin from/to a bit node.
+\item[NIteration:] Number of iterations between bit node and check
+nodes.
+\end{description}
+
+\nwenddocs{}\nwbegincode{3}\sublabel{NW3fuPVj-4O0RoX-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-4O0RoX-1}}}\moddef{type definitions~{\nwtagstyle{}\subpageref{NW3fuPVj-4O0RoX-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+package LdpcTypes;
+import Vector :: *;
+
+// Global types used across the design
+// Soft-value bit pattern
+typedef Bit #(4) Symbol;
+
+// Number of symbols in a codeword
+typedef 7 CodeLength;
+
+// A coded/decoded word
+typedef Vector #(CodeLength, Symbol) DataWord;
+
+// Number of bit nodes
+typedef CodeLength NBitNodes;
+
+// Number of check nodes
+typedef CodeLength NCheckNodes;
+
+// Fanouts from an individual check-node. This is the number of 1s in a row of
+// the H-matrix
+typedef 3 NConnections;
+
+// Number of iterations between bit nodes and check nodes
+typedef 8 NIterations;
+endpackage : LdpcTypes
+
+\nwnotused{type definitions}\nwendcode{}\nwbegindocs{4}\nwdocspar
+The LDPC decoder top-level provides a Server interface which receives a
+code word as request and responds with the decoded code word.
+
+\nwenddocs{}\nwbegincode{5}\sublabel{NW3fuPVj-3l1BOL-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-3l1BOL-1}}}\moddef{interface definition~{\nwtagstyle{}\subpageref{NW3fuPVj-3l1BOL-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-To6Q8-1}}\nwenddeflinemarkup
+typedef Server #(DataWord, DataWord) LdpcCore;
+
+// -----------------------------------------------------------------
+
+\nwused{\\{NW3fuPVj-To6Q8-1}}\nwendcode{}\nwbegindocs{6}\nwdocspar
+\section{The LDPC Core Top-level}
+The number of bit-nodes and check-nodes depend on the topology of the
+tanner graph. For a given topology, the number of bit-nodes and the
+number of check-nodes are inputs. These are defined in {\Tt{}LdpcTypes\nwendquote}.
+
+\nwenddocs{}\nwbegincode{7}\sublabel{NW3fuPVj-lFjoa-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-lFjoa-1}}}\moddef{LdpcCore module definition~{\nwtagstyle{}\subpageref{NW3fuPVj-lFjoa-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-To6Q8-1}}\nwenddeflinemarkup
+module mkLdpcCore (LdpcCore);
+   \LA{}state~{\nwtagstyle{}\subpageref{NW3fuPVj-3wDyIc-1}}\RA{}
+   \LA{}rules~{\nwtagstyle{}\subpageref{NW3fuPVj-1igLiJ-1}}\RA{}
+   \LA{}interfaces~{\nwtagstyle{}\subpageref{NW3fuPVj-2uCSY5-1}}\RA{}
+   \LA{}wrap up mkLdpcCore~{\nwtagstyle{}\subpageref{NW3fuPVj-1YmVkX-1}}\RA{}
+
+\nwused{\\{NW3fuPVj-To6Q8-1}}\nwendcode{}\nwbegindocs{8}\nwdocspar
+The bit-nodes and check-nodes are instantiated as vectors of modules
+with the number of elements defined by the numeric types
+{\Tt{}NBitNodes\nwendquote} and {\Tt{}NCheckNodes\nwendquote}.
+
+\nwenddocs{}\nwbegincode{9}\sublabel{NW3fuPVj-3wDyIc-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-3wDyIc-1}}}\moddef{state~{\nwtagstyle{}\subpageref{NW3fuPVj-3wDyIc-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-lFjoa-1}}\nwprevnextdefs{\relax}{NW3fuPVj-3wDyIc-2}\nwenddeflinemarkup
+// Bit nodes
+Vector #(NBitNodes, BitNode) vBitNodes <- replicateM (mkBitNode);
+
+// Check nodes
+Vector #(NCheckNodes, CheckNode) vCheckNodes <- replicateM (mkCheckNode);
+
+\nwalsodefined{\\{NW3fuPVj-3wDyIc-2}}\nwused{\\{NW3fuPVj-lFjoa-1}}\nwendcode{}\nwbegindocs{10}\nwdocspar
+Finally, we will need a pair of FIFOs to accept the code word on the
+input side and buffer the decoded word on the output side.
+
+\nwenddocs{}\nwbegincode{11}\sublabel{NW3fuPVj-3wDyIc-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-3wDyIc-2}}}\moddef{state~{\nwtagstyle{}\subpageref{NW3fuPVj-3wDyIc-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-lFjoa-1}}\nwprevnextdefs{NW3fuPVj-3wDyIc-1}{\relax}\nwenddeflinemarkup
+// Input and output FIFOs
+FIFO #(DataWord) ffI <- mkFIFO;
+FIFO #(DataWord) ffO <- mkFIFO;
+
+\nwused{\\{NW3fuPVj-lFjoa-1}}\nwendcode{}\nwbegindocs{12}\nwdocspar
+At the top-level every rule reads from the transmitting end (bit or
+check node), and writes to the receiving end (bit or check node). These
+{\Tt{}connections\nwendquote} may also be autogenerated from a high-level script. The
+following connections are as per the matrix:
+
+\[
+H = \begin{bmatrix}
+1 1 0 1 0 0 0 \\
+0 1 1 0 1 0 0 \\
+0 0 1 1 0 1 0 \\
+0 0 0 1 1 0 1 \\
+1 0 0 0 1 1 0 \\
+0 1 0 0 0 1 1 \\
+1 0 1 0 0 0 1 \\
+\end{bmatrix}
+\]
+
+\nwenddocs{}\nwbegincode{13}\sublabel{NW3fuPVj-1igLiJ-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-1igLiJ-1}}}\moddef{rules~{\nwtagstyle{}\subpageref{NW3fuPVj-1igLiJ-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-lFjoa-1}}\nwprevnextdefs{\relax}{NW3fuPVj-1igLiJ-2}\nwenddeflinemarkup
+// connect up all the bit nodes and check nodes
+// bit-node to check-node connections
+mkConnMulti (
+     vBitNodes[0].b2c
+   , vCheckNodes[0].b2c[0], vCheckNodes[4].b2c[0], vCheckNodes[6].b2c[0]);
+mkConnMulti (
+     vBitNodes[1].b2c
+   , vCheckNodes[0].b2c[1], vCheckNodes[1].b2c[0], vCheckNodes[5].b2c[0]);
+mkConnMulti (
+     vBitNodes[2].b2c
+   , vCheckNodes[1].b2c[1], vCheckNodes[2].b2c[0], vCheckNodes[6].b2c[1]);
+mkConnMulti (
+     vBitNodes[3].b2c
+   , vCheckNodes[0].b2c[2], vCheckNodes[2].b2c[1], vCheckNodes[3].b2c[0]);
+mkConnMulti (
+     vBitNodes[4].b2c
+   , vCheckNodes[1].b2c[2], vCheckNodes[3].b2c[1], vCheckNodes[4].b2c[1]);
+mkConnMulti (
+     vBitNodes[5].b2c
+   , vCheckNodes[2].b2c[2], vCheckNodes[4].b2c[2], vCheckNodes[5].b2c[1]);
+mkConnMulti (
+     vBitNodes[6].b2c
+   , vCheckNodes[3].b2c[2], vCheckNodes[5].b2c[2], vCheckNodes[6].b2c[2]);
+
+// check-node to bit-node connections
+mkConnMulti (
+     vCheckNodes[0].c2b
+   , vBitNodes[0].c2b[0], vBitNodes[1].c2b[0], vBitNodes[3].c2b[0]);
+
+mkConnMulti (
+     vCheckNodes[1].c2b
+   , vBitNodes[1].c2b[1], vBitNodes[2].c2b[0], vBitNodes[4].c2b[0]);
+
+mkConnMulti (
+     vCheckNodes[2].c2b
+   , vBitNodes[2].c2b[1], vBitNodes[3].c2b[1], vBitNodes[5].c2b[0]);
+
+mkConnMulti (
+     vCheckNodes[3].c2b
+   , vBitNodes[3].c2b[2], vBitNodes[4].c2b[1], vBitNodes[6].c2b[0]);
+
+mkConnMulti (
+     vCheckNodes[4].c2b
+   , vBitNodes[0].c2b[1], vBitNodes[4].c2b[2], vBitNodes[5].c2b[1]);
+
+mkConnMulti (
+     vCheckNodes[5].c2b
+   , vBitNodes[1].c2b[2], vBitNodes[5].c2b[2], vBitNodes[6].c2b[1]);
+
+mkConnMulti (
+     vCheckNodes[6].c2b
+   , vBitNodes[0].c2b[2], vBitNodes[2].c2b[2], vBitNodes[6].c2b[2]);
+
+\nwalsodefined{\\{NW3fuPVj-1igLiJ-2}\\{NW3fuPVj-1igLiJ-3}}\nwused{\\{NW3fuPVj-lFjoa-1}}\nwendcode{}\nwbegindocs{14}\nwdocspar
+The connections between bit and check nodes take care of all the
+communication between the nodes for each iteration. These connections have
+been abstracted in the module {\Tt{}mkConnMulti\nwendquote}. This module
+takes the interfaces being connected as arguments and returns the logic to
+connect them up.
+
+\nwenddocs{}\nwbegincode{15}\sublabel{NW3fuPVj-2insK6-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-2insK6-1}}}\moddef{conn module definition~{\nwtagstyle{}\subpageref{NW3fuPVj-2insK6-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-To6Q8-1}}\nwenddeflinemarkup
+module mkConnMulti #(
+     Get #(Symbol) src
+   , Put #(Symbol) dst1
+   , Put #(Symbol) dst2
+   , Put #(Symbol) dst3)
+
+   \LA{}conn rule~{\nwtagstyle{}\subpageref{NW3fuPVj-8rWsf-1}}\RA{}
+
+   \LA{}conn wrap up~{\nwtagstyle{}\subpageref{NW3fuPVj-gadGr-1}}\RA{}
+
+\nwused{\\{NW3fuPVj-To6Q8-1}}\nwendcode{}\nwbegindocs{16}\nwdocspar
+One rule describes the connectable's behaviour. It connects
+the outgoing symbol from the source node as incoming symbols to multiple
+destination nodes.
+
+\nwenddocs{}\nwbegincode{17}\sublabel{NW3fuPVj-8rWsf-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-8rWsf-1}}}\moddef{conn rule~{\nwtagstyle{}\subpageref{NW3fuPVj-8rWsf-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-2insK6-1}}\nwenddeflinemarkup
+   // Connect a "SRC" to a "DST"
+   rule rlConnect ();
+      let s <- src.get();
+      dst1.put (s); dst2.put (s); dst3.put (s);
+   endrule
+
+In order to get things started, the input code-word needs to be input
+to the bit nodes. The input code word will be sitting in the [[ffI]] FIFO.
+In the current architecture, we are sending one symbol per bit-node. In
+general, it is possible to fold multiple symbols onto a bit node but this
+will require more complex nodes.
+
+A code-word can be sent to all bit-nodes only when all of them are ready to
+receive the code words.
+
+\nwused{\\{NW3fuPVj-2insK6-1}}\nwendcode{}\nwbegincode{18}\sublabel{NW3fuPVj-1igLiJ-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-1igLiJ-2}}}\moddef{rules~{\nwtagstyle{}\subpageref{NW3fuPVj-1igLiJ-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-lFjoa-1}}\nwprevnextdefs{NW3fuPVj-1igLiJ-1}{NW3fuPVj-1igLiJ-3}\nwenddeflinemarkup
+rule rlPutCodeWordIn;
+   // Get the codeword from ffI
+   let codeIn = ffI.first; ffI.deq;
+
+   // Send each bit-node a symbol
+   for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
+      vCheckNodes[i].codeIn.put (codeIn[i]);
+endrule
+
+\nwused{\\{NW3fuPVj-lFjoa-1}}\nwendcode{}\nwbegindocs{19}\nwdocspar
+At the output end, the decoded symbols are collected from the bit-nodes and
+sent to the {\Tt{}ffO\nwendquote}. Again, one symbol each is connected from every
+bit-node in this architecture. Decoded words can be collected from all the
+bit-nodes only when all of them are ready with their decoded symbols.
+
+\nwenddocs{}\nwbegincode{20}\sublabel{NW3fuPVj-1igLiJ-3}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-1igLiJ-3}}}\moddef{rules~{\nwtagstyle{}\subpageref{NW3fuPVj-1igLiJ-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-lFjoa-1}}\nwprevnextdefs{NW3fuPVj-1igLiJ-2}{\relax}\nwenddeflinemarkup
+rule rlGetDecodedWordOut;
+   DataWord dOut;
+
+   // Get a symbol from each bit-node
+   for (Integer i=0; i<valueOf(NBitNodes); i=i+1) begin
+      let d <- vCheckNodes[i].dataOut.get ();
+      dOut [i] = d;
+   end
+
+   // Write the collected symbols into the output fifo
+   ffO.enq (dOut);
+endrule
+
+\nwused{\\{NW3fuPVj-lFjoa-1}}\nwendcode{}\nwbegindocs{21}\nwdocspar
+The {\Tt{}LdpcDecode\nwendquote} interface simply does the connections to the {\Tt{}ffI\nwendquote}
+and {\Tt{}ffO\nwendquote} FIFOs.
+
+\nwenddocs{}\nwbegincode{22}\sublabel{NW3fuPVj-2uCSY5-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-2uCSY5-1}}}\moddef{interfaces~{\nwtagstyle{}\subpageref{NW3fuPVj-2uCSY5-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-lFjoa-1}}\nwenddeflinemarkup
+return (toGPServer (ffI, ffO));
+
+\nwused{\\{NW3fuPVj-lFjoa-1}}\nwendcode{}\nwbegincode{23}\sublabel{NW3fuPVj-1YmVkX-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-1YmVkX-1}}}\moddef{wrap up mkLdpcCore~{\nwtagstyle{}\subpageref{NW3fuPVj-1YmVkX-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-lFjoa-1}}\nwenddeflinemarkup
+endmodule : mkLdpcCore
+
+\nwused{\\{NW3fuPVj-lFjoa-1}}\nwendcode{}
+
+\nwixlogsorted{c}{{boilerplate}{NW3fuPVj-To6Q8-1}{\nwixd{NW3fuPVj-To6Q8-1}}}%
+\nwixlogsorted{c}{{conn module definition}{NW3fuPVj-2insK6-1}{\nwixu{NW3fuPVj-To6Q8-1}\nwixd{NW3fuPVj-2insK6-1}}}%
+\nwixlogsorted{c}{{conn rule}{NW3fuPVj-8rWsf-1}{\nwixu{NW3fuPVj-2insK6-1}\nwixd{NW3fuPVj-8rWsf-1}}}%
+\nwixlogsorted{c}{{conn wrap up}{NW3fuPVj-gadGr-1}{\nwixu{NW3fuPVj-2insK6-1}\nwixd{NW3fuPVj-gadGr-1}}}%
+\nwixlogsorted{c}{{interface definition}{NW3fuPVj-3l1BOL-1}{\nwixu{NW3fuPVj-To6Q8-1}\nwixd{NW3fuPVj-3l1BOL-1}}}%
+\nwixlogsorted{c}{{interfaces}{NW3fuPVj-2uCSY5-1}{\nwixu{NW3fuPVj-lFjoa-1}\nwixd{NW3fuPVj-2uCSY5-1}}}%
+\nwixlogsorted{c}{{LdpcCore module definition}{NW3fuPVj-lFjoa-1}{\nwixu{NW3fuPVj-To6Q8-1}\nwixd{NW3fuPVj-lFjoa-1}}}%
+\nwixlogsorted{c}{{rules}{NW3fuPVj-1igLiJ-1}{\nwixu{NW3fuPVj-lFjoa-1}\nwixd{NW3fuPVj-1igLiJ-1}\nwixd{NW3fuPVj-1igLiJ-2}\nwixd{NW3fuPVj-1igLiJ-3}}}%
+\nwixlogsorted{c}{{state}{NW3fuPVj-3wDyIc-1}{\nwixu{NW3fuPVj-lFjoa-1}\nwixd{NW3fuPVj-3wDyIc-1}\nwixd{NW3fuPVj-3wDyIc-2}}}%
+\nwixlogsorted{c}{{type definitions}{NW3fuPVj-4O0RoX-1}{\nwixd{NW3fuPVj-4O0RoX-1}}}%
+\nwixlogsorted{c}{{wrap up mkLdpcCore}{NW3fuPVj-1YmVkX-1}{\nwixu{NW3fuPVj-lFjoa-1}\nwixd{NW3fuPVj-1YmVkX-1}}}%
+\nwbegincode{24}\sublabel{NW3fuPVj-gadGr-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3fuPVj-gadGr-1}}}\moddef{conn wrap up~{\nwtagstyle{}\subpageref{NW3fuPVj-gadGr-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3fuPVj-2insK6-1}}\nwenddeflinemarkup
+endmodule
+endpackage : LdpcCore
+\nwused{\\{NW3fuPVj-2insK6-1}}\nwendcode{}

@@ -1,0 +1,49 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{noweb}
+\usepackage{amsmath}
+\usepackage{a4wide}  % Set margins automatically for wider use of A4
+\usepackage{graphicx}
+\usepackage{placeins}   % to stop floats from floating
+\usepackage{wrapfig}
+\noweboptions{}
+\title{EE705 Course Project -- LDPC Decoder}
+\author{Anuja Singh (184074001), Niraj N Sharma (184077001), Sandeep Mishra (184076005) \and Sonali Shukla (184070014)}
+\date{Interim Report: April, 2019}
+\begin{document}
+\maketitle
+The project involves the design and layout of a LDPC decoder block. After
+the creation of behavioural RTL we have chosen to use an open-source tool
+based design flow to generate the GDS2 for the design.
+
+\section{Block Diagram}
+The LDPC decoder core represents the design which will be developed and
+implemented upto GDS2. The LDPC decoder top-level represents the top-level
+for functional verification on a Nano FPGA board using Quartus. 
+
+\begin{figure}[hbt]
+\includegraphics[width=\linewidth]{block-diagram.pdf}
+\label{fig:bd}
+\end{figure}
+
+\section{Current Status and Plan Ahead}
+The design of the behavioural verilog for the decoder is nearly complete. The
+remaining steps are described below:
+\begin{center}
+   \begin{tabular}{lll}
+      \hline
+      Task & Tool & Status\\
+      \hline
+      Functional Verification & Quartus & Ongoing\\
+      Synthesis to Gate level & Yosys & Ongoing\\
+      CTS and STA & ?? & TBD\\
+      Layout & Java Electric & TBD\\
+      \hline
+   \end{tabular}
+\end{center}
+
+The rest of the document describes the RTL design of the LDPC Core and its
+components.
+
+\include{LdpcTop}
+\include{Nodes}
+\end{document}
