@@ -6,10 +6,10 @@ SOURCES = LdpcTop.bsv.nw Nodes.bsv.nw
 all : documentation rtl clean
 
 weave: $(SOURCES)
-	noweave -n -delay -index LdpcTop.bsv.nw > LdpcTop.tex
+	noweave -n -delay -index LdpcCore.bsv.nw > LdpcCore.tex
 	noweave -n -delay -index Nodes.bsv.nw > Nodes.tex
 tangle: $(SOURCES)
-	notangle -R"boilerplate" LdpcTop.bsv.nw > LdpcTop.bsv
+	notangle -R"boilerplate" LdpcCore.bsv.nw > LdpcCore.bsv
 	notangle -R"type definitions" LdpcTop.bsv.nw  > LdpcTypes.bsv
 	notangle -R"boilerplate" Nodes.bsv.nw > Nodes.bsv
 documentation: weave
