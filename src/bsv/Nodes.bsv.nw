@@ -1,23 +1,12 @@
 % vim: set tabstop=8:softtabstop=4:shiftwidth=4:textwidth:78:formatoptions+=t
-\documentclass[11pt, a4paper]{article}
-\usepackage{noweb}
-\usepackage{amsmath}
-\usepackage{a4wide}  % Set margins automatically for wider use of A4
+\section{Nodes of the LDPC Decoder}
+The work-horses of the decoder are the bit and check nodes. These iteratively
+decode the input code-word passing the partially decoded result back-and-forth
+for a fixed number of iterations.
 
-% ----------
-% Margins
-% Left margin, odd pages: ("0.125" + 1)
-\setlength{\oddsidemargin}{0.125in}
-% Left margin, even pages: ("0.125" + 1)
-\setlength{\evensidemargin}{0.125in}
-% Text width 6.5 inch (so other margin is 1 inch).
-\setlength{\textwidth}{6.125in}
-% ----------
-
-\title{Nodes of the LDPC Decoder}
-\author{Kim Jong Un}
-\begin{document}
-\maketitle
+%\author{Kim Jong Un}
+%\begin{document}
+%\maketitle
 
 <<boilerplate>>=
 // EE-705 Course Project -- LDPC Decoder
@@ -120,12 +109,12 @@ iterations.  Based on [[NConnections]] it is connected to a set of
 
 <<module definition>>=
 //
-// Module definition
-module mkBitNode (BitNode #(NConnections));
+// Bit Node Module definition
+module mkBitNode (BitNode);
    <<state bitNode>>
    <<rules bitNode>>
    <<interfaces bitNode>>
-   <<wrap up bitNode>>
+<<wrap up bitNode>>
 // -----------------------------------------------------------------
 
 @
@@ -157,7 +146,7 @@ Vector #(
 
 @
 Behaviour is described in terms of atomic sets of actions called rules.
-The rule [[rlProcessFirstIteration]] executes the actions for the first
+The rule, [[rlProcessFirstIteration]] executes the actions for the first
 iteration of processing a new code word. 
 
 \begin{itemize}
@@ -212,7 +201,7 @@ function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
    // XOR of the symbols
    // It will actually do some sort of a zip function which goes:
    // Vector#(N,Symbol) -> Symbol
-   return (foldl1 (\^, x));
+   return (foldl1 (\^ , x));
 endfunction
 
 @
@@ -246,11 +235,11 @@ passive node.
 // Rule to process remaining iterations
 rule rlProcessRemIteration (
       (rgIterationCount > 0)
-   && (rgIterationCount < fromInteger (valueOf (NumIteration))));
+   && (rgIterationCount < fromInteger (valueOf (NIterations))));
    // As this iteration works of a partial result from the checknode,
    // the input comes from the vector of fifos vffC2B
-   Vector #(NumConnections, Symbol) codeIn;
-   for (Integer i=0; i<valueOf(NumConnections); i=i+1) begin
+   Vector #(NConnections, Symbol) codeIn;
+   for (Integer i=0; i<valueOf(NConnections); i=i+1) begin
       codeIn[i] = vffC2B[i].first;
       vffC2B[i].deq;
    end
@@ -258,7 +247,7 @@ rule rlProcessRemIteration (
    let codeOut = fnBitNodeProcessing (codeIn);
 
    // Bookkeeping - keep track of iterations to know when to stop
-   if (rgIterationCount == (fromInteger (valueOf (NumIteration))-1)) begin
+   if (rgIterationCount == (fromInteger (valueOf (NIterations))-1)) begin
       // time to stop
       rgIterationCount <= 0;
 
@@ -296,7 +285,6 @@ interface codeIn     = toPut (ffCodeIn);
 interface dataOut    = toGet (ffDataOut);
 interface c2b        = map (toPut, vffC2B);
 interface b2c        = toGet (ffB2C);
-endinterface
 
 // -----------------------------------------------------------------
 
@@ -312,7 +300,7 @@ iterations. The [[mkCheckNode]] provides an interface of type [[CheckNode]].
 
 <<module definition>>=
 //
-// Module definition
+// Check Node Module definition
 module mkCheckNode (CheckNode);
    <<state checkNode>>
    <<rules checkNode>>
@@ -350,8 +338,8 @@ input from the bit nodes.
 <<functions checkNode>>
 rule rlProcessIteration;
    // get the partial result
-   Vector #(NumConnections, Symbol) codeIn;
-   for (Integer i=0; i<valueOf(NumConnections); i=i+1) begin
+   Vector #(NConnections, Symbol) codeIn;
+   for (Integer i=0; i<valueOf(NConnections); i=i+1) begin
       codeIn[i] = vffB2C[i].first;
       vffB2C[i].deq;
    end
@@ -375,7 +363,7 @@ function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
    // inverting of the bits
    // It will actually do some sort of a zip function which goes:
    // Vector#(N,Symbol) -> Symbol
-   return (foldl1 (\^, x));
+   return (foldl1 (\^ , x));
 endfunction
 
 @
@@ -394,7 +382,3 @@ interface b2c = map (toPut, vffB2C);
 <<wrap up checkNode>>=
 endmodule : mkCheckNode
 endpackage
-
-@
-\end{document}
-

@@ -1,28 +1,12 @@
 % vim: set tabstop=8:softtabstop=4:shiftwidth=4:textwidth:78:formatoptions+=t
-\documentclass[11pt, a4paper]{article}
-\usepackage{noweb}
-\usepackage{amsmath}
-\usepackage{a4wide}  % Set margins automatically for wider use of A4
-
-% ----------
-% Margins
-% Left margin, odd pages: ("0.125" + 1)
-\setlength{\oddsidemargin}{0.125in}
-% Left margin, even pages: ("0.125" + 1)
-\setlength{\evensidemargin}{0.125in}
-% Text width 6.5 inch (so other margin is 1 inch).
-\setlength{\textwidth}{6.125in}
-% ----------
-
-\title{LDPC Decoder Core Top-level}
-\author{Kim Jong Un}
-\begin{document}
-\maketitle
+\section{LDPC Decoder Core Top-level}
+The LDPC core integrates the bit and check nodes as per the topology specified
+by the $H$ matrix.
 
 <<boilerplate>>=
 // EE-705 Course Project -- LDPC Decoder
 
-package LdpcTop;
+package LdpcCore;
 
 // -----------------------------------------------------------------
 // This package defines:
@@ -49,27 +33,25 @@ import Nodes            :: *;
 <<conn module definition>>
 
 @
-This is the top-level of the LDPC decoder. It integrates all the
-bit-nodes and check-nodes. Global types for the LDPC decoder are defined
-in [[LdpcTypes]] package.
-
-The following types are global:
+Global types for the LDPC decoder are defined in [[LdpcTypes]] package. The
+following types are global:
 
 \begin{description}
 \item[Symbol:] The bit pattern describing a soft-value
 \item[DataWord:] A collection of soft-value forming the code word or the
 decoded word
-\item[NumBitNodes:] The number of bit nodes. In this design each bit
+\item[CodeLength:] The number of symbols in a DataWord. In this configuration,
+this is equal to the number of bit nodes and check nodes
+\item[NBitNodes:] The number of bit nodes. In this design each bit
 node manipulates a symbol. So, the number of bit nodes is same as the
 number of symbols.
-\item[CheckBitNodes:] The number of check nodes. In this design each
-check node manipulates a symbol. So, the number of bit nodes is same as the
+\item[NCheckNodes:] The number of check nodes. In this design each
+check node manipulates a symbol. So, the number of check nodes is same as the
 number of symbols.
-\item[NRConnections:] Number of 1s in a row of the H matrix. Represents the
-fanouts/fanin from/to a check-node.
-\item[NCConnections:] Number of 1s in a column of the H matrix. Represents
-the fanouts/fanin from/to a bit-node.
-\item[NumIteration:] Number of iterations between bit node and check
+\item[NConnections:] Number of 1s in a row of the H matrix. Represents the
+fanouts/fanin from/to a check-node. Is also the number of 1s in a column of the
+H matrix, which represents the fanouts/fanin from/to a bit node.
+\item[NIteration:] Number of iterations between bit node and check
 nodes.
 \end{description}
 
@@ -81,25 +63,24 @@ import Vector :: *;
 // Soft-value bit pattern
 typedef Bit #(4) Symbol;
 
+// Number of symbols in a codeword
+typedef 7 CodeLength;
+
 // A coded/decoded word
 typedef Vector #(CodeLength, Symbol) DataWord;
 
 // Number of bit nodes
-typedef CodeLength NumBitNodes;
+typedef CodeLength NBitNodes;
 
 // Number of check nodes
-typedef CodeLength NumCheckNodes;
+typedef CodeLength NCheckNodes;
 
 // Fanouts from an individual check-node. This is the number of 1s in a row of
 // the H-matrix
-typedef 3 NRConnections;
-
-// Fanouts from an individual bit-node. This is the number of 1s in a column
-// of the H-matrix
-typedef 3 NCConnections;
+typedef 3 NConnections;
 
 // Number of iterations between bit nodes and check nodes
-typedef 8 NumIteration;
+typedef 8 NIterations;
 endpackage : LdpcTypes
 
 @
@@ -127,14 +108,14 @@ module mkLdpcCore (LdpcCore);
 @
 The bit-nodes and check-nodes are instantiated as vectors of modules
 with the number of elements defined by the numeric types
-[[NumBitNodes]] and [[NumCheckNodes]].
+[[NBitNodes]] and [[NCheckNodes]].
 
 <<state>>=
 // Bit nodes
-Vector #(NumBitNodes, BitNode) vBitNodes <- replicateM (mkBitNode);
+Vector #(NBitNodes, BitNode) vBitNodes <- replicateM (mkBitNode);
 
 // Check nodes
-Vector #(NumCheckNodes, CheckNode) vCheckNodes <- replicateM (mkCheckNode);
+Vector #(NCheckNodes, CheckNode) vCheckNodes <- replicateM (mkCheckNode);
 
 @
 Finally, we will need a pair of FIFOs to accept the code word on the
@@ -262,7 +243,7 @@ rule rlPutCodeWordIn;
    let codeIn = ffI.first; ffI.deq;
 
    // Send each bit-node a symbol
-   for (Integer i=0; i<valueOf(NumBitNodes); i=i+1)
+   for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
       vCheckNodes[i].codeIn.put (codeIn[i]);
 endrule
 
@@ -277,7 +258,7 @@ rule rlGetDecodedWordOut;
    DataWord dOut;
 
    // Get a symbol from each bit-node
-   for (Integer i=0; i<valueOf(NumBitNodes); i=i+1) begin
+   for (Integer i=0; i<valueOf(NBitNodes); i=i+1) begin
       let d <- vCheckNodes[i].dataOut.get ();
       dOut [i] = d;
    end
@@ -298,8 +279,4 @@ endmodule : mkLdpcCore
 
 <<conn wrap up>>=
 endmodule
-endpackage
-
-@
-\end{document}
-
+endpackage : LdpcCore
