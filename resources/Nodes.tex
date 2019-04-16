@@ -104,6 +104,9 @@ iterations.  Based on {\Tt{}NConnections\nwendquote} it is connected to a set of
 {\Tt{}mkBitNode\nwendquote} provides an interface of type {\Tt{}BitNode\nwendquote}.
 
 \nwenddocs{}\nwbegincode{12}\sublabel{NW1v8dKs-1nQrPK-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\moddef{module definition~{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-To6Q8-1}}\nwprevnextdefs{\relax}{NW1v8dKs-1nQrPK-2}\nwenddeflinemarkup
+// Core function of the bitNode
+\LA{}functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}\RA{}
+
 //
 // Bit Node Module definition
 (* synthesize *)
@@ -160,7 +163,6 @@ node for the first time.
 
 \nwenddocs{}\nwbegincode{18}\sublabel{NW1v8dKs-2ke5KA-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-1}}}\moddef{rules bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{\relax}{NW1v8dKs-2ke5KA-2}\nwenddeflinemarkup
 // Rules and behaviour
-\LA{}functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}\RA{}
 
 // Rule to process the first iteration of a new code word
 rule rlProcessFirstIteration (rgIterationCount == 0);
@@ -190,9 +192,12 @@ Reg   #(Bit #(4))                rgIterationCount  <- mkReg (0);
 
 \nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{21}\nwdocspar
 The function {\Tt{}fnBitNodeProcessing\nwendquote}, carries out the actual bit
-manipulation of the codeword symbols as per the min-sum-algorithm.
+manipulation of the codeword symbols as per the min-sum-algorithm. The
+noinline attribute ensures that a separate verilog module is generated for the
+function.
 
-\nwenddocs{}\nwbegincode{22}\sublabel{NW1v8dKs-2TR1lR-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\moddef{functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-2ke5KA-1}}\nwprevnextdefs{\relax}{NW1v8dKs-2TR1lR-2}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{22}\sublabel{NW1v8dKs-2TR1lR-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\moddef{functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{\relax}{NW1v8dKs-2TR1lR-2}\nwenddeflinemarkup
+(* noinline *)
 function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
    // XXX This is at present a dummy function which simply does an
    // XOR of the symbols
@@ -201,12 +206,12 @@ function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
    return (foldl1 (\\^ , x));
 endfunction
 
-\nwalsodefined{\\{NW1v8dKs-2TR1lR-2}}\nwused{\\{NW1v8dKs-2ke5KA-1}}\nwendcode{}\nwbegindocs{23}\nwdocspar
+\nwalsodefined{\\{NW1v8dKs-2TR1lR-2}}\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{23}\nwdocspar
 The function {\Tt{}fnInitialBitNodeProcessing\nwendquote}, does not work on a vector
 of Symbols like {\Tt{}fnBitNodeProcessing\nwendquote}. It can be thought of as a
 function which prepares the input symbol for iterative processing. 
 
-\nwenddocs{}\nwbegincode{24}\sublabel{NW1v8dKs-2TR1lR-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-2}}}\moddef{functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-2ke5KA-1}}\nwprevnextdefs{NW1v8dKs-2TR1lR-1}{\relax}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{24}\sublabel{NW1v8dKs-2TR1lR-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-2}}}\moddef{functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{NW1v8dKs-2TR1lR-1}{\relax}\nwenddeflinemarkup
 
 function Symbol fnInitialBitNodeProcessing (Symbol x);
    // XXX This is at present a dummy function which simply does an
@@ -214,7 +219,7 @@ function Symbol fnInitialBitNodeProcessing (Symbol x);
    return (x);
 endfunction
 
-\nwused{\\{NW1v8dKs-2ke5KA-1}}\nwendcode{}\nwbegindocs{25}\nwdocspar
+\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{25}\nwdocspar
 The rule {\Tt{}rlProcessRemIteration\nwendquote} executes the actions for the remaining
 iterations for processing a code word. The input for these iterations is
 from the partially processed word in {\Tt{}vffC2B\nwendquote}.
@@ -296,6 +301,9 @@ inputs in the same manner. The {\Tt{}mkCheckNode\nwendquote} does not keep track
 iterations. The {\Tt{}mkCheckNode\nwendquote} provides an interface of type {\Tt{}CheckNode\nwendquote}.
 
 \nwenddocs{}\nwbegincode{32}\sublabel{NW1v8dKs-1nQrPK-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-2}}}\moddef{module definition~{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-To6Q8-1}}\nwprevnextdefs{NW1v8dKs-1nQrPK-1}{\relax}\nwenddeflinemarkup
+// Core function of the check-node
+\LA{}functions checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}\RA{}
+
 //
 // Check Node Module definition
 (* synthesize *)
@@ -333,7 +341,6 @@ input from the bit nodes.
 
 \nwenddocs{}\nwbegincode{36}\sublabel{NW1v8dKs-4bVYKS-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-4bVYKS-1}}}\moddef{rules checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-4bVYKS-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
 // Rules and behaviour
-\LA{}functions checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}\RA{}
 rule rlProcessIteration;
    // get the partial result
    Vector #(NConnections, Symbol) codeIn;
@@ -353,9 +360,12 @@ endrule
 
 \nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}\nwbegindocs{37}\nwdocspar
 The function {\Tt{}fnCheckNodeProcessing\nwendquote}, carries out the actual bit
-manipulation of the codeword bits as per the min-sum algorithm.
+manipulation of the codeword bits as per the min-sum algorithm. The
+noinline attribute ensures that a separate verilog module is generated for the
+function.
 
-\nwenddocs{}\nwbegincode{38}\sublabel{NW1v8dKs-oud5A-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}}\moddef{functions checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-4bVYKS-1}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{38}\sublabel{NW1v8dKs-oud5A-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}}\moddef{functions checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
+(* noinline *)
 function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
    // XXX This is at present a dummy function which simply does an
    // inverting of the bits
@@ -364,7 +374,7 @@ function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
    return (foldl1 (\\^ , x));
 endfunction
 
-\nwused{\\{NW1v8dKs-4bVYKS-1}}\nwendcode{}\nwbegindocs{39}\nwdocspar
+\nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}\nwbegindocs{39}\nwdocspar
 Creating the interfaces simply involves stitching up the connections to the
 input and output FIFOs using library functions -- {\Tt{}toPut\nwendquote} and {\Tt{}toGet\nwendquote}.
 Since the {\Tt{}b2c\nwendquote} interface is a vector, the {\Tt{}map\nwendquote} higher-order function is
@@ -380,8 +390,8 @@ interface b2c = map (toPut, vffB2C);
 \nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}
 
 \nwixlogsorted{c}{{boilerplate}{NW1v8dKs-To6Q8-1}{\nwixd{NW1v8dKs-To6Q8-1}}}%
-\nwixlogsorted{c}{{functions bitNode}{NW1v8dKs-2TR1lR-1}{\nwixu{NW1v8dKs-2ke5KA-1}\nwixd{NW1v8dKs-2TR1lR-1}\nwixd{NW1v8dKs-2TR1lR-2}}}%
-\nwixlogsorted{c}{{functions checkNode}{NW1v8dKs-oud5A-1}{\nwixu{NW1v8dKs-4bVYKS-1}\nwixd{NW1v8dKs-oud5A-1}}}%
+\nwixlogsorted{c}{{functions bitNode}{NW1v8dKs-2TR1lR-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-2TR1lR-1}\nwixd{NW1v8dKs-2TR1lR-2}}}%
+\nwixlogsorted{c}{{functions checkNode}{NW1v8dKs-oud5A-1}{\nwixu{NW1v8dKs-1nQrPK-2}\nwixd{NW1v8dKs-oud5A-1}}}%
 \nwixlogsorted{c}{{interface definition}{NW1v8dKs-3l1BOL-1}{\nwixu{NW1v8dKs-4O0RoX-1}\nwixd{NW1v8dKs-3l1BOL-1}\nwixd{NW1v8dKs-3l1BOL-2}\nwixd{NW1v8dKs-3l1BOL-3}}}%
 \nwixlogsorted{c}{{interfaces bitNode}{NW1v8dKs-469JCS-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-469JCS-1}}}%
 \nwixlogsorted{c}{{interfaces checkNode}{NW1v8dKs-1mJizB-1}{\nwixu{NW1v8dKs-1nQrPK-2}\nwixd{NW1v8dKs-1mJizB-1}}}%

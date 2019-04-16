@@ -45,6 +45,24 @@ endinterface
 
 
 
+// Core function of the bitNode
+(* noinline *)
+function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
+   // XXX This is at present a dummy function which simply does an
+   // XOR of the symbols
+   // It will actually do some sort of a zip function which goes:
+   // Vector#(N,Symbol) -> Symbol
+   return (foldl1 (\^ , x));
+endfunction
+
+
+function Symbol fnInitialBitNodeProcessing (Symbol x);
+   // XXX This is at present a dummy function which simply does an
+   // forwards the signal to the output
+   return (x);
+endfunction
+
+
 //
 // Bit Node Module definition
 (* synthesize *)
@@ -69,21 +87,6 @@ module mkBitNode (BitNode);
    // -----------------------------------------------------------------
 
    // Rules and behaviour
-   function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
-      // XXX This is at present a dummy function which simply does an
-      // XOR of the symbols
-      // It will actually do some sort of a zip function which goes:
-      // Vector#(N,Symbol) -> Symbol
-      return (foldl1 (\^ , x));
-   endfunction
-
-
-   function Symbol fnInitialBitNodeProcessing (Symbol x);
-      // XXX This is at present a dummy function which simply does an
-      // forwards the signal to the output
-      return (x);
-   endfunction
-
 
    // Rule to process the first iteration of a new code word
    rule rlProcessFirstIteration (rgIterationCount == 0);
@@ -147,6 +150,17 @@ endmodule : mkBitNode
 
 // -----------------------------------------------------------------
 
+// Core function of the check-node
+(* noinline *)
+function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
+   // XXX This is at present a dummy function which simply does an
+   // inverting of the bits
+   // It will actually do some sort of a zip function which goes:
+   // Vector#(N,Symbol) -> Symbol
+   return (foldl1 (\^ , x));
+endfunction
+
+
 //
 // Check Node Module definition
 (* synthesize *)
@@ -161,14 +175,6 @@ module mkCheckNode (CheckNode);
    FIFO  #(Symbol)      ffC2B         <- mkFIFO;
 
    // Rules and behaviour
-   function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
-      // XXX This is at present a dummy function which simply does an
-      // inverting of the bits
-      // It will actually do some sort of a zip function which goes:
-      // Vector#(N,Symbol) -> Symbol
-      return (foldl1 (\^ , x));
-   endfunction
-
    rule rlProcessIteration;
       // get the partial result
       Vector #(NConnections, Symbol) codeIn;

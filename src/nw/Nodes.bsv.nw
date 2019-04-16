@@ -104,6 +104,9 @@ iterations.  Based on [[NConnections]] it is connected to a set of
 [[mkBitNode]] provides an interface of type [[BitNode]].
 
 <<module definition>>=
+// Core function of the bitNode
+<<functions bitNode>>
+
 //
 // Bit Node Module definition
 (* synthesize *)
@@ -160,7 +163,6 @@ node for the first time.
 
 <<rules bitNode>>=
 // Rules and behaviour
-<<functions bitNode>>
 
 // Rule to process the first iteration of a new code word
 rule rlProcessFirstIteration (rgIterationCount == 0);
@@ -190,9 +192,12 @@ Reg   #(Bit #(4))                rgIterationCount  <- mkReg (0);
 
 @
 The function [[fnBitNodeProcessing]], carries out the actual bit
-manipulation of the codeword symbols as per the min-sum-algorithm.
+manipulation of the codeword symbols as per the min-sum-algorithm. The
+noinline attribute ensures that a separate verilog module is generated for the
+function.
 
 <<functions bitNode>>=
+(* noinline *)
 function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
    // XXX This is at present a dummy function which simply does an
    // XOR of the symbols
@@ -296,6 +301,9 @@ inputs in the same manner. The [[mkCheckNode]] does not keep track of
 iterations. The [[mkCheckNode]] provides an interface of type [[CheckNode]].
 
 <<module definition>>=
+// Core function of the check-node
+<<functions checkNode>>
+
 //
 // Check Node Module definition
 (* synthesize *)
@@ -333,7 +341,6 @@ input from the bit nodes.
 
 <<rules checkNode>>=
 // Rules and behaviour
-<<functions checkNode>>
 rule rlProcessIteration;
    // get the partial result
    Vector #(NConnections, Symbol) codeIn;
@@ -353,9 +360,12 @@ endrule
 
 @
 The function [[fnCheckNodeProcessing]], carries out the actual bit
-manipulation of the codeword bits as per the min-sum algorithm.
+manipulation of the codeword bits as per the min-sum algorithm. The
+noinline attribute ensures that a separate verilog module is generated for the
+function.
 
 <<functions checkNode>>=
+(* noinline *)
 function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
    // XXX This is at present a dummy function which simply does an
    // inverting of the bits

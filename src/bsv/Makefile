@@ -4,7 +4,7 @@
 SOURCES = LdpcCore.bsv Nodes.bsv LdpcTypes.bsv
 TOPMOD = mkLdpcCore
 TOPFILE = LdpcCore.bsv
-default: full_clean compile link simulate
+default: full_clean compile link
 
 bdir:
 	mkdir -p build
