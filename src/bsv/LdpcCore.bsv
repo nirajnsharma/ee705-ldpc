@@ -26,6 +26,19 @@ typedef Server #(DataWord, DataWord) LdpcCore;
 // -----------------------------------------------------------------
 
 
+(* noinline *)
+function Bit#(1) fnCheckDecodedWord (DataWord b);
+return (
+      (b[0]^b[1]^b[3])
+    | (b[1]^b[2]^b[4])
+    | (b[2]^b[3]^b[5])
+    | (b[3]^b[4]^b[6])
+    | (b[0]^b[4]^b[5])
+    | (b[1]^b[5]^b[6])
+    | (b[0]^b[2]^b[6]));
+endfunction
+
+
 (* synthesize *)
 module mkLdpcCore (LdpcCore);
    // Bit nodes
@@ -39,17 +52,6 @@ module mkLdpcCore (LdpcCore);
    FIFO #(DataWord) ffO <- mkFIFO;
 
    Reg #(Bool) rgIdle <- mkReg(True);
-
-   function Bit#(1) fnCheckDecodedWord (DataWord b);
-   return (
-         (b[0]^b[1]^b[3])
-       | (b[1]^b[2]^b[4])
-       | (b[2]^b[3]^b[5])
-       | (b[3]^b[4]^b[6])
-       | (b[0]^b[4]^b[5])
-       | (b[1]^b[5]^b[6])
-       | (b[0]^b[2]^b[6]));
-   endfunction
 
    // connect up all the bit nodes and check nodes
    // bit-node to check-node connections
@@ -122,6 +124,10 @@ module mkLdpcCore (LdpcCore);
       // Send each bit-node a symbol
       for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
          vBitNodes[i].codeIn.put (codeIn[i]);
+
+   `ifdef DBG
+      $display ("(%5d)::LdpcCore::rlPutCodeWordIn::%07b", $time, codeIn);
+   `endif
    endrule
 
    rule rlEvaluateOutput (!rgIdle);
@@ -131,15 +137,25 @@ module mkLdpcCore (LdpcCore);
          vBitNodeOuts[i] = d;
       end
 
+   `ifdef DBG
+      $display ("(%5d)::LdpcCore::rlEvaluateOutput::%07b", $time, pack (vBitNodeOuts));
+   `endif
+
       // Check if the decoding is complete
       // Decoding is good
       if (fnCheckDecodedWord (vBitNodeOuts) == 1'b0) begin
          ffO.enq (vBitNodeOuts);
          rgIdle <= True;
+   `ifdef DBG
+         $display ("(%5d)::LdpcCore::rlEvaluateOutput::Decoding Okay", $time);
+   `endif
       end
 
       // Decoding is not complete - back to the bit node
       else begin
+   `ifdef DBG
+         $display ("(%5d)::LdpcCore::rlEvaluateOutput::Decoding not okay. Back to bit-node", $time);
+   `endif
          // Send each bit-node a symbol
          for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
             vBitNodes[i].codeIn.put (vBitNodeOuts[i]);

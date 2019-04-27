@@ -100,10 +100,11 @@ tanner graph. For a given topology, the number of bit-nodes and the
 number of check-nodes are inputs. These are defined in [[LdpcTypes]].
 
 <<LdpcCore module definition>>=
+<<check function>>
+
 (* synthesize *)
 module mkLdpcCore (LdpcCore);
    <<state>>
-   <<check function>>
    <<rules>>
    <<interfaces>>
    <<wrap up mkLdpcCore>>
@@ -267,7 +268,7 @@ rule rlPutCodeWordIn (rgIdle);
       vBitNodes[i].codeIn.put (codeIn[i]);
 
 `ifdef DBG
-   $display ("(%s)::LdpcCore::rlEvaluateOutput::Decoding Okay", $time);
+   $display ("(%5d)::LdpcCore::rlPutCodeWordIn::%07b", $time, codeIn);
 `endif
 endrule
 
@@ -285,7 +286,7 @@ rule rlEvaluateOutput (!rgIdle);
    end
 
 `ifdef DBG
-   $display ("(%s)::LdpcCore::rlEvaluateOutput::%07b", $time, pack (vBitNodeOuts));
+   $display ("(%5d)::LdpcCore::rlEvaluateOutput::%07b", $time, pack (vBitNodeOuts));
 `endif
 
    // Check if the decoding is complete
@@ -294,14 +295,14 @@ rule rlEvaluateOutput (!rgIdle);
       ffO.enq (vBitNodeOuts);
       rgIdle <= True;
 `ifdef DBG
-      $display ("(%s)::LdpcCore::rlEvaluateOutput::Decoding Okay", $time);
+      $display ("(%5d)::LdpcCore::rlEvaluateOutput::Decoding Okay", $time);
 `endif
    end
 
    // Decoding is not complete - back to the bit node
    else begin
 `ifdef DBG
-      $display ("(%s)::LdpcCore::rlEvaluateOutput::Decoding not okay. Back to bit-node", $time);
+      $display ("(%5d)::LdpcCore::rlEvaluateOutput::Decoding not okay. Back to bit-node", $time);
 `endif
       // Send each bit-node a symbol
       for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
@@ -322,6 +323,7 @@ sent to the [[ffO]]. This is done if the [[fnCheckDecodedWord]] returns a
 positive result (no error).
 
 <<check function>>=
+(* noinline *)
 function Bit#(1) fnCheckDecodedWord (DataWord b);
 return (
       (b[0]^b[1]^b[3])
