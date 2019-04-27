@@ -5,18 +5,18 @@ library(demo) {
     pin(Y) { direction: output;
               function: "A"; }
   }
-  cell(NOT) {
+  cell(std_inv) {
     area: 3;
-    pin(A) { direction: input; }
-    pin(Y) { direction: output;
-              function: "A'"; }
+    pin(a) { direction: input; }
+    pin(y) { direction: output;
+              function: "a'"; }
   }
-  cell(NAND) {
+  cell(std_nand2) {
     area: 4;
-    pin(A) { direction: input; }
-    pin(B) { direction: input; }
-    pin(Y) { direction: output;
-             function: "(A*B)'"; }
+    pin(a) { direction: input; }
+    pin(b) { direction: input; }
+    pin(y) { direction: output;
+             function: "(a*b)'"; }
   }
   cell(NOR) {
     area: 4;
