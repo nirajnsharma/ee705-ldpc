@@ -1,0 +1,36 @@
+digraph "module_fnBitNodeCore" {
+label="module_fnBitNodeCore";
+rankdir="LR";
+remincross=true;
+n7 [ shape=octagon, label="fnBitNodeCore", color="black", fontcolor="black" ];
+n8 [ shape=octagon, label="fnBitNodeCore_i[0]", color="black", fontcolor="black" ];
+n9 [ shape=octagon, label="fnBitNodeCore_i[1]", color="black", fontcolor="black" ];
+n10 [ shape=octagon, label="fnBitNodeCore_i[2]", color="black", fontcolor="black" ];
+c14 [ shape=record, label="{{<p11> A|<p12> B|<p13> Y}|$221\nNAND|{}}" ];
+c15 [ shape=record, label="{{<p11> A|<p13> Y}|$222\nNOT|{}}" ];
+c16 [ shape=record, label="{{<p11> A|<p13> Y}|$223\nNOT|{}}" ];
+c17 [ shape=record, label="{{<p11> A|<p12> B|<p13> Y}|$224\nNAND|{}}" ];
+c18 [ shape=record, label="{{<p11> A|<p12> B|<p13> Y}|$225\nNAND|{}}" ];
+c19 [ shape=record, label="{{<p11> A|<p12> B|<p13> Y}|$226\nNAND|{}}" ];
+n10:e -> c18:p12:w [color="black", label=""];
+n2 [ shape=diamond, label="$n5_1" ];
+n2:e -> c14:p13:w [color="black", label=""];
+n2:e -> c19:p12:w [color="black", label=""];
+n3 [ shape=diamond, label="$n6_1" ];
+n3:e -> c15:p13:w [color="black", label=""];
+n3:e -> c17:p12:w [color="black", label=""];
+n4 [ shape=diamond, label="$n7_1" ];
+n4:e -> c16:p13:w [color="black", label=""];
+n4:e -> c17:p11:w [color="black", label=""];
+n5 [ shape=diamond, label="$n8" ];
+n5:e -> c17:p13:w [color="black", label=""];
+n5:e -> c18:p11:w [color="black", label=""];
+n6 [ shape=diamond, label="$n9" ];
+n6:e -> c18:p13:w [color="black", label=""];
+n6:e -> c19:p11:w [color="black", label=""];
+n7:e -> c19:p13:w [color="black", label=""];
+n8:e -> c14:p11:w [color="black", label=""];
+n8:e -> c16:p11:w [color="black", label=""];
+n9:e -> c14:p12:w [color="black", label=""];
+n9:e -> c15:p11:w [color="black", label=""];
+}
