@@ -1,0 +1,182 @@
+module module_fnCheckDecodedWord(fnCheckDecodedWord_b_0 , fnCheckDecodedWord_b_1 , fnCheckDecodedWord_b_2 , fnCheckDecodedWord_b_3 , fnCheckDecodedWord_b_4 , fnCheckDecodedWord_b_5 , fnCheckDecodedWord_b_6 , fnCheckDecodedWord);
+  wire ag_00;
+  wire ag_01;
+  wire ag_02;
+  wire ag_03;
+  wire ag_04;
+  wire ag_05;
+  wire ag_06;
+  wire ag_07;
+  wire ag_08;
+  wire ag_09;
+  wire ag_10;
+  wire ag_11;
+  wire ag_12;
+  wire ag_13;
+  wire ag_14;
+  wire ag_15;
+  wire ag_16;
+  wire ag_17;
+  wire ag_18;
+  wire ag_19;
+  wire ag_20;
+  wire ag_21;
+  wire ag_22;
+  wire ag_23;
+  wire ag_24;
+  wire ag_25;
+  wire ag_26;
+  wire ag_27;
+  wire ag_28;
+  output fnCheckDecodedWord;
+  input fnCheckDecodedWord_b_0 ;
+  input fnCheckDecodedWord_b_1 ;
+  input fnCheckDecodedWord_b_2 ;
+  input fnCheckDecodedWord_b_3 ;
+  input fnCheckDecodedWord_b_4 ;
+  input fnCheckDecodedWord_b_5 ;
+  input fnCheckDecodedWord_b_6 ;
+  std_nand2 ag_29 (
+    .a(ag_12),
+    .b(ag_09),
+    .y(ag_13)
+  );
+  std_nand2 ag_30 (
+    .a(ag_13),
+    .b(ag_11),
+    .y(ag_14)
+  );
+  std_nor2 ag_31 (
+    .a(fnCheckDecodedWord_b_2 ),
+    .b(ag_05),
+    .y(ag_15)
+  );
+  std_inv ag_32 (
+    .a(fnCheckDecodedWord_b_2 ),
+    .y(ag_16)
+  );
+  std_nor2 ag_33 (
+    .a(ag_16),
+    .b(fnCheckDecodedWord_b_1 ),
+    .y(ag_17)
+  );
+  std_nor2 ag_34 (
+    .a(ag_17),
+    .b(ag_15),
+    .y(ag_18)
+  );
+  std_inv ag_35 (
+    .a(fnCheckDecodedWord_b_6 ),
+    .y(ag_19)
+  );
+  std_nand2 ag_36 (
+    .a(ag_19),
+    .b(fnCheckDecodedWord_b_3 ),
+    .y(ag_20)
+  );
+  std_nand2 ag_37 (
+    .a(fnCheckDecodedWord_b_6 ),
+    .b(ag_07),
+    .y(ag_21)
+  );
+  std_nand2 ag_38 (
+    .a(ag_21),
+    .b(ag_20),
+    .y(ag_22)
+  );
+  std_nor2 ag_39 (
+    .a(ag_22),
+    .b(ag_18),
+    .y(ag_23)
+  );
+  std_nand2 ag_40 (
+    .a(ag_18),
+    .b(fnCheckDecodedWord_b_4 ),
+    .y(ag_24)
+  );
+  std_nand2 ag_41 (
+    .a(ag_22),
+    .b(ag_01),
+    .y(ag_25)
+  );
+  std_nand2 ag_42 (
+    .a(ag_25),
+    .b(ag_24),
+    .y(ag_26)
+  );
+  std_nor2 ag_43 (
+    .a(ag_26),
+    .b(ag_23),
+    .y(ag_27)
+  );
+  std_nand2 ag_44 (
+    .a(ag_27),
+    .b(ag_14),
+    .y(fnCheckDecodedWord)
+  );
+  std_inv ag_45 (
+    .a(fnCheckDecodedWord_b_5 ),
+    .y(ag_28)
+  );
+  std_nand2 ag_46 (
+    .a(ag_28),
+    .b(fnCheckDecodedWord_b_4 ),
+    .y(ag_00)
+  );
+  std_inv ag_47 (
+    .a(fnCheckDecodedWord_b_4 ),
+    .y(ag_01)
+  );
+  std_nand2 ag_48 (
+    .a(fnCheckDecodedWord_b_5 ),
+    .b(ag_01),
+    .y(ag_02)
+  );
+  std_nand2 ag_49 (
+    .a(ag_02),
+    .b(ag_00),
+    .y(ag_03)
+  );
+  std_inv ag_50 (
+    .a(fnCheckDecodedWord_b_0 ),
+    .y(ag_04)
+  );
+  std_inv ag_51 (
+    .a(fnCheckDecodedWord_b_1 ),
+    .y(ag_05)
+  );
+  std_nor2 ag_52 (
+    .a(fnCheckDecodedWord_b_3 ),
+    .b(ag_05),
+    .y(ag_06)
+  );
+  std_inv ag_53 (
+    .a(fnCheckDecodedWord_b_3 ),
+    .y(ag_07)
+  );
+  std_nor2 ag_54 (
+    .a(ag_07),
+    .b(fnCheckDecodedWord_b_1 ),
+    .y(ag_08)
+  );
+  std_nor2 ag_55 (
+    .a(ag_08),
+    .b(ag_06),
+    .y(ag_09)
+  );
+  std_nor2 ag_56 (
+    .a(ag_09),
+    .b(ag_04),
+    .y(ag_10)
+  );
+  std_nand2 ag_57 (
+    .a(ag_10),
+    .b(ag_03),
+    .y(ag_11)
+  );
+  std_nor2 ag_58 (
+    .a(ag_03),
+    .b(fnCheckDecodedWord_b_0 ),
+    .y(ag_12)
+  );
+endmodule

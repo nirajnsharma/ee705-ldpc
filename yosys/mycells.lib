@@ -1,9 +1,9 @@
 library(demo) {
-  cell(BUF) {
+  cell(buffer1) {
     area: 6;
-    pin(A) { direction: input; }
-    pin(Y) { direction: output;
-              function: "A"; }
+    pin(x) { direction: input; }
+    pin(z) { direction: output;
+              function: "x"; }
   }
   cell(std_inv) {
     area: 3;
@@ -18,21 +18,21 @@ library(demo) {
     pin(y) { direction: output;
              function: "(a*b)'"; }
   }
-  cell(NOR) {
+  cell(std_nor2) {
     area: 4;
-    pin(A) { direction: input; }
-    pin(B) { direction: input; }
-    pin(Y) { direction: output;
-             function: "(A+B)'"; }
+    pin(a) { direction: input; }
+    pin(b) { direction: input; }
+    pin(y) { direction: output;
+             function: "(a+b)'"; }
   }
-  cell(DFF) {
+  cell(d_ff) {
     area: 18;
-    ff(IQ, IQN) { clocked_on: C;
-                  next_state: D; }
-    pin(C) { direction: input;
+    ff(iq, iqn) { clocked_on: clk;
+                  next_state: d; }
+    pin(clk) { direction: input;
                  clock: true; }
-    pin(D) { direction: input; }
-    pin(Q) { direction: output;
-              function: "IQ"; }
+    pin(d) { direction: input; }
+    pin(q) { direction: output;
+              function: "iq"; }
   }
 }
