@@ -3,47 +3,47 @@
 (* src = "FIFO2.v:51" *)
 module \$paramod\FIFO2\width=1\guarded=1 (CLK, RST, D_IN, ENQ, FULL_N, D_OUT, DEQ, EMPTY_N, CLR);
   (* src = "FIFO2.v:133" *)
-  wire _00_;
+  wire ag_00_;
   (* src = "FIFO2.v:133" *)
-  wire _01_;
+  wire ag_01_;
   (* src = "FIFO2.v:104" *)
-  wire _02_;
+  wire ag_02_;
   (* src = "FIFO2.v:104" *)
-  wire _03_;
-  wire _04_;
-  wire _05_;
-  wire _06_;
-  wire _07_;
-  wire _08_;
-  wire _09_;
-  wire _10_;
-  wire _11_;
-  wire _12_;
-  wire _13_;
-  wire _14_;
-  wire _15_;
-  wire _16_;
-  wire _17_;
-  wire _18_;
-  wire _19_;
-  wire _20_;
-  wire _21_;
-  wire _22_;
-  wire _23_;
-  wire _24_;
-  wire _25_;
-  wire _26_;
-  wire _27_;
-  wire _28_;
-  wire _29_;
-  wire _30_;
-  wire _31_;
-  wire _32_;
-  wire _33_;
-  wire _34_;
-  wire _35_;
-  wire _36_;
-  wire _37_;
+  wire ag_03_;
+  wire ag_04_;
+  wire ag_05_;
+  wire ag_06_;
+  wire ag_07_;
+  wire ag_08_;
+  wire ag_09_;
+  wire ag_10_;
+  wire ag_11_;
+  wire ag_12_;
+  wire ag_13_;
+  wire ag_14_;
+  wire ag_15_;
+  wire ag_16_;
+  wire ag_17_;
+  wire ag_18_;
+  wire ag_19_;
+  wire ag_20_;
+  wire ag_21_;
+  wire ag_22_;
+  wire ag_23_;
+  wire ag_24_;
+  wire ag_25_;
+  wire ag_26_;
+  wire ag_27_;
+  wire ag_28_;
+  wire ag_29_;
+  wire ag_30_;
+  wire ag_31_;
+  wire ag_32_;
+  wire ag_33_;
+  wire ag_34_;
+  wire ag_35_;
+  wire ag_36_;
+  wire ag_37_;
   (* src = "FIFO2.v:64" *)
   input CLK;
   (* src = "FIFO2.v:69" *)
@@ -70,208 +70,208 @@ module \$paramod\FIFO2\width=1\guarded=1 (CLK, RST, D_IN, ENQ, FULL_N, D_OUT, DE
   wire empty_reg;
   (* src = "FIFO2.v:75" *)
   wire full_reg;
-  NOT _38_ (
-    .A(RST),
-    .Y(_04_)
+  std_inv ag_38_ (
+    .a(RST),
+    .y(ag_04_)
   );
-  NOR _39_ (
-    .A(CLR),
-    .B(_04_),
-    .Y(_05_)
+  std_nor2 ag_39_ (
+    .a(CLR),
+    .b(ag_04_),
+    .y(ag_05_)
   );
-  NOT _40_ (
-    .A(full_reg),
-    .Y(_06_)
+  std_inv ag_40_ (
+    .a(full_reg),
+    .y(ag_06_)
   );
-  NOT _41_ (
-    .A(ENQ),
-    .Y(_07_)
+  std_inv ag_41_ (
+    .a(ENQ),
+    .y(ag_07_)
   );
-  NOR _42_ (
-    .A(DEQ),
-    .B(_07_),
-    .Y(_08_)
+  std_nor2 ag_42_ (
+    .a(DEQ),
+    .b(ag_07_),
+    .y(ag_08_)
   );
-  NOT _43_ (
-    .A(DEQ),
-    .Y(_09_)
+  std_inv ag_43_ (
+    .a(DEQ),
+    .y(ag_09_)
   );
-  NOR _44_ (
-    .A(_09_),
-    .B(ENQ),
-    .Y(_10_)
+  std_nor2 ag_44_ (
+    .a(ag_09_),
+    .b(ENQ),
+    .y(ag_10_)
   );
-  NOR _45_ (
-    .A(_10_),
-    .B(_08_),
-    .Y(_11_)
+  std_nor2 ag_45_ (
+    .a(ag_10_),
+    .b(ag_08_),
+    .y(ag_11_)
   );
-  NAND _46_ (
-    .A(_11_),
-    .B(_06_),
-    .Y(_12_)
+  std_nand2 ag_46_ (
+    .a(ag_11_),
+    .b(ag_06_),
+    .y(ag_12_)
   );
-  NAND _47_ (
-    .A(_08_),
-    .B(empty_reg),
-    .Y(_13_)
+  std_nand2 ag_47_ (
+    .a(ag_08_),
+    .b(empty_reg),
+    .y(ag_13_)
   );
-  NAND _48_ (
-    .A(_13_),
-    .B(_12_),
-    .Y(_14_)
+  std_nand2 ag_48_ (
+    .a(ag_13_),
+    .b(ag_12_),
+    .y(ag_14_)
   );
-  NAND _49_ (
-    .A(_14_),
-    .B(_05_),
-    .Y(_03_)
+  std_nand2 ag_49_ (
+    .a(ag_14_),
+    .b(ag_05_),
+    .y(ag_03_)
   );
-  NAND _50_ (
-    .A(_09_),
-    .B(ENQ),
-    .Y(_15_)
+  std_nand2 ag_50_ (
+    .a(ag_09_),
+    .b(ENQ),
+    .y(ag_15_)
   );
-  NAND _51_ (
-    .A(DEQ),
-    .B(_07_),
-    .Y(_16_)
+  std_nand2 ag_51_ (
+    .a(DEQ),
+    .b(ag_07_),
+    .y(ag_16_)
   );
-  NAND _52_ (
-    .A(_16_),
-    .B(_15_),
-    .Y(_17_)
+  std_nand2 ag_52_ (
+    .a(ag_16_),
+    .b(ag_15_),
+    .y(ag_17_)
   );
-  NOR _53_ (
-    .A(_17_),
-    .B(empty_reg),
-    .Y(_18_)
+  std_nor2 ag_53_ (
+    .a(ag_17_),
+    .b(empty_reg),
+    .y(ag_18_)
   );
-  NAND _54_ (
-    .A(_10_),
-    .B(full_reg),
-    .Y(_19_)
+  std_nand2 ag_54_ (
+    .a(ag_10_),
+    .b(full_reg),
+    .y(ag_19_)
   );
-  NAND _55_ (
-    .A(_19_),
-    .B(_05_),
-    .Y(_20_)
+  std_nand2 ag_55_ (
+    .a(ag_19_),
+    .b(ag_05_),
+    .y(ag_20_)
   );
-  NOR _56_ (
-    .A(_20_),
-    .B(_18_),
-    .Y(_02_)
+  std_nor2 ag_56_ (
+    .a(ag_20_),
+    .b(ag_18_),
+    .y(ag_02_)
   );
-  NAND _57_ (
-    .A(ENQ),
-    .B(empty_reg),
-    .Y(_21_)
+  std_nand2 ag_57_ (
+    .a(ENQ),
+    .b(empty_reg),
+    .y(ag_21_)
   );
-  NOT _58_ (
-    .A(_21_),
-    .Y(_22_)
+  std_inv ag_58_ (
+    .a(ag_21_),
+    .y(ag_22_)
   );
-  NOR _59_ (
-    .A(_22_),
-    .B(data1_reg),
-    .Y(_23_)
+  std_nor2 ag_59_ (
+    .a(ag_22_),
+    .b(data1_reg),
+    .y(ag_23_)
   );
-  NOR _60_ (
-    .A(_21_),
-    .B(D_IN),
-    .Y(_24_)
+  std_nor2 ag_60_ (
+    .a(ag_21_),
+    .b(D_IN),
+    .y(ag_24_)
   );
-  NOR _61_ (
-    .A(_24_),
-    .B(_23_),
-    .Y(_01_)
+  std_nor2 ag_61_ (
+    .a(ag_24_),
+    .b(ag_23_),
+    .y(ag_01_)
   );
-  NAND _62_ (
-    .A(_09_),
-    .B(empty_reg),
-    .Y(_25_)
+  std_nand2 ag_62_ (
+    .a(ag_09_),
+    .b(empty_reg),
+    .y(ag_25_)
   );
-  NAND _63_ (
-    .A(_25_),
-    .B(ENQ),
-    .Y(_26_)
+  std_nand2 ag_63_ (
+    .a(ag_25_),
+    .b(ENQ),
+    .y(ag_26_)
   );
-  NOT _64_ (
-    .A(data0_reg),
-    .Y(_27_)
+  std_inv ag_64_ (
+    .a(data0_reg),
+    .y(ag_27_)
   );
-  NOR _65_ (
-    .A(_09_),
-    .B(full_reg),
-    .Y(_28_)
+  std_nor2 ag_65_ (
+    .a(ag_09_),
+    .b(full_reg),
+    .y(ag_28_)
   );
-  NOR _66_ (
-    .A(_28_),
-    .B(_27_),
-    .Y(_29_)
+  std_nor2 ag_66_ (
+    .a(ag_28_),
+    .b(ag_27_),
+    .y(ag_29_)
   );
-  NAND _67_ (
-    .A(_29_),
-    .B(_26_),
-    .Y(_30_)
+  std_nand2 ag_67_ (
+    .a(ag_29_),
+    .b(ag_26_),
+    .y(ag_30_)
   );
-  NOT _68_ (
-    .A(data1_reg),
-    .Y(_31_)
+  std_inv ag_68_ (
+    .a(data1_reg),
+    .y(ag_31_)
   );
-  NAND _69_ (
-    .A(DEQ),
-    .B(_06_),
-    .Y(_32_)
+  std_nand2 ag_69_ (
+    .a(DEQ),
+    .b(ag_06_),
+    .y(ag_32_)
   );
-  NOR _70_ (
-    .A(_32_),
-    .B(_31_),
-    .Y(_33_)
+  std_nor2 ag_70_ (
+    .a(ag_32_),
+    .b(ag_31_),
+    .y(ag_33_)
   );
-  NAND _71_ (
-    .A(_06_),
-    .B(empty_reg),
-    .Y(_34_)
+  std_nand2 ag_71_ (
+    .a(ag_06_),
+    .b(empty_reg),
+    .y(ag_34_)
   );
-  NAND _72_ (
-    .A(_34_),
-    .B(D_IN),
-    .Y(_35_)
+  std_nand2 ag_72_ (
+    .a(ag_34_),
+    .b(D_IN),
+    .y(ag_35_)
   );
-  NOR _73_ (
-    .A(_35_),
-    .B(_26_),
-    .Y(_36_)
+  std_nor2 ag_73_ (
+    .a(ag_35_),
+    .b(ag_26_),
+    .y(ag_36_)
   );
-  NOR _74_ (
-    .A(_36_),
-    .B(_33_),
-    .Y(_37_)
+  std_nor2 ag_74_ (
+    .a(ag_36_),
+    .b(ag_33_),
+    .y(ag_37_)
   );
-  NAND _75_ (
-    .A(_37_),
-    .B(_30_),
-    .Y(_00_)
+  std_nand2 ag_75_ (
+    .a(ag_37_),
+    .b(ag_30_),
+    .y(ag_00_)
   );
-  DFF _76_ (
-    .C(CLK),
-    .D(_02_),
-    .Q(empty_reg)
+  d_ff ag_76_ (
+    .clk(CLK),
+    .d(ag_02_),
+    .q(empty_reg)
   );
-  DFF _77_ (
-    .C(CLK),
-    .D(_03_),
-    .Q(full_reg)
+  d_ff ag_77_ (
+    .clk(CLK),
+    .d(ag_03_),
+    .q(full_reg)
   );
-  DFF _78_ (
-    .C(CLK),
-    .D(_01_),
-    .Q(data1_reg)
+  d_ff ag_78_ (
+    .clk(CLK),
+    .d(ag_01_),
+    .q(data1_reg)
   );
-  DFF _79_ (
-    .C(CLK),
-    .D(_00_),
-    .Q(data0_reg)
+  d_ff ag_79_ (
+    .clk(CLK),
+    .d(ag_00_),
+    .q(data0_reg)
   );
   assign D_OUT = data0_reg;
   assign EMPTY_N = empty_reg;
@@ -281,10 +281,10 @@ endmodule
 (* top =  1  *)
 (* src = "mkBitNode.v:47" *)
 module mkBitNode(CLK, RST_N, c2b_0_put, EN_c2b_0_put, RDY_c2b_0_put, c2b_1_put, EN_c2b_1_put, RDY_c2b_1_put, c2b_2_put, EN_c2b_2_put, RDY_c2b_2_put, EN_b2c_get, b2c_get, RDY_b2c_get, codeIn_put, EN_codeIn_put, RDY_codeIn_put, EN_dataOut_get, dataOut_get, RDY_dataOut_get);
-  wire _0_;
-  wire _1_;
-  wire _2_;
-  wire _3_;
+  wire ag_0_;
+  wire ag_1_;
+  wire ag_2_;
+  wire ag_3_;
   (* src = "mkBitNode.v:171" *)
   wire CAN_FIRE_RL_rlProcessChkNodeResult;
   (* src = "mkBitNode.v:171" *)
@@ -429,33 +429,33 @@ module mkBitNode(CLK, RST_N, c2b_0_put, EN_c2b_0_put, RDY_c2b_0_put, c2b_1_put, 
   wire \vffC2B_2$ENQ ;
   (* src = "mkBitNode.v:162" *)
   wire \vffC2B_2$FULL_N ;
-  NOT _4_ (
-    .A(\ffCodeIn$EMPTY_N ),
-    .Y(_3_)
+  std_inv ag_4_ (
+    .a(\ffCodeIn$EMPTY_N ),
+    .y(ag_3_)
   );
-  NOT _5_ (
-    .A(\ffB2C$FULL_N ),
-    .Y(_0_)
+  std_inv ag_5_ (
+    .a(\ffB2C$FULL_N ),
+    .y(ag_0_)
   );
-  NOR _6_ (
-    .A(_0_),
-    .B(_3_),
-    .Y(\ffB2C$ENQ )
+  std_nor2 ag_6_ (
+    .a(ag_0_),
+    .b(ag_3_),
+    .y(\ffB2C$ENQ )
   );
-  NAND _7_ (
-    .A(\vffC2B_1$EMPTY_N ),
-    .B(\vffC2B_0$EMPTY_N ),
-    .Y(_1_)
+  std_nand2 ag_7_ (
+    .a(\vffC2B_1$EMPTY_N ),
+    .b(\vffC2B_0$EMPTY_N ),
+    .y(ag_1_)
   );
-  NAND _8_ (
-    .A(\ffDataOut$FULL_N ),
-    .B(\vffC2B_2$EMPTY_N ),
-    .Y(_2_)
+  std_nand2 ag_8_ (
+    .a(\ffDataOut$FULL_N ),
+    .b(\vffC2B_2$EMPTY_N ),
+    .y(ag_2_)
   );
-  NOR _9_ (
-    .A(_2_),
-    .B(_1_),
-    .Y(\ffDataOut$ENQ )
+  std_nor2 ag_9_ (
+    .a(ag_2_),
+    .b(ag_1_),
+    .y(\ffDataOut$ENQ )
   );
   (* src = "mkBitNode.v:223" *)
   \$paramod\FIFO2\width=1\guarded=1  ffB2C (
@@ -579,11 +579,11 @@ endmodule
 
 (* src = "module_fnBitNodeCore.v:30" *)
 module module_fnBitNodeCore(\fnBitNodeCore_i[0] , \fnBitNodeCore_i[1] , \fnBitNodeCore_i[2] , fnBitNodeCore);
-  wire _00_;
-  wire _01_;
-  wire _02_;
-  wire _03_;
-  wire _04_;
+  wire ag_00_;
+  wire ag_01_;
+  wire ag_02_;
+  wire ag_03_;
+  wire ag_04_;
   (* src = "module_fnBitNodeCore.v:34" *)
   output fnBitNodeCore;
   (* src = "module_fnBitNodeCore.v:33" *)
@@ -592,32 +592,32 @@ module module_fnBitNodeCore(\fnBitNodeCore_i[0] , \fnBitNodeCore_i[1] , \fnBitNo
   input \fnBitNodeCore_i[1] ;
   (* src = "module_fnBitNodeCore.v:33" *)
   input \fnBitNodeCore_i[2] ;
-  NAND _05_ (
-    .A(\fnBitNodeCore_i[0] ),
-    .B(\fnBitNodeCore_i[1] ),
-    .Y(_00_)
+  std_nand2 ag_05_ (
+    .a(\fnBitNodeCore_i[0] ),
+    .b(\fnBitNodeCore_i[1] ),
+    .y(ag_00_)
   );
-  NOT _06_ (
-    .A(\fnBitNodeCore_i[1] ),
-    .Y(_01_)
+  std_inv ag_06_ (
+    .a(\fnBitNodeCore_i[1] ),
+    .y(ag_01_)
   );
-  NOT _07_ (
-    .A(\fnBitNodeCore_i[0] ),
-    .Y(_02_)
+  std_inv ag_07_ (
+    .a(\fnBitNodeCore_i[0] ),
+    .y(ag_02_)
   );
-  NAND _08_ (
-    .A(_02_),
-    .B(_01_),
-    .Y(_03_)
+  std_nand2 ag_08_ (
+    .a(ag_02_),
+    .b(ag_01_),
+    .y(ag_03_)
   );
-  NAND _09_ (
-    .A(_03_),
-    .B(\fnBitNodeCore_i[2] ),
-    .Y(_04_)
+  std_nand2 ag_09_ (
+    .a(ag_03_),
+    .b(\fnBitNodeCore_i[2] ),
+    .y(ag_04_)
   );
-  NAND _10_ (
-    .A(_04_),
-    .B(_00_),
-    .Y(fnBitNodeCore)
+  std_nand2 ag_10_ (
+    .a(ag_04_),
+    .b(ag_00_),
+    .y(fnBitNodeCore)
   );
 endmodule
