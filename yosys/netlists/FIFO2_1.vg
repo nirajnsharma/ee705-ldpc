@@ -1,0 +1,251 @@
+module FIFO2_1(CLK, RST, D_IN, ENQ, FULL_N, D_OUT, DEQ, EMPTY_N, CLR);
+  wire ag_00;
+  wire ag_01;
+  wire ag_02;
+  wire ag_03;
+  wire ag_04;
+  wire ag_05;
+  wire ag_06;
+  wire ag_07;
+  wire ag_08;
+  wire ag_09;
+  wire ag_10;
+  wire ag_11;
+  wire ag_12;
+  wire ag_13;
+  wire ag_14;
+  wire ag_15;
+  wire ag_16;
+  wire ag_17;
+  wire ag_18;
+  wire ag_19;
+  wire ag_20;
+  wire ag_21;
+  wire ag_22;
+  wire ag_23;
+  wire ag_24;
+  wire ag_25;
+  wire ag_26;
+  wire ag_27;
+  wire ag_28;
+  wire ag_29;
+  wire ag_30;
+  wire ag_31;
+  wire ag_32;
+  wire ag_33;
+  wire ag_34;
+  wire ag_35;
+  wire ag_36;
+  input CLK;
+  input CLR;
+  input DEQ;
+  input D_IN;
+  output D_OUT;
+  output EMPTY_N;
+  input ENQ;
+  output FULL_N;
+  input RST;
+  wire data0_reg;
+  wire data1_reg;
+  wire empty_reg;
+  wire full_reg;
+  std_inv ag_37 (
+    .a(empty_reg),
+    .y(ag_04)
+  );
+  std_inv ag_38 (
+    .a(ENQ),
+    .y(ag_05)
+  );
+  std_nor2 ag_39 (
+    .a(ag_05),
+    .b(ag_04),
+    .y(ag_06)
+  );
+  std_nor2 ag_40 (
+    .a(ag_06),
+    .b(data1_reg),
+    .y(ag_07)
+  );
+  std_inv ag_41 (
+    .a(ag_06),
+    .y(ag_08)
+  );
+  std_nor2 ag_42 (
+    .a(ag_08),
+    .b(D_IN),
+    .y(ag_09)
+  );
+  std_nor2 ag_43 (
+    .a(ag_09),
+    .b(ag_07),
+    .y(ag_01)
+  );
+  std_inv ag_44 (
+    .a(full_reg),
+    .y(ag_10)
+  );
+  std_inv ag_45 (
+    .a(DEQ),
+    .y(ag_11)
+  );
+  std_nor2 ag_46 (
+    .a(ag_11),
+    .b(ENQ),
+    .y(ag_12)
+  );
+  std_inv ag_47 (
+    .a(ag_12),
+    .y(ag_13)
+  );
+  std_nor2 ag_48 (
+    .a(ag_13),
+    .b(ag_10),
+    .y(ag_14)
+  );
+  std_nor2 ag_49 (
+    .a(DEQ),
+    .b(ag_05),
+    .y(ag_15)
+  );
+  std_nor2 ag_50 (
+    .a(ag_15),
+    .b(ag_12),
+    .y(ag_16)
+  );
+  std_nand2 ag_51 (
+    .a(ag_16),
+    .b(ag_04),
+    .y(ag_17)
+  );
+  std_inv ag_52 (
+    .a(RST),
+    .y(ag_18)
+  );
+  std_nor2 ag_53 (
+    .a(ag_18),
+    .b(CLR),
+    .y(ag_19)
+  );
+  std_nand2 ag_54 (
+    .a(ag_19),
+    .b(ag_17),
+    .y(ag_20)
+  );
+  std_nor2 ag_55 (
+    .a(ag_20),
+    .b(ag_14),
+    .y(ag_02)
+  );
+  std_nand2 ag_56 (
+    .a(ag_16),
+    .b(ag_10),
+    .y(ag_21)
+  );
+  std_nand2 ag_57 (
+    .a(ag_15),
+    .b(empty_reg),
+    .y(ag_22)
+  );
+  std_nand2 ag_58 (
+    .a(ag_22),
+    .b(ag_21),
+    .y(ag_23)
+  );
+  std_nand2 ag_59 (
+    .a(ag_23),
+    .b(ag_19),
+    .y(ag_03)
+  );
+  std_nand2 ag_60 (
+    .a(ag_11),
+    .b(empty_reg),
+    .y(ag_24)
+  );
+  std_nand2 ag_61 (
+    .a(ag_24),
+    .b(ENQ),
+    .y(ag_25)
+  );
+  std_inv ag_62 (
+    .a(data0_reg),
+    .y(ag_26)
+  );
+  std_nor2 ag_63 (
+    .a(ag_11),
+    .b(full_reg),
+    .y(ag_27)
+  );
+  std_nor2 ag_64 (
+    .a(ag_27),
+    .b(ag_26),
+    .y(ag_28)
+  );
+  std_nand2 ag_65 (
+    .a(ag_28),
+    .b(ag_25),
+    .y(ag_29)
+  );
+  std_inv ag_66 (
+    .a(data1_reg),
+    .y(ag_30)
+  );
+  std_nand2 ag_67 (
+    .a(DEQ),
+    .b(ag_10),
+    .y(ag_31)
+  );
+  std_nor2 ag_68 (
+    .a(ag_31),
+    .b(ag_30),
+    .y(ag_32)
+  );
+  std_nand2 ag_69 (
+    .a(ag_10),
+    .b(empty_reg),
+    .y(ag_33)
+  );
+  std_nand2 ag_70 (
+    .a(ag_33),
+    .b(D_IN),
+    .y(ag_34)
+  );
+  std_nor2 ag_71 (
+    .a(ag_34),
+    .b(ag_25),
+    .y(ag_35)
+  );
+  std_nor2 ag_72 (
+    .a(ag_35),
+    .b(ag_32),
+    .y(ag_36)
+  );
+  std_nand2 ag_73 (
+    .a(ag_36),
+    .b(ag_29),
+    .y(ag_00)
+  );
+  d_ff ag_74 (
+    .clk(CLK),
+    .d(ag_00),
+    .q(data0_reg)
+  );
+  d_ff ag_75 (
+    .clk(CLK),
+    .d(ag_01),
+    .q(data1_reg)
+  );
+  d_ff ag_76 (
+    .clk(CLK),
+    .d(ag_03),
+    .q(full_reg)
+  );
+  d_ff ag_77 (
+    .clk(CLK),
+    .d(ag_02),
+    .q(empty_reg)
+  );
+  assign D_OUT = data0_reg;
+  assign EMPTY_N = empty_reg;
+  assign FULL_N = full_reg;
+endmodule

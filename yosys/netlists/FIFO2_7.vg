@@ -1,0 +1,711 @@
+module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[5] , D_IN[6] , ENQ, FULL_N, D_OUT[0] , D_OUT[1] , D_OUT[2] , D_OUT[3] , D_OUT[4] , D_OUT[5] , D_OUT[6] , DEQ, EMPTY_N, CLR);
+  wire ag_000;
+  wire ag_001;
+  wire ag_002;
+  wire ag_003;
+  wire ag_004;
+  wire ag_005;
+  wire ag_006;
+  wire ag_007;
+  wire ag_008;
+  wire ag_009;
+  wire ag_010;
+  wire ag_011;
+  wire ag_012;
+  wire ag_013;
+  wire ag_014;
+  wire ag_015;
+  wire ag_016;
+  wire ag_017;
+  wire ag_018;
+  wire ag_019;
+  wire ag_020;
+  wire ag_021;
+  wire ag_022;
+  wire ag_023;
+  wire ag_024;
+  wire ag_025;
+  wire ag_026;
+  wire ag_027;
+  wire ag_028;
+  wire ag_029;
+  wire ag_030;
+  wire ag_031;
+  wire ag_032;
+  wire ag_033;
+  wire ag_034;
+  wire ag_035;
+  wire ag_036;
+  wire ag_037;
+  wire ag_038;
+  wire ag_039;
+  wire ag_040;
+  wire ag_041;
+  wire ag_042;
+  wire ag_043;
+  wire ag_044;
+  wire ag_045;
+  wire ag_046;
+  wire ag_047;
+  wire ag_048;
+  wire ag_049;
+  wire ag_050;
+  wire ag_051;
+  wire ag_052;
+  wire ag_053;
+  wire ag_054;
+  wire ag_055;
+  wire ag_056;
+  wire ag_057;
+  wire ag_058;
+  wire ag_059;
+  wire ag_060;
+  wire ag_061;
+  wire ag_062;
+  wire ag_063;
+  wire ag_064;
+  wire ag_065;
+  wire ag_066;
+  wire ag_067;
+  wire ag_068;
+  wire ag_069;
+  wire ag_070;
+  wire ag_071;
+  wire ag_072;
+  wire ag_073;
+  wire ag_074;
+  wire ag_075;
+  wire ag_076;
+  wire ag_077;
+  wire ag_078;
+  wire ag_079;
+  wire ag_080;
+  wire ag_081;
+  wire ag_082;
+  wire ag_083;
+  wire ag_084;
+  wire ag_085;
+  wire ag_086;
+  wire ag_087;
+  wire ag_088;
+  wire ag_089;
+  wire ag_090;
+  wire ag_091;
+  wire ag_092;
+  wire ag_093;
+  wire ag_094;
+  wire ag_095;
+  wire ag_096;
+  wire ag_097;
+  wire ag_098;
+  wire ag_099;
+  wire ag_100;
+  input CLK;
+  input CLR;
+  input DEQ;
+  input D_IN[0] ;
+  input D_IN[1] ;
+  input D_IN[2] ;
+  input D_IN[3] ;
+  input D_IN[4] ;
+  input D_IN[5] ;
+  input D_IN[6] ;
+  output D_OUT[0] ;
+  output D_OUT[1] ;
+  output D_OUT[2] ;
+  output D_OUT[3] ;
+  output D_OUT[4] ;
+  output D_OUT[5] ;
+  output D_OUT[6] ;
+  output EMPTY_N;
+  input ENQ;
+  output FULL_N;
+  input RST;
+  wire data0_reg[0] ;
+  wire data0_reg[1] ;
+  wire data0_reg[2] ;
+  wire data0_reg[3] ;
+  wire data0_reg[4] ;
+  wire data0_reg[5] ;
+  wire data0_reg[6] ;
+  wire data1_reg[0] ;
+  wire data1_reg[1] ;
+  wire data1_reg[2] ;
+  wire data1_reg[3] ;
+  wire data1_reg[4] ;
+  wire data1_reg[5] ;
+  wire data1_reg[6] ;
+  wire empty_reg;
+  wire full_reg;
+  std_inv ag_101 (
+    .a(empty_reg),
+    .y(ag_055)
+  );
+  std_inv ag_102 (
+    .a(ENQ),
+    .y(ag_056)
+  );
+  std_nor2 ag_103 (
+    .a(ag_056),
+    .b(ag_055),
+    .y(ag_057)
+  );
+  std_nand2 ag_104 (
+    .a(ag_057),
+    .b(D_IN[0] ),
+    .y(ag_058)
+  );
+  std_inv ag_105 (
+    .a(ag_057),
+    .y(ag_059)
+  );
+  std_nand2 ag_106 (
+    .a(ag_059),
+    .b(data1_reg[0] ),
+    .y(ag_060)
+  );
+  std_nand2 ag_107 (
+    .a(ag_060),
+    .b(ag_058),
+    .y(ag_007)
+  );
+  std_nand2 ag_108 (
+    .a(ag_057),
+    .b(D_IN[1] ),
+    .y(ag_061)
+  );
+  std_nand2 ag_109 (
+    .a(ag_059),
+    .b(data1_reg[1] ),
+    .y(ag_062)
+  );
+  std_nand2 ag_110 (
+    .a(ag_062),
+    .b(ag_061),
+    .y(ag_008)
+  );
+  std_nand2 ag_111 (
+    .a(ag_057),
+    .b(D_IN[2] ),
+    .y(ag_063)
+  );
+  std_nand2 ag_112 (
+    .a(ag_059),
+    .b(data1_reg[2] ),
+    .y(ag_064)
+  );
+  std_nand2 ag_113 (
+    .a(ag_064),
+    .b(ag_063),
+    .y(ag_009)
+  );
+  std_nand2 ag_114 (
+    .a(ag_057),
+    .b(D_IN[3] ),
+    .y(ag_065)
+  );
+  std_nand2 ag_115 (
+    .a(ag_059),
+    .b(data1_reg[3] ),
+    .y(ag_066)
+  );
+  std_nand2 ag_116 (
+    .a(ag_066),
+    .b(ag_065),
+    .y(ag_010)
+  );
+  std_nand2 ag_117 (
+    .a(ag_057),
+    .b(D_IN[4] ),
+    .y(ag_067)
+  );
+  std_nand2 ag_118 (
+    .a(ag_059),
+    .b(data1_reg[4] ),
+    .y(ag_068)
+  );
+  std_nand2 ag_119 (
+    .a(ag_068),
+    .b(ag_067),
+    .y(ag_011)
+  );
+  std_nand2 ag_120 (
+    .a(ag_057),
+    .b(D_IN[5] ),
+    .y(ag_069)
+  );
+  std_nand2 ag_121 (
+    .a(ag_059),
+    .b(data1_reg[5] ),
+    .y(ag_070)
+  );
+  std_nand2 ag_122 (
+    .a(ag_070),
+    .b(ag_069),
+    .y(ag_012)
+  );
+  std_nand2 ag_123 (
+    .a(ag_057),
+    .b(D_IN[6] ),
+    .y(ag_071)
+  );
+  std_nand2 ag_124 (
+    .a(ag_059),
+    .b(data1_reg[6] ),
+    .y(ag_072)
+  );
+  std_nand2 ag_125 (
+    .a(ag_072),
+    .b(ag_071),
+    .y(ag_013)
+  );
+  std_inv ag_126 (
+    .a(full_reg),
+    .y(ag_073)
+  );
+  std_inv ag_127 (
+    .a(DEQ),
+    .y(ag_074)
+  );
+  std_nor2 ag_128 (
+    .a(ag_074),
+    .b(ENQ),
+    .y(ag_075)
+  );
+  std_inv ag_129 (
+    .a(ag_075),
+    .y(ag_076)
+  );
+  std_nor2 ag_130 (
+    .a(ag_076),
+    .b(ag_073),
+    .y(ag_077)
+  );
+  std_nor2 ag_131 (
+    .a(DEQ),
+    .b(ag_056),
+    .y(ag_078)
+  );
+  std_nor2 ag_132 (
+    .a(ag_078),
+    .b(ag_075),
+    .y(ag_079)
+  );
+  std_nand2 ag_133 (
+    .a(ag_079),
+    .b(ag_055),
+    .y(ag_080)
+  );
+  std_inv ag_134 (
+    .a(RST),
+    .y(ag_081)
+  );
+  std_nor2 ag_135 (
+    .a(ag_081),
+    .b(CLR),
+    .y(ag_082)
+  );
+  std_nand2 ag_136 (
+    .a(ag_082),
+    .b(ag_080),
+    .y(ag_083)
+  );
+  std_nor2 ag_137 (
+    .a(ag_083),
+    .b(ag_077),
+    .y(ag_014)
+  );
+  std_nand2 ag_138 (
+    .a(ag_079),
+    .b(ag_073),
+    .y(ag_084)
+  );
+  std_nand2 ag_139 (
+    .a(ag_078),
+    .b(empty_reg),
+    .y(ag_085)
+  );
+  std_nand2 ag_140 (
+    .a(ag_085),
+    .b(ag_084),
+    .y(ag_086)
+  );
+  std_nand2 ag_141 (
+    .a(ag_086),
+    .b(ag_082),
+    .y(ag_015)
+  );
+  std_nand2 ag_142 (
+    .a(ag_074),
+    .b(empty_reg),
+    .y(ag_087)
+  );
+  std_nand2 ag_143 (
+    .a(ag_087),
+    .b(ENQ),
+    .y(ag_088)
+  );
+  std_nand2 ag_144 (
+    .a(ag_073),
+    .b(empty_reg),
+    .y(ag_089)
+  );
+  std_inv ag_145 (
+    .a(ag_089),
+    .y(ag_090)
+  );
+  std_nor2 ag_146 (
+    .a(ag_090),
+    .b(ag_088),
+    .y(ag_091)
+  );
+  std_nand2 ag_147 (
+    .a(ag_091),
+    .b(D_IN[0] ),
+    .y(ag_092)
+  );
+  std_inv ag_148 (
+    .a(data1_reg[0] ),
+    .y(ag_093)
+  );
+  std_nand2 ag_149 (
+    .a(DEQ),
+    .b(ag_073),
+    .y(ag_094)
+  );
+  std_nor2 ag_150 (
+    .a(ag_094),
+    .b(ag_093),
+    .y(ag_095)
+  );
+  std_inv ag_151 (
+    .a(data0_reg[0] ),
+    .y(ag_096)
+  );
+  std_nand2 ag_152 (
+    .a(ag_088),
+    .b(ag_094),
+    .y(ag_097)
+  );
+  std_nor2 ag_153 (
+    .a(ag_097),
+    .b(ag_096),
+    .y(ag_098)
+  );
+  std_nor2 ag_154 (
+    .a(ag_098),
+    .b(ag_095),
+    .y(ag_099)
+  );
+  std_nand2 ag_155 (
+    .a(ag_099),
+    .b(ag_092),
+    .y(ag_000)
+  );
+  std_nand2 ag_156 (
+    .a(ag_091),
+    .b(D_IN[1] ),
+    .y(ag_100)
+  );
+  std_inv ag_157 (
+    .a(data1_reg[1] ),
+    .y(ag_016)
+  );
+  std_nor2 ag_158 (
+    .a(ag_094),
+    .b(ag_016),
+    .y(ag_017)
+  );
+  std_inv ag_159 (
+    .a(data0_reg[1] ),
+    .y(ag_018)
+  );
+  std_nor2 ag_160 (
+    .a(ag_097),
+    .b(ag_018),
+    .y(ag_019)
+  );
+  std_nor2 ag_161 (
+    .a(ag_019),
+    .b(ag_017),
+    .y(ag_020)
+  );
+  std_nand2 ag_162 (
+    .a(ag_020),
+    .b(ag_100),
+    .y(ag_001)
+  );
+  std_inv ag_163 (
+    .a(ag_094),
+    .y(ag_021)
+  );
+  std_nand2 ag_164 (
+    .a(ag_021),
+    .b(data1_reg[2] ),
+    .y(ag_022)
+  );
+  std_inv ag_165 (
+    .a(data0_reg[2] ),
+    .y(ag_023)
+  );
+  std_nor2 ag_166 (
+    .a(ag_097),
+    .b(ag_023),
+    .y(ag_024)
+  );
+  std_inv ag_167 (
+    .a(D_IN[2] ),
+    .y(ag_025)
+  );
+  std_nor2 ag_168 (
+    .a(DEQ),
+    .b(ag_055),
+    .y(ag_026)
+  );
+  std_nor2 ag_169 (
+    .a(ag_026),
+    .b(ag_056),
+    .y(ag_027)
+  );
+  std_nand2 ag_170 (
+    .a(ag_089),
+    .b(ag_027),
+    .y(ag_028)
+  );
+  std_nor2 ag_171 (
+    .a(ag_028),
+    .b(ag_025),
+    .y(ag_029)
+  );
+  std_nor2 ag_172 (
+    .a(ag_029),
+    .b(ag_024),
+    .y(ag_030)
+  );
+  std_nand2 ag_173 (
+    .a(ag_030),
+    .b(ag_022),
+    .y(ag_002)
+  );
+  std_nand2 ag_174 (
+    .a(ag_091),
+    .b(D_IN[3] ),
+    .y(ag_031)
+  );
+  std_inv ag_175 (
+    .a(data1_reg[3] ),
+    .y(ag_032)
+  );
+  std_nor2 ag_176 (
+    .a(ag_094),
+    .b(ag_032),
+    .y(ag_033)
+  );
+  std_inv ag_177 (
+    .a(data0_reg[3] ),
+    .y(ag_034)
+  );
+  std_nor2 ag_178 (
+    .a(ag_097),
+    .b(ag_034),
+    .y(ag_035)
+  );
+  std_nor2 ag_179 (
+    .a(ag_035),
+    .b(ag_033),
+    .y(ag_036)
+  );
+  std_nand2 ag_180 (
+    .a(ag_036),
+    .b(ag_031),
+    .y(ag_003)
+  );
+  std_nand2 ag_181 (
+    .a(ag_091),
+    .b(D_IN[4] ),
+    .y(ag_037)
+  );
+  std_inv ag_182 (
+    .a(data1_reg[4] ),
+    .y(ag_038)
+  );
+  std_nor2 ag_183 (
+    .a(ag_094),
+    .b(ag_038),
+    .y(ag_039)
+  );
+  std_inv ag_184 (
+    .a(data0_reg[4] ),
+    .y(ag_040)
+  );
+  std_nor2 ag_185 (
+    .a(ag_097),
+    .b(ag_040),
+    .y(ag_041)
+  );
+  std_nor2 ag_186 (
+    .a(ag_041),
+    .b(ag_039),
+    .y(ag_042)
+  );
+  std_nand2 ag_187 (
+    .a(ag_042),
+    .b(ag_037),
+    .y(ag_004)
+  );
+  std_nand2 ag_188 (
+    .a(ag_091),
+    .b(D_IN[5] ),
+    .y(ag_043)
+  );
+  std_inv ag_189 (
+    .a(data1_reg[5] ),
+    .y(ag_044)
+  );
+  std_nor2 ag_190 (
+    .a(ag_094),
+    .b(ag_044),
+    .y(ag_045)
+  );
+  std_inv ag_191 (
+    .a(data0_reg[5] ),
+    .y(ag_046)
+  );
+  std_nor2 ag_192 (
+    .a(ag_097),
+    .b(ag_046),
+    .y(ag_047)
+  );
+  std_nor2 ag_193 (
+    .a(ag_047),
+    .b(ag_045),
+    .y(ag_048)
+  );
+  std_nand2 ag_194 (
+    .a(ag_048),
+    .b(ag_043),
+    .y(ag_005)
+  );
+  std_nand2 ag_195 (
+    .a(ag_091),
+    .b(D_IN[6] ),
+    .y(ag_049)
+  );
+  std_inv ag_196 (
+    .a(data1_reg[6] ),
+    .y(ag_050)
+  );
+  std_nor2 ag_197 (
+    .a(ag_094),
+    .b(ag_050),
+    .y(ag_051)
+  );
+  std_inv ag_198 (
+    .a(data0_reg[6] ),
+    .y(ag_052)
+  );
+  std_nor2 ag_199 (
+    .a(ag_097),
+    .b(ag_052),
+    .y(ag_053)
+  );
+  std_nor2 ag_200 (
+    .a(ag_053),
+    .b(ag_051),
+    .y(ag_054)
+  );
+  std_nand2 ag_201 (
+    .a(ag_054),
+    .b(ag_049),
+    .y(ag_006)
+  );
+  d_ff ag_202 (
+    .clk(CLK),
+    .d(ag_000),
+    .q(data0_reg[0] )
+  );
+  d_ff ag_203 (
+    .clk(CLK),
+    .d(ag_001),
+    .q(data0_reg[1] )
+  );
+  d_ff ag_204 (
+    .clk(CLK),
+    .d(ag_002),
+    .q(data0_reg[2] )
+  );
+  d_ff ag_205 (
+    .clk(CLK),
+    .d(ag_003),
+    .q(data0_reg[3] )
+  );
+  d_ff ag_206 (
+    .clk(CLK),
+    .d(ag_004),
+    .q(data0_reg[4] )
+  );
+  d_ff ag_207 (
+    .clk(CLK),
+    .d(ag_005),
+    .q(data0_reg[5] )
+  );
+  d_ff ag_208 (
+    .clk(CLK),
+    .d(ag_006),
+    .q(data0_reg[6] )
+  );
+  d_ff ag_209 (
+    .clk(CLK),
+    .d(ag_007),
+    .q(data1_reg[0] )
+  );
+  d_ff ag_210 (
+    .clk(CLK),
+    .d(ag_008),
+    .q(data1_reg[1] )
+  );
+  d_ff ag_211 (
+    .clk(CLK),
+    .d(ag_009),
+    .q(data1_reg[2] )
+  );
+  d_ff ag_212 (
+    .clk(CLK),
+    .d(ag_010),
+    .q(data1_reg[3] )
+  );
+  d_ff ag_213 (
+    .clk(CLK),
+    .d(ag_011),
+    .q(data1_reg[4] )
+  );
+  d_ff ag_214 (
+    .clk(CLK),
+    .d(ag_012),
+    .q(data1_reg[5] )
+  );
+  d_ff ag_215 (
+    .clk(CLK),
+    .d(ag_013),
+    .q(data1_reg[6] )
+  );
+  d_ff ag_216 (
+    .clk(CLK),
+    .d(ag_015),
+    .q(full_reg)
+  );
+  d_ff ag_217 (
+    .clk(CLK),
+    .d(ag_014),
+    .q(empty_reg)
+  );
+  assign D_OUT[6]  = data0_reg[6] ;
+  assign D_OUT[5]  = data0_reg[5] ;
+  assign D_OUT[4]  = data0_reg[4] ;
+  assign D_OUT[3]  = data0_reg[3] ;
+  assign D_OUT[2]  = data0_reg[2] ;
+  assign D_OUT[1]  = data0_reg[1] ;
+  assign D_OUT[0]  = data0_reg[0] ;
+  assign EMPTY_N = empty_reg;
+  assign FULL_N = full_reg;
+endmodule
