@@ -12,12 +12,14 @@ package Nodes;
 // -----------------------------------------------------------------
 // This package defines:
 //
-//    CheckNode   : Interface to the Check Nodes
-//    BitNode     : Interface to the Bit Nodes
-//    mkCheckNode : Micro-arch of the Check Node
-//    mkBitNode   : Micro-arch of the Bit Node
+//    ChkNode        : Interface to the Check Nodes
+//    BitNode        : Interface to the Bit Nodes
+//    mkChkNode      : Micro-arch of the Check Node
+//    mkBitNode      : Micro-arch of the Bit Node
+//    mkBitNodeCore  : Core computation of the Bit Node
+//    mkChkNodeCore  : Core computation of the Check Node
 //
-//    v1.0        : The nodes can handle one code-word at a time
+//    v1.0           : The nodes can handle one code-word at a time
 //
 // -----------------------------------------------------------------
 
@@ -53,9 +55,9 @@ ones along a particular column of the incidence matrix.
 <<interface definition>>=
 // NConnections indicates the number of connections that a particular
 // check-node has with the bit-nodes
-interface CheckNode;
+interface ChkNode;
    interface Vector #(NConnections, Put #(Symbol)) b2c;
-   interface Get #(Symbol) c2b;
+   interface Vector #(NConnections, Get #(Symbol)) c2b;
 endinterface
 
 @
@@ -98,9 +100,9 @@ bit-nodes. Each bit node receives one symbol to decode at a time.
 
 @
 \section{The Bit Node}
-The [[mkBitNode]] module receives the code word and initiates the
-iterations.  Based on [[NConnections]] it is connected to a set of
-[[mkCheckNodes]] representing the edges of the bipartite tanner graph. The
+The [[mkBitNode]] module receives the code word and initiates an
+iterations  Based on [[NConnections]] it is connected to a set of
+[[mkChkNodes]] representing the edges of the bipartite tanner graph. The
 [[mkBitNode]] provides an interface of type [[BitNode]].
 
 <<module definition>>=
@@ -133,7 +135,7 @@ FIFO  #(Symbol)   ffDataOut   <- mkFIFO;
 The [[ffB2C]] FIFO holds the partially processed codeword. The contents of
 this FIFO will be consumed by the check node when they are ready. The
 [[vffC2B]] FIFO receives partially processed codewords from the check nodes
-for the next iteration of processing.
+and this completes one iteration of processing.
 
 <<state bitNode>>=
 // Partially processed codeword meant for the checknodes
@@ -164,80 +166,48 @@ node for the first time.
 <<rules bitNode>>=
 // Rules and behaviour
 
-// Rule to process the first iteration of a new code word
-rule rlProcessFirstIteration (rgIterationCount == 0);
+// Rule to process new data received from the top-level
+rule rlProcessNewData;
    // As this is the first iteration, consume the codeword which is
    // currently in ffCodeIn. Carry out the computation on the codeword
    let codeIn = ffCodeIn.first; ffCodeIn.deq;
-   let codeOut = fnInitialBitNodeProcessing (codeIn);
 
    // Send the output to the check nodes
-   ffB2C.enq (codeOut);
-   
-   // Bookkeeping - keep track of iterations to know when to stop. The
-   // first iteration is treated as the first time the code word goes
-   // through the check node
-   rgIterationCount  <= rgIterationCount + 1;
+   ffB2C.enq (codeIn);
 endrule
-
-@
-The register, [[rgIterationCount]] keeps track of the number of iterations
-for this particular code word. When a certain prefixed iteration limit is
-reached, processing stops. This is a system-wide setting.
-
-<<state bitNode>>=
-Reg   #(Bit #(4))                rgIterationCount  <- mkReg (0);
 
 // -----------------------------------------------------------------
 
 @
-The function [[fnBitNodeProcessing]], carries out the actual bit
+The function [[fnBitNodeCore]], carries out the actual bit
 manipulation of the codeword symbols as per the min-sum-algorithm. The
 noinline attribute ensures that a separate verilog module is generated for the
-function.
+function. In fact this module was developed entirely in verilog, and then
+merged with this module later.
 
 <<functions bitNode>>=
 (* noinline *)
-function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
-   // XXX This is at present a dummy function which simply does an
-   // XOR of the symbols
-   // It will actually do some sort of a zip function which goes:
-   // Vector#(N,Symbol) -> Symbol
-   return (foldl1 (\^ , x));
+function Symbol fnBitNodeCore (Vector #(NConnections, Symbol) i);
+   return ((i[1]&i[2])|(i[0]&i[2])|(i[0]&i[1]));
 endfunction
 
 @
-The function [[fnInitialBitNodeProcessing]], does not work on a vector
-of Symbols like [[fnBitNodeProcessing]]. It can be thought of as a
-function which prepares the input symbol for iterative processing. 
-
-<<functions bitNode>>=
-
-function Symbol fnInitialBitNodeProcessing (Symbol x);
-   // XXX This is at present a dummy function which simply does an
-   // forwards the signal to the output
-   return (x);
-endfunction
-
-@
-The rule [[rlProcessRemIteration]] executes the actions for the remaining
-iterations for processing a code word. The input for these iterations is
+The rule [[rlProcessChkNodeResult]] executes the actions on receiving a
+response from the check node. The input for these iterations is
 from the partially processed word in [[vffC2B]].
 
 \begin{itemize}
 \item Consume the codeword which is currently in [[vffC2B]]
-\item Carry out the computation on the codeword
-\item Enqueue the result into the [[ffB2C]] for checknode processing
-\item Update the iteration count - this is updated by $2$ as the count is
-maintained only in the bit node, and the check node acts as a purely
-passive node.
+\item Carry out the computation on the codeword as per
+[[fnBitNodeCore]]
+\item Enqueue the result into the [[ffDataOut]] for global checks at the
+top-level
 \end{itemize}
 
 <<rules bitNode>>=
+<<mutex pragma>>
 // Rule to process remaining iterations
-rule rlProcessRemIteration (
-      (rgIterationCount > 0)
-   && (rgIterationCount < fromInteger (valueOf (NIterations))));
+rule rlProcessChkNodeResult;
    // As this iteration works of a partial result from the checknode,
    // the input comes from the vector of fifos vffC2B
    Vector #(NConnections, Symbol) codeIn;
@@ -246,34 +216,22 @@ rule rlProcessRemIteration (
       vffC2B[i].deq;
    end
 
-   let codeOut = fnBitNodeProcessing (codeIn);
-
-   // Bookkeeping - keep track of iterations to know when to stop
-   if (rgIterationCount == (fromInteger (valueOf (NIterations))-1)) begin
-      // time to stop
-      rgIterationCount <= 0;
-
-      // Send the processed code word to the output
-      ffDataOut.enq (codeOut);
-   end
-   
-   // continue with more iterations
-   else begin
-      rgIterationCount  <= rgIterationCount + 2;
-
-      // Send the output to the check nodes
-      ffB2C.enq (codeOut);
-   end
+   // Send the processed code word to the output
+   ffDataOut.enq (fnBitNodeCore (codeIn));
 endrule
 
 // -----------------------------------------------------------------
 
 @
-The [[rlProcessRemIteration]] rule also needs to check if the iterations
-are complete. If so, it should reset the [[rgIterationCount]] and
-instead of sending the output to the [[ffB2C]] it should sent it to
-[[ffDataOut]].
+The [[rlProcessChkNodeResult]] rule will only run when there is a
+partial result from the check nodes. On the other hand the
+[[rlProcessNewData]] will only run when there is new data input from the
+top-level. These two rules are mutually exclusive in a non-pipelined
+implementation such as this one. The mutex pragma specifies this as an
+assertion to the compiler.
 
+<<mutex pragma>>=
+(* mutually_exclusive = "rlProcessChkNodeResult, rlProcessNewData" *)
 
 @
 Creating the interfaces simply involves stitching up the connections to the
@@ -295,10 +253,10 @@ endmodule : mkBitNode
 
 @
 \section{The Check Node}
-The [[mkCheckNode]] module receives the partially decoded code word from
+The [[mkChkNode]] module receives the partially decoded code word from
 the [[mkBitNode]]. It operates in \emph{slave} mode and processes all
-inputs in the same manner. The [[mkCheckNode]] does not keep track of
-iterations. The [[mkCheckNode]] provides an interface of type [[CheckNode]].
+inputs in the same manner. The [[mkChkNode]] does not keep track of
+iterations. The [[mkChkNode]] provides an interface of type [[ChkNode]].
 
 <<module definition>>=
 // Core function of the check-node
@@ -307,7 +265,7 @@ iterations. The [[mkCheckNode]] provides an interface of type [[CheckNode]].
 //
 // Check Node Module definition
 (* synthesize *)
-module mkCheckNode (CheckNode);
+module mkChkNode (ChkNode);
    <<state checkNode>>
    <<rules checkNode>>
    <<interfaces checkNode>>
@@ -327,7 +285,9 @@ Vector #(
    , FIFO #(Symbol)) vffB2C        <- replicateM (mkFIFO);
 
 // Output FIFO - decoded code word
-FIFO  #(Symbol)      ffC2B         <- mkFIFO;
+Vector #(
+     NConnections
+   , FIFO #(Symbol)) vffC2B        <- replicateM (mkFIFO);
 
 @
 The rule [[rlProcessIteration]] executes the actions for process the
@@ -349,29 +309,28 @@ rule rlProcessIteration;
       vffB2C[i].deq;
    end
 
-   // Process the partial result further
-   let codeOut = fnCheckNodeProcessing (codeIn);
-
    // Send the partial result to the bit node
-   ffC2B.enq (codeOut);
+   let res = fnChkNodeCore (codeIn);
+   for (Integer i=0; i<valueOf(NConnections); i=i+1)
+      vffC2B[i].enq (res[i]);
 endrule
 
 // -----------------------------------------------------------------
 
 @
-The function [[fnCheckNodeProcessing]], carries out the actual bit
+The function [[fnChkNodeCore]], carries out the actual bit
 manipulation of the codeword bits as per the min-sum algorithm. The
 noinline attribute ensures that a separate verilog module is generated for the
 function.
 
 <<functions checkNode>>=
 (* noinline *)
-function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
-   // XXX This is at present a dummy function which simply does an
-   // inverting of the bits
-   // It will actually do some sort of a zip function which goes:
-   // Vector#(N,Symbol) -> Symbol
-   return (foldl1 (\^ , x));
+function Vector#(NConnections, Symbol) fnChkNodeCore (Vector #(NConnections, Symbol) i);
+   Vector #(NConnections, Symbol) o = newVector;
+   o[0]=i[1]^i[2];
+   o[1]=i[0]^i[2];
+   o[2]=i[0]^i[1];
+   return (o);
 endfunction
 
 @
@@ -382,11 +341,11 @@ applied.
 
 <<interfaces checkNode>>=
 // Interface
-interface c2b = toGet (ffC2B);
+interface c2b = map (toGet, vffC2B);
 interface b2c = map (toPut, vffB2C);
 
 // -----------------------------------------------------------------
 
 <<wrap up checkNode>>=
-endmodule : mkCheckNode
+endmodule : mkChkNode
 endpackage

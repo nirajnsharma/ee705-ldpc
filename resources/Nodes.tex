@@ -12,12 +12,14 @@ package Nodes;
 // -----------------------------------------------------------------
 // This package defines:
 //
-//    CheckNode   : Interface to the Check Nodes
-//    BitNode     : Interface to the Bit Nodes
-//    mkCheckNode : Micro-arch of the Check Node
-//    mkBitNode   : Micro-arch of the Bit Node
+//    ChkNode        : Interface to the Check Nodes
+//    BitNode        : Interface to the Bit Nodes
+//    mkChkNode      : Micro-arch of the Check Node
+//    mkBitNode      : Micro-arch of the Bit Node
+//    mkBitNodeCore  : Core computation of the Bit Node
+//    mkChkNodeCore  : Core computation of the Check Node
 //
-//    v1.0        : The nodes can handle one code-word at a time
+//    v1.0           : The nodes can handle one code-word at a time
 //
 // -----------------------------------------------------------------
 
@@ -53,9 +55,9 @@ ones along a particular column of the incidence matrix.
 \nwenddocs{}\nwbegincode{5}\sublabel{NW1v8dKs-3l1BOL-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-3l1BOL-1}}}\moddef{interface definition~{\nwtagstyle{}\subpageref{NW1v8dKs-3l1BOL-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-4O0RoX-1}}\nwprevnextdefs{\relax}{NW1v8dKs-3l1BOL-2}\nwenddeflinemarkup
 // NConnections indicates the number of connections that a particular
 // check-node has with the bit-nodes
-interface CheckNode;
+interface ChkNode;
    interface Vector #(NConnections, Put #(Symbol)) b2c;
-   interface Get #(Symbol) c2b;
+   interface Vector #(NConnections, Get #(Symbol)) c2b;
 endinterface
 
 \nwalsodefined{\\{NW1v8dKs-3l1BOL-2}\\{NW1v8dKs-3l1BOL-3}}\nwused{\\{NW1v8dKs-4O0RoX-1}}\nwendcode{}\nwbegindocs{6}\nwdocspar
@@ -98,9 +100,9 @@ bit-nodes. Each bit node receives one symbol to decode at a time.
 
 \nwenddocs{}\nwbegindocs{11}\nwdocspar
 \section{The Bit Node}
-The {\Tt{}mkBitNode\nwendquote} module receives the code word and initiates the
-iterations.  Based on {\Tt{}NConnections\nwendquote} it is connected to a set of
-{\Tt{}mkCheckNodes\nwendquote} representing the edges of the bipartite tanner graph. The
+The {\Tt{}mkBitNode\nwendquote} module receives the code word and initiates an
+iterations  Based on {\Tt{}NConnections\nwendquote} it is connected to a set of
+{\Tt{}mkChkNodes\nwendquote} representing the edges of the bipartite tanner graph. The
 {\Tt{}mkBitNode\nwendquote} provides an interface of type {\Tt{}BitNode\nwendquote}.
 
 \nwenddocs{}\nwbegincode{12}\sublabel{NW1v8dKs-1nQrPK-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\moddef{module definition~{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-To6Q8-1}}\nwprevnextdefs{\relax}{NW1v8dKs-1nQrPK-2}\nwenddeflinemarkup
@@ -129,13 +131,13 @@ FIFO  #(Symbol)   ffCodeIn    <- mkFIFO;
 // Output FIFO - decoded code word
 FIFO  #(Symbol)   ffDataOut   <- mkFIFO;
 
-\nwalsodefined{\\{NW1v8dKs-3Q7ADd-2}\\{NW1v8dKs-3Q7ADd-3}}\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{15}\nwdocspar
+\nwalsodefined{\\{NW1v8dKs-3Q7ADd-2}}\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{15}\nwdocspar
 The {\Tt{}ffB2C\nwendquote} FIFO holds the partially processed codeword. The contents of
 this FIFO will be consumed by the check node when they are ready. The
 {\Tt{}vffC2B\nwendquote} FIFO receives partially processed codewords from the check nodes
-for the next iteration of processing.
+and this completes one iteration of processing.
 
-\nwenddocs{}\nwbegincode{16}\sublabel{NW1v8dKs-3Q7ADd-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-3Q7ADd-2}}}\moddef{state bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-3Q7ADd-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{NW1v8dKs-3Q7ADd-1}{NW1v8dKs-3Q7ADd-3}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{16}\sublabel{NW1v8dKs-3Q7ADd-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-3Q7ADd-2}}}\moddef{state bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-3Q7ADd-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{NW1v8dKs-3Q7ADd-1}{\relax}\nwenddeflinemarkup
 // Partially processed codeword meant for the checknodes
 FIFO  #(Symbol)      ffB2C       <- mkFIFO;
 
@@ -164,80 +166,48 @@ node for the first time.
 \nwenddocs{}\nwbegincode{18}\sublabel{NW1v8dKs-2ke5KA-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-1}}}\moddef{rules bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{\relax}{NW1v8dKs-2ke5KA-2}\nwenddeflinemarkup
 // Rules and behaviour
 
-// Rule to process the first iteration of a new code word
-rule rlProcessFirstIteration (rgIterationCount == 0);
+// Rule to process new data received from the top-level
+rule rlProcessNewData;
    // As this is the first iteration, consume the codeword which is
    // currently in ffCodeIn. Carry out the computation on the codeword
    let codeIn = ffCodeIn.first; ffCodeIn.deq;
-   let codeOut = fnInitialBitNodeProcessing (codeIn);
 
    // Send the output to the check nodes
-   ffB2C.enq (codeOut);
-   
-   // Bookkeeping - keep track of iterations to know when to stop. The
-   // first iteration is treated as the first time the code word goes
-   // through the check node
-   rgIterationCount  <= rgIterationCount + 1;
+   ffB2C.enq (codeIn);
 endrule
-
-\nwalsodefined{\\{NW1v8dKs-2ke5KA-2}}\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{19}\nwdocspar
-The register, {\Tt{}rgIterationCount\nwendquote} keeps track of the number of iterations
-for this particular code word. When a certain prefixed iteration limit is
-reached, processing stops. This is a system-wide setting.
-
-\nwenddocs{}\nwbegincode{20}\sublabel{NW1v8dKs-3Q7ADd-3}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-3Q7ADd-3}}}\moddef{state bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-3Q7ADd-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{NW1v8dKs-3Q7ADd-2}{\relax}\nwenddeflinemarkup
-Reg   #(Bit #(4))                rgIterationCount  <- mkReg (0);
 
 // -----------------------------------------------------------------
 
-\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{21}\nwdocspar
-The function {\Tt{}fnBitNodeProcessing\nwendquote}, carries out the actual bit
+\nwalsodefined{\\{NW1v8dKs-2ke5KA-2}}\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{19}\nwdocspar
+The function {\Tt{}fnBitNodeCore\nwendquote}, carries out the actual bit
 manipulation of the codeword symbols as per the min-sum-algorithm. The
 noinline attribute ensures that a separate verilog module is generated for the
-function.
+function. In fact this module was developed entirely in verilog, and then
+merged with this module later.
 
-\nwenddocs{}\nwbegincode{22}\sublabel{NW1v8dKs-2TR1lR-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\moddef{functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{\relax}{NW1v8dKs-2TR1lR-2}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{20}\sublabel{NW1v8dKs-2TR1lR-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\moddef{functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwenddeflinemarkup
 (* noinline *)
-function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
-   // XXX This is at present a dummy function which simply does an
-   // XOR of the symbols
-   // It will actually do some sort of a zip function which goes:
-   // Vector#(N,Symbol) -> Symbol
-   return (foldl1 (\\^ , x));
+function Symbol fnBitNodeCore (Vector #(NConnections, Symbol) i);
+   return ((i[1]&i[2])|(i[0]&i[2])|(i[0]&i[1]));
 endfunction
 
-\nwalsodefined{\\{NW1v8dKs-2TR1lR-2}}\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{23}\nwdocspar
-The function {\Tt{}fnInitialBitNodeProcessing\nwendquote}, does not work on a vector
-of Symbols like {\Tt{}fnBitNodeProcessing\nwendquote}. It can be thought of as a
-function which prepares the input symbol for iterative processing. 
-
-\nwenddocs{}\nwbegincode{24}\sublabel{NW1v8dKs-2TR1lR-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-2}}}\moddef{functions bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2TR1lR-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{NW1v8dKs-2TR1lR-1}{\relax}\nwenddeflinemarkup
-
-function Symbol fnInitialBitNodeProcessing (Symbol x);
-   // XXX This is at present a dummy function which simply does an
-   // forwards the signal to the output
-   return (x);
-endfunction
-
-\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{25}\nwdocspar
-The rule {\Tt{}rlProcessRemIteration\nwendquote} executes the actions for the remaining
-iterations for processing a code word. The input for these iterations is
+\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{21}\nwdocspar
+The rule {\Tt{}rlProcessChkNodeResult\nwendquote} executes the actions on receiving a
+response from the check node. The input for these iterations is
 from the partially processed word in {\Tt{}vffC2B\nwendquote}.
 
 \begin{itemize}
 \item Consume the codeword which is currently in {\Tt{}vffC2B\nwendquote}
-\item Carry out the computation on the codeword
-\item Enqueue the result into the {\Tt{}ffB2C\nwendquote} for checknode processing
-\item Update the iteration count - this is updated by $2$ as the count is
-maintained only in the bit node, and the check node acts as a purely
-passive node.
+\item Carry out the computation on the codeword as per
+{\Tt{}fnBitNodeCore\nwendquote}
+\item Enqueue the result into the {\Tt{}ffDataOut\nwendquote} for global checks at the
+top-level
 \end{itemize}
 
-\nwenddocs{}\nwbegincode{26}\sublabel{NW1v8dKs-2ke5KA-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-2}}}\moddef{rules bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{NW1v8dKs-2ke5KA-1}{\relax}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{22}\sublabel{NW1v8dKs-2ke5KA-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-2}}}\moddef{rules bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2ke5KA-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwprevnextdefs{NW1v8dKs-2ke5KA-1}{\relax}\nwenddeflinemarkup
+\LA{}mutex pragma~{\nwtagstyle{}\subpageref{NW1v8dKs-4c5Jhr-1}}\RA{}
 // Rule to process remaining iterations
-rule rlProcessRemIteration (
-      (rgIterationCount > 0)
-   && (rgIterationCount < fromInteger (valueOf (NIterations))));
+rule rlProcessChkNodeResult;
    // As this iteration works of a partial result from the checknode,
    // the input comes from the vector of fifos vffC2B
    Vector #(NConnections, Symbol) codeIn;
@@ -246,42 +216,30 @@ rule rlProcessRemIteration (
       vffC2B[i].deq;
    end
 
-   let codeOut = fnBitNodeProcessing (codeIn);
-
-   // Bookkeeping - keep track of iterations to know when to stop
-   if (rgIterationCount == (fromInteger (valueOf (NIterations))-1)) begin
-      // time to stop
-      rgIterationCount <= 0;
-
-      // Send the processed code word to the output
-      ffDataOut.enq (codeOut);
-   end
-   
-   // continue with more iterations
-   else begin
-      rgIterationCount  <= rgIterationCount + 2;
-
-      // Send the output to the check nodes
-      ffB2C.enq (codeOut);
-   end
+   // Send the processed code word to the output
+   ffDataOut.enq (fnBitNodeCore (codeIn));
 endrule
 
 // -----------------------------------------------------------------
 
-\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{27}\nwdocspar
-The {\Tt{}rlProcessRemIteration\nwendquote} rule also needs to check if the iterations
-are complete. If so, it should reset the {\Tt{}rgIterationCount\nwendquote} and
-instead of sending the output to the {\Tt{}ffB2C\nwendquote} it should sent it to
-{\Tt{}ffDataOut\nwendquote}.
+\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{23}\nwdocspar
+The {\Tt{}rlProcessChkNodeResult\nwendquote} rule will only run when there is a
+partial result from the check nodes. On the other hand the
+{\Tt{}rlProcessNewData\nwendquote} will only run when there is new data input from the
+top-level. These two rules are mutually exclusive in a non-pipelined
+implementation such as this one. The mutex pragma specifies this as an
+assertion to the compiler.
 
+\nwenddocs{}\nwbegincode{24}\sublabel{NW1v8dKs-4c5Jhr-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-4c5Jhr-1}}}\moddef{mutex pragma~{\nwtagstyle{}\subpageref{NW1v8dKs-4c5Jhr-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-2ke5KA-2}}\nwenddeflinemarkup
+(* mutually_exclusive = "rlProcessChkNodeResult, rlProcessNewData" *)
 
-\nwenddocs{}\nwbegindocs{28}\nwdocspar
+\nwused{\\{NW1v8dKs-2ke5KA-2}}\nwendcode{}\nwbegindocs{25}\nwdocspar
 Creating the interfaces simply involves stitching up the connections to the
 input and output FIFOs using library functions -- {\Tt{}toPut\nwendquote}, {\Tt{}toGet\nwendquote}.
 Since the {\Tt{}c2b\nwendquote} interface is a vector, the {\Tt{}map\nwendquote} higher-order function is
 applied.
 
-\nwenddocs{}\nwbegincode{29}\sublabel{NW1v8dKs-469JCS-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-469JCS-1}}}\moddef{interfaces bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-469JCS-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{26}\sublabel{NW1v8dKs-469JCS-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-469JCS-1}}}\moddef{interfaces bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-469JCS-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwenddeflinemarkup
 // Interface
 interface codeIn     = toPut (ffCodeIn);
 interface dataOut    = toGet (ffDataOut);
@@ -290,36 +248,36 @@ interface b2c        = toGet (ffB2C);
 
 // -----------------------------------------------------------------
 
-\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegincode{30}\sublabel{NW1v8dKs-oZLgz-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-oZLgz-1}}}\moddef{wrap up bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oZLgz-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwenddeflinemarkup
+\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegincode{27}\sublabel{NW1v8dKs-oZLgz-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-oZLgz-1}}}\moddef{wrap up bitNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oZLgz-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-1}}\nwenddeflinemarkup
 endmodule : mkBitNode
 
-\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{31}\nwdocspar
+\nwused{\\{NW1v8dKs-1nQrPK-1}}\nwendcode{}\nwbegindocs{28}\nwdocspar
 \section{The Check Node}
-The {\Tt{}mkCheckNode\nwendquote} module receives the partially decoded code word from
+The {\Tt{}mkChkNode\nwendquote} module receives the partially decoded code word from
 the {\Tt{}mkBitNode\nwendquote}. It operates in \emph{slave} mode and processes all
-inputs in the same manner. The {\Tt{}mkCheckNode\nwendquote} does not keep track of
-iterations. The {\Tt{}mkCheckNode\nwendquote} provides an interface of type {\Tt{}CheckNode\nwendquote}.
+inputs in the same manner. The {\Tt{}mkChkNode\nwendquote} does not keep track of
+iterations. The {\Tt{}mkChkNode\nwendquote} provides an interface of type {\Tt{}ChkNode\nwendquote}.
 
-\nwenddocs{}\nwbegincode{32}\sublabel{NW1v8dKs-1nQrPK-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-2}}}\moddef{module definition~{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-To6Q8-1}}\nwprevnextdefs{NW1v8dKs-1nQrPK-1}{\relax}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{29}\sublabel{NW1v8dKs-1nQrPK-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-2}}}\moddef{module definition~{\nwtagstyle{}\subpageref{NW1v8dKs-1nQrPK-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-To6Q8-1}}\nwprevnextdefs{NW1v8dKs-1nQrPK-1}{\relax}\nwenddeflinemarkup
 // Core function of the check-node
 \LA{}functions checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}\RA{}
 
 //
 // Check Node Module definition
 (* synthesize *)
-module mkCheckNode (CheckNode);
+module mkChkNode (ChkNode);
    \LA{}state checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2jCWTO-1}}\RA{}
    \LA{}rules checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-4bVYKS-1}}\RA{}
    \LA{}interfaces checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-1mJizB-1}}\RA{}
    \LA{}wrap up checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-HAQpJ-1}}\RA{}
 // -----------------------------------------------------------------
 
-\nwused{\\{NW1v8dKs-To6Q8-1}}\nwendcode{}\nwbegindocs{33}\nwdocspar
+\nwused{\\{NW1v8dKs-To6Q8-1}}\nwendcode{}\nwbegindocs{30}\nwdocspar
 The input FIFOs {\Tt{}vffB2C\nwendquote} receives the partially processed part of the code
 word meant for this check-node. The output FIFO {\Tt{}ffC2B\nwendquote} holds the
 partially decoded code word.
 
-\nwenddocs{}\nwbegincode{34}\sublabel{NW1v8dKs-2jCWTO-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2jCWTO-1}}}\moddef{state checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2jCWTO-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{31}\sublabel{NW1v8dKs-2jCWTO-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-2jCWTO-1}}}\moddef{state checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-2jCWTO-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
 // Sub-modules and state
 // Input FIFO - code word
 Vector #(
@@ -327,9 +285,11 @@ Vector #(
    , FIFO #(Symbol)) vffB2C        <- replicateM (mkFIFO);
 
 // Output FIFO - decoded code word
-FIFO  #(Symbol)      ffC2B         <- mkFIFO;
+Vector #(
+     NConnections
+   , FIFO #(Symbol)) vffC2B        <- replicateM (mkFIFO);
 
-\nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}\nwbegindocs{35}\nwdocspar
+\nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}\nwbegindocs{32}\nwdocspar
 The rule {\Tt{}rlProcessIteration\nwendquote} executes the actions for process the
 input from the bit nodes.
 
@@ -339,7 +299,7 @@ input from the bit nodes.
 \item Enqueue the result into the {\Tt{}ffC2B\nwendquote} for bit-node processing
 \end{itemize}
 
-\nwenddocs{}\nwbegincode{36}\sublabel{NW1v8dKs-4bVYKS-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-4bVYKS-1}}}\moddef{rules checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-4bVYKS-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{33}\sublabel{NW1v8dKs-4bVYKS-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-4bVYKS-1}}}\moddef{rules checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-4bVYKS-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
 // Rules and behaviour
 rule rlProcessIteration;
    // get the partial result
@@ -349,40 +309,39 @@ rule rlProcessIteration;
       vffB2C[i].deq;
    end
 
-   // Process the partial result further
-   let codeOut = fnCheckNodeProcessing (codeIn);
-
    // Send the partial result to the bit node
-   ffC2B.enq (codeOut);
+   let res = fnChkNodeCore (codeIn);
+   for (Integer i=0; i<valueOf(NConnections); i=i+1)
+      vffC2B[i].enq (res[i]);
 endrule
 
 // -----------------------------------------------------------------
 
-\nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}\nwbegindocs{37}\nwdocspar
-The function {\Tt{}fnCheckNodeProcessing\nwendquote}, carries out the actual bit
+\nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}\nwbegindocs{34}\nwdocspar
+The function {\Tt{}fnChkNodeCore\nwendquote}, carries out the actual bit
 manipulation of the codeword bits as per the min-sum algorithm. The
 noinline attribute ensures that a separate verilog module is generated for the
 function.
 
-\nwenddocs{}\nwbegincode{38}\sublabel{NW1v8dKs-oud5A-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}}\moddef{functions checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{35}\sublabel{NW1v8dKs-oud5A-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}}\moddef{functions checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-oud5A-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
 (* noinline *)
-function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
-   // XXX This is at present a dummy function which simply does an
-   // inverting of the bits
-   // It will actually do some sort of a zip function which goes:
-   // Vector#(N,Symbol) -> Symbol
-   return (foldl1 (\\^ , x));
+function Vector#(NConnections, Symbol) fnChkNodeCore (Vector #(NConnections, Symbol) i);
+   Vector #(NConnections, Symbol) o = newVector;
+   o[0]=i[1]^i[2];
+   o[1]=i[0]^i[2];
+   o[2]=i[0]^i[1];
+   return (o);
 endfunction
 
-\nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}\nwbegindocs{39}\nwdocspar
+\nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}\nwbegindocs{36}\nwdocspar
 Creating the interfaces simply involves stitching up the connections to the
 input and output FIFOs using library functions -- {\Tt{}toPut\nwendquote} and {\Tt{}toGet\nwendquote}.
 Since the {\Tt{}b2c\nwendquote} interface is a vector, the {\Tt{}map\nwendquote} higher-order function is
 applied.
 
-\nwenddocs{}\nwbegincode{40}\sublabel{NW1v8dKs-1mJizB-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1mJizB-1}}}\moddef{interfaces checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-1mJizB-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{37}\sublabel{NW1v8dKs-1mJizB-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-1mJizB-1}}}\moddef{interfaces checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-1mJizB-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
 // Interface
-interface c2b = toGet (ffC2B);
+interface c2b = map (toGet, vffC2B);
 interface b2c = map (toPut, vffB2C);
 
 // -----------------------------------------------------------------
@@ -390,20 +349,21 @@ interface b2c = map (toPut, vffB2C);
 \nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}
 
 \nwixlogsorted{c}{{boilerplate}{NW1v8dKs-To6Q8-1}{\nwixd{NW1v8dKs-To6Q8-1}}}%
-\nwixlogsorted{c}{{functions bitNode}{NW1v8dKs-2TR1lR-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-2TR1lR-1}\nwixd{NW1v8dKs-2TR1lR-2}}}%
+\nwixlogsorted{c}{{functions bitNode}{NW1v8dKs-2TR1lR-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-2TR1lR-1}}}%
 \nwixlogsorted{c}{{functions checkNode}{NW1v8dKs-oud5A-1}{\nwixu{NW1v8dKs-1nQrPK-2}\nwixd{NW1v8dKs-oud5A-1}}}%
 \nwixlogsorted{c}{{interface definition}{NW1v8dKs-3l1BOL-1}{\nwixu{NW1v8dKs-4O0RoX-1}\nwixd{NW1v8dKs-3l1BOL-1}\nwixd{NW1v8dKs-3l1BOL-2}\nwixd{NW1v8dKs-3l1BOL-3}}}%
 \nwixlogsorted{c}{{interfaces bitNode}{NW1v8dKs-469JCS-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-469JCS-1}}}%
 \nwixlogsorted{c}{{interfaces checkNode}{NW1v8dKs-1mJizB-1}{\nwixu{NW1v8dKs-1nQrPK-2}\nwixd{NW1v8dKs-1mJizB-1}}}%
 \nwixlogsorted{c}{{module definition}{NW1v8dKs-1nQrPK-1}{\nwixu{NW1v8dKs-To6Q8-1}\nwixd{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-1nQrPK-2}}}%
+\nwixlogsorted{c}{{mutex pragma}{NW1v8dKs-4c5Jhr-1}{\nwixu{NW1v8dKs-2ke5KA-2}\nwixd{NW1v8dKs-4c5Jhr-1}}}%
 \nwixlogsorted{c}{{rules bitNode}{NW1v8dKs-2ke5KA-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-2ke5KA-1}\nwixd{NW1v8dKs-2ke5KA-2}}}%
 \nwixlogsorted{c}{{rules checkNode}{NW1v8dKs-4bVYKS-1}{\nwixu{NW1v8dKs-1nQrPK-2}\nwixd{NW1v8dKs-4bVYKS-1}}}%
-\nwixlogsorted{c}{{state bitNode}{NW1v8dKs-3Q7ADd-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-3Q7ADd-1}\nwixd{NW1v8dKs-3Q7ADd-2}\nwixd{NW1v8dKs-3Q7ADd-3}}}%
+\nwixlogsorted{c}{{state bitNode}{NW1v8dKs-3Q7ADd-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-3Q7ADd-1}\nwixd{NW1v8dKs-3Q7ADd-2}}}%
 \nwixlogsorted{c}{{state checkNode}{NW1v8dKs-2jCWTO-1}{\nwixu{NW1v8dKs-1nQrPK-2}\nwixd{NW1v8dKs-2jCWTO-1}}}%
 \nwixlogsorted{c}{{type definitions}{NW1v8dKs-4O0RoX-1}{\nwixu{NW1v8dKs-To6Q8-1}\nwixd{NW1v8dKs-4O0RoX-1}}}%
 \nwixlogsorted{c}{{wrap up bitNode}{NW1v8dKs-oZLgz-1}{\nwixu{NW1v8dKs-1nQrPK-1}\nwixd{NW1v8dKs-oZLgz-1}}}%
 \nwixlogsorted{c}{{wrap up checkNode}{NW1v8dKs-HAQpJ-1}{\nwixu{NW1v8dKs-1nQrPK-2}\nwixd{NW1v8dKs-HAQpJ-1}}}%
-\nwbegincode{41}\sublabel{NW1v8dKs-HAQpJ-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-HAQpJ-1}}}\moddef{wrap up checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-HAQpJ-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
-endmodule : mkCheckNode
+\nwbegincode{38}\sublabel{NW1v8dKs-HAQpJ-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW1v8dKs-HAQpJ-1}}}\moddef{wrap up checkNode~{\nwtagstyle{}\subpageref{NW1v8dKs-HAQpJ-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW1v8dKs-1nQrPK-2}}\nwenddeflinemarkup
+endmodule : mkChkNode
 endpackage
 \nwused{\\{NW1v8dKs-1nQrPK-2}}\nwendcode{}

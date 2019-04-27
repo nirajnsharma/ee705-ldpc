@@ -15,6 +15,7 @@ package LdpcCore;
 
 import GetPut           :: *;
 import ClientServer     :: *;
+import Connectable      :: *;
 import FIFO             :: *;
 import Vector           :: *;
 import LdpcTypes        :: *;
@@ -31,11 +32,24 @@ module mkLdpcCore (LdpcCore);
    Vector #(NBitNodes, BitNode) vBitNodes <- replicateM (mkBitNode);
 
    // Check nodes
-   Vector #(NCheckNodes, CheckNode) vCheckNodes <- replicateM (mkCheckNode);
+   Vector #(NCheckNodes, ChkNode) vCheckNodes <- replicateM (mkChkNode);
 
    // Input and output FIFOs
    FIFO #(DataWord) ffI <- mkFIFO;
    FIFO #(DataWord) ffO <- mkFIFO;
+
+   Reg #(Bool) rgIdle <- mkReg(True);
+
+   function Bit#(1) fnCheckDecodedWord (DataWord b);
+   return (
+         (b[0]^b[1]^b[3])
+       | (b[1]^b[2]^b[4])
+       | (b[2]^b[3]^b[5])
+       | (b[3]^b[4]^b[6])
+       | (b[0]^b[4]^b[5])
+       | (b[1]^b[5]^b[6])
+       | (b[0]^b[2]^b[6]));
+   endfunction
 
    // connect up all the bit nodes and check nodes
    // bit-node to check-node connections
@@ -61,55 +75,75 @@ module mkLdpcCore (LdpcCore);
         vBitNodes[6].b2c
       , vCheckNodes[3].b2c[2], vCheckNodes[5].b2c[2], vCheckNodes[6].b2c[2]);
 
+
    // check-node to bit-node connections
-   mkConnMulti (
-        vCheckNodes[0].c2b
-      , vBitNodes[0].c2b[0], vBitNodes[1].c2b[0], vBitNodes[3].c2b[0]);
+   // From check-node 0
+   mkConnection (vCheckNodes[0].c2b[0], vBitNodes[0].c2b[0]);
+   mkConnection (vCheckNodes[0].c2b[1], vBitNodes[1].c2b[0]);
+   mkConnection (vCheckNodes[0].c2b[2], vBitNodes[3].c2b[0]);
 
-   mkConnMulti (
-        vCheckNodes[1].c2b
-      , vBitNodes[1].c2b[1], vBitNodes[2].c2b[0], vBitNodes[4].c2b[0]);
+   // From check-node 1
+   mkConnection (vCheckNodes[1].c2b[0], vBitNodes[1].c2b[1]);
+   mkConnection (vCheckNodes[1].c2b[1], vBitNodes[2].c2b[0]);
+   mkConnection (vCheckNodes[1].c2b[2], vBitNodes[4].c2b[0]);
 
-   mkConnMulti (
-        vCheckNodes[2].c2b
-      , vBitNodes[2].c2b[1], vBitNodes[3].c2b[1], vBitNodes[5].c2b[0]);
+   // From check-node 2
+   mkConnection (vCheckNodes[2].c2b[0], vBitNodes[2].c2b[1]);
+   mkConnection (vCheckNodes[2].c2b[1], vBitNodes[3].c2b[1]);
+   mkConnection (vCheckNodes[2].c2b[2], vBitNodes[5].c2b[0]);
 
-   mkConnMulti (
-        vCheckNodes[3].c2b
-      , vBitNodes[3].c2b[2], vBitNodes[4].c2b[1], vBitNodes[6].c2b[0]);
+   // From check-node 3
+   mkConnection (vCheckNodes[3].c2b[0], vBitNodes[3].c2b[2]);
+   mkConnection (vCheckNodes[3].c2b[1], vBitNodes[4].c2b[1]);
+   mkConnection (vCheckNodes[3].c2b[2], vBitNodes[6].c2b[0]);
 
-   mkConnMulti (
-        vCheckNodes[4].c2b
-      , vBitNodes[0].c2b[1], vBitNodes[4].c2b[2], vBitNodes[5].c2b[1]);
+   // From check-node 4
+   mkConnection (vCheckNodes[4].c2b[0], vBitNodes[0].c2b[1]);
+   mkConnection (vCheckNodes[4].c2b[1], vBitNodes[4].c2b[2]);
+   mkConnection (vCheckNodes[4].c2b[2], vBitNodes[5].c2b[1]);
 
-   mkConnMulti (
-        vCheckNodes[5].c2b
-      , vBitNodes[1].c2b[2], vBitNodes[5].c2b[2], vBitNodes[6].c2b[1]);
+   // From check-node 5
+   mkConnection (vCheckNodes[5].c2b[0], vBitNodes[1].c2b[2]);
+   mkConnection (vCheckNodes[5].c2b[1], vBitNodes[5].c2b[2]);
+   mkConnection (vCheckNodes[5].c2b[2], vBitNodes[6].c2b[1]);
 
-   mkConnMulti (
-        vCheckNodes[6].c2b
-      , vBitNodes[0].c2b[2], vBitNodes[2].c2b[2], vBitNodes[6].c2b[2]);
+   // From check-node 6
+   mkConnection (vCheckNodes[6].c2b[0], vBitNodes[0].c2b[2]);
+   mkConnection (vCheckNodes[6].c2b[1], vBitNodes[2].c2b[2]);
+   mkConnection (vCheckNodes[6].c2b[2], vBitNodes[6].c2b[2]);
 
-   rule rlPutCodeWordIn;
+   rule rlPutCodeWordIn (rgIdle);
       // Get the codeword from ffI
       let codeIn = ffI.first; ffI.deq;
+      
+      // The decoder is busy now
+      rgIdle <= False;
 
       // Send each bit-node a symbol
       for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
          vBitNodes[i].codeIn.put (codeIn[i]);
    endrule
 
-   rule rlGetDecodedWordOut;
-      DataWord dOut;
-
-      // Get a symbol from each bit-node
+   rule rlEvaluateOutput (!rgIdle);
+      DataWord vBitNodeOuts;
       for (Integer i=0; i<valueOf(NBitNodes); i=i+1) begin
-         let d <- vBitNodes[i].dataOut.get ();
-         dOut [i] = d;
+         let d <- vBitNodes[i].dataOut.get();
+         vBitNodeOuts[i] = d;
       end
 
-      // Write the collected symbols into the output fifo
-      ffO.enq (dOut);
+      // Check if the decoding is complete
+      // Decoding is good
+      if (fnCheckDecodedWord (vBitNodeOuts) == 1'b0) begin
+         ffO.enq (vBitNodeOuts);
+         rgIdle <= True;
+      end
+
+      // Decoding is not complete - back to the bit node
+      else begin
+         // Send each bit-node a symbol
+         for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
+            vBitNodes[i].codeIn.put (vBitNodeOuts[i]);
+      end
    endrule
 
    return (toGPServer (ffI, ffO));
@@ -131,7 +165,7 @@ module mkConnMulti #(
       endrule
 
 
-endmodule
+endmodule : mkConnMulti
 endpackage : LdpcCore
 
 

@@ -3,7 +3,7 @@ import Vector :: *;
 
 // Global types used across the design
 // Soft-value bit pattern
-typedef Bit #(4) Symbol;
+typedef Bit #(1) Symbol;
 
 // Number of symbols in a codeword
 typedef 7 CodeLength;
@@ -22,6 +22,6 @@ typedef CodeLength NCheckNodes;
 typedef 3 NConnections;
 
 // Number of iterations between bit nodes and check nodes
-typedef 8 NIterations;
+// typedef 8 NIterations;
 endpackage : LdpcTypes
 

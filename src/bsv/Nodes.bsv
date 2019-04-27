@@ -5,12 +5,14 @@ package Nodes;
 // -----------------------------------------------------------------
 // This package defines:
 //
-//    CheckNode   : Interface to the Check Nodes
-//    BitNode     : Interface to the Bit Nodes
-//    mkCheckNode : Micro-arch of the Check Node
-//    mkBitNode   : Micro-arch of the Bit Node
+//    ChkNode        : Interface to the Check Nodes
+//    BitNode        : Interface to the Bit Nodes
+//    mkChkNode      : Micro-arch of the Check Node
+//    mkBitNode      : Micro-arch of the Bit Node
+//    mkBitNodeCore  : Core computation of the Bit Node
+//    mkChkNodeCore  : Core computation of the Check Node
 //
-//    v1.0        : The nodes can handle one code-word at a time
+//    v1.0           : The nodes can handle one code-word at a time
 //
 // -----------------------------------------------------------------
 
@@ -22,9 +24,9 @@ import LdpcTypes        :: *;
 
 // NConnections indicates the number of connections that a particular
 // check-node has with the bit-nodes
-interface CheckNode;
+interface ChkNode;
    interface Vector #(NConnections, Put #(Symbol)) b2c;
-   interface Get #(Symbol) c2b;
+   interface Vector #(NConnections, Get #(Symbol)) c2b;
 endinterface
 
 // NConnections indicates the number of connections that a particular
@@ -47,19 +49,8 @@ endinterface
 
 // Core function of the bitNode
 (* noinline *)
-function Symbol fnBitNodeProcessing (Vector #(NConnections, Symbol) x);
-   // XXX This is at present a dummy function which simply does an
-   // XOR of the symbols
-   // It will actually do some sort of a zip function which goes:
-   // Vector#(N,Symbol) -> Symbol
-   return (foldl1 (\^ , x));
-endfunction
-
-
-function Symbol fnInitialBitNodeProcessing (Symbol x);
-   // XXX This is at present a dummy function which simply does an
-   // forwards the signal to the output
-   return (x);
+function Symbol fnBitNodeCore (Vector #(NConnections, Symbol) i);
+   return ((i[1]&i[2])|(i[0]&i[2])|(i[0]&i[1]));
 endfunction
 
 
@@ -82,32 +73,24 @@ module mkBitNode (BitNode);
         NConnections
       , FIFO #(Symbol)) vffC2B      <- replicateM (mkFIFO);
 
-   Reg   #(Bit #(4))                rgIterationCount  <- mkReg (0);
-
-   // -----------------------------------------------------------------
-
    // Rules and behaviour
 
-   // Rule to process the first iteration of a new code word
-   rule rlProcessFirstIteration (rgIterationCount == 0);
+   // Rule to process new data received from the top-level
+   rule rlProcessNewData;
       // As this is the first iteration, consume the codeword which is
       // currently in ffCodeIn. Carry out the computation on the codeword
       let codeIn = ffCodeIn.first; ffCodeIn.deq;
-      let codeOut = fnInitialBitNodeProcessing (codeIn);
 
       // Send the output to the check nodes
-      ffB2C.enq (codeOut);
-      
-      // Bookkeeping - keep track of iterations to know when to stop. The
-      // first iteration is treated as the first time the code word goes
-      // through the check node
-      rgIterationCount  <= rgIterationCount + 1;
+      ffB2C.enq (codeIn);
    endrule
 
+   // -----------------------------------------------------------------
+
+   (* mutually_exclusive = "rlProcessChkNodeResult, rlProcessNewData" *)
+
    // Rule to process remaining iterations
-   rule rlProcessRemIteration (
-         (rgIterationCount > 0)
-      && (rgIterationCount < fromInteger (valueOf (NIterations))));
+   rule rlProcessChkNodeResult;
       // As this iteration works of a partial result from the checknode,
       // the input comes from the vector of fifos vffC2B
       Vector #(NConnections, Symbol) codeIn;
@@ -116,24 +99,8 @@ module mkBitNode (BitNode);
          vffC2B[i].deq;
       end
 
-      let codeOut = fnBitNodeProcessing (codeIn);
-
-      // Bookkeeping - keep track of iterations to know when to stop
-      if (rgIterationCount == (fromInteger (valueOf (NIterations))-1)) begin
-         // time to stop
-         rgIterationCount <= 0;
-
-         // Send the processed code word to the output
-         ffDataOut.enq (codeOut);
-      end
-      
-      // continue with more iterations
-      else begin
-         rgIterationCount  <= rgIterationCount + 2;
-
-         // Send the output to the check nodes
-         ffB2C.enq (codeOut);
-      end
+      // Send the processed code word to the output
+      ffDataOut.enq (fnBitNodeCore (codeIn));
    endrule
 
    // -----------------------------------------------------------------
@@ -152,19 +119,19 @@ endmodule : mkBitNode
 
 // Core function of the check-node
 (* noinline *)
-function Symbol fnCheckNodeProcessing (Vector #(NConnections, Symbol) x);
-   // XXX This is at present a dummy function which simply does an
-   // inverting of the bits
-   // It will actually do some sort of a zip function which goes:
-   // Vector#(N,Symbol) -> Symbol
-   return (foldl1 (\^ , x));
+function Vector#(NConnections, Symbol) fnChkNodeCore (Vector #(NConnections, Symbol) i);
+   Vector #(NConnections, Symbol) o = newVector;
+   o[0]=i[1]^i[2];
+   o[1]=i[0]^i[2];
+   o[2]=i[0]^i[1];
+   return (o);
 endfunction
 
 
 //
 // Check Node Module definition
 (* synthesize *)
-module mkCheckNode (CheckNode);
+module mkChkNode (ChkNode);
    // Sub-modules and state
    // Input FIFO - code word
    Vector #(
@@ -172,7 +139,9 @@ module mkCheckNode (CheckNode);
       , FIFO #(Symbol)) vffB2C        <- replicateM (mkFIFO);
 
    // Output FIFO - decoded code word
-   FIFO  #(Symbol)      ffC2B         <- mkFIFO;
+   Vector #(
+        NConnections
+      , FIFO #(Symbol)) vffC2B        <- replicateM (mkFIFO);
 
    // Rules and behaviour
    rule rlProcessIteration;
@@ -183,22 +152,21 @@ module mkCheckNode (CheckNode);
          vffB2C[i].deq;
       end
 
-      // Process the partial result further
-      let codeOut = fnCheckNodeProcessing (codeIn);
-
       // Send the partial result to the bit node
-      ffC2B.enq (codeOut);
+      let res = fnChkNodeCore (codeIn);
+      for (Integer i=0; i<valueOf(NConnections); i=i+1)
+         vffC2B[i].enq (res[i]);
    endrule
 
    // -----------------------------------------------------------------
 
    // Interface
-   interface c2b = toGet (ffC2B);
+   interface c2b = map (toGet, vffC2B);
    interface b2c = map (toPut, vffB2C);
 
    // -----------------------------------------------------------------
 
-   endmodule : mkCheckNode
+   endmodule : mkChkNode
    endpackage
 // -----------------------------------------------------------------
 

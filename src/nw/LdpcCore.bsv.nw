@@ -21,6 +21,7 @@ package LdpcCore;
 
 import GetPut           :: *;
 import ClientServer     :: *;
+import Connectable      :: *;
 import FIFO             :: *;
 import Vector           :: *;
 import LdpcTypes        :: *;
@@ -61,7 +62,7 @@ import Vector :: *;
 
 // Global types used across the design
 // Soft-value bit pattern
-typedef Bit #(4) Symbol;
+typedef Bit #(1) Symbol;
 
 // Number of symbols in a codeword
 typedef 7 CodeLength;
@@ -80,7 +81,7 @@ typedef CodeLength NCheckNodes;
 typedef 3 NConnections;
 
 // Number of iterations between bit nodes and check nodes
-typedef 8 NIterations;
+// typedef 8 NIterations;
 endpackage : LdpcTypes
 
 @
@@ -102,6 +103,7 @@ number of check-nodes are inputs. These are defined in [[LdpcTypes]].
 (* synthesize *)
 module mkLdpcCore (LdpcCore);
    <<state>>
+   <<check function>>
    <<rules>>
    <<interfaces>>
    <<wrap up mkLdpcCore>>
@@ -116,7 +118,7 @@ with the number of elements defined by the numeric types
 Vector #(NBitNodes, BitNode) vBitNodes <- replicateM (mkBitNode);
 
 // Check nodes
-Vector #(NCheckNodes, CheckNode) vCheckNodes <- replicateM (mkCheckNode);
+Vector #(NCheckNodes, ChkNode) vCheckNodes <- replicateM (mkChkNode);
 
 @
 Finally, we will need a pair of FIFOs to accept the code word on the
@@ -170,41 +172,11 @@ mkConnMulti (
      vBitNodes[6].b2c
    , vCheckNodes[3].b2c[2], vCheckNodes[5].b2c[2], vCheckNodes[6].b2c[2]);
 
-// check-node to bit-node connections
-mkConnMulti (
-     vCheckNodes[0].c2b
-   , vBitNodes[0].c2b[0], vBitNodes[1].c2b[0], vBitNodes[3].c2b[0]);
-
-mkConnMulti (
-     vCheckNodes[1].c2b
-   , vBitNodes[1].c2b[1], vBitNodes[2].c2b[0], vBitNodes[4].c2b[0]);
-
-mkConnMulti (
-     vCheckNodes[2].c2b
-   , vBitNodes[2].c2b[1], vBitNodes[3].c2b[1], vBitNodes[5].c2b[0]);
-
-mkConnMulti (
-     vCheckNodes[3].c2b
-   , vBitNodes[3].c2b[2], vBitNodes[4].c2b[1], vBitNodes[6].c2b[0]);
-
-mkConnMulti (
-     vCheckNodes[4].c2b
-   , vBitNodes[0].c2b[1], vBitNodes[4].c2b[2], vBitNodes[5].c2b[1]);
-
-mkConnMulti (
-     vCheckNodes[5].c2b
-   , vBitNodes[1].c2b[2], vBitNodes[5].c2b[2], vBitNodes[6].c2b[1]);
-
-mkConnMulti (
-     vCheckNodes[6].c2b
-   , vBitNodes[0].c2b[2], vBitNodes[2].c2b[2], vBitNodes[6].c2b[2]);
-
 @
-The connections between bit and check nodes take care of all the
-communication between the nodes for each iteration. These connections have
-been abstracted in the module [[mkConnMulti]]. This module
-takes the interfaces being connected as arguments and returns the logic to
-connect them up.
+The bit-node-to-check-node connections are a broadcast of single symbol to
+multiple check nodes.  These connections have been abstracted in the module
+[[mkConnMulti]]. This module takes the interfaces being connected as arguments
+and returns the logic to connect them up.
 
 <<conn module definition>>=
 module mkConnMulti #(
@@ -230,6 +202,49 @@ destination nodes.
    endrule
 
 @
+The check-node-to-bit-node connections are one-to-one. We do not need to
+create a new abstraction for this as there is a [[mkConnection]] abstraction
+which does this for get and put interfaces.
+
+<<rules>>=
+
+// check-node to bit-node connections
+// From check-node 0
+mkConnection (vCheckNodes[0].c2b[0], vBitNodes[0].c2b[0]);
+mkConnection (vCheckNodes[0].c2b[1], vBitNodes[1].c2b[0]);
+mkConnection (vCheckNodes[0].c2b[2], vBitNodes[3].c2b[0]);
+
+// From check-node 1
+mkConnection (vCheckNodes[1].c2b[0], vBitNodes[1].c2b[1]);
+mkConnection (vCheckNodes[1].c2b[1], vBitNodes[2].c2b[0]);
+mkConnection (vCheckNodes[1].c2b[2], vBitNodes[4].c2b[0]);
+
+// From check-node 2
+mkConnection (vCheckNodes[2].c2b[0], vBitNodes[2].c2b[1]);
+mkConnection (vCheckNodes[2].c2b[1], vBitNodes[3].c2b[1]);
+mkConnection (vCheckNodes[2].c2b[2], vBitNodes[5].c2b[0]);
+
+// From check-node 3
+mkConnection (vCheckNodes[3].c2b[0], vBitNodes[3].c2b[2]);
+mkConnection (vCheckNodes[3].c2b[1], vBitNodes[4].c2b[1]);
+mkConnection (vCheckNodes[3].c2b[2], vBitNodes[6].c2b[0]);
+
+// From check-node 4
+mkConnection (vCheckNodes[4].c2b[0], vBitNodes[0].c2b[1]);
+mkConnection (vCheckNodes[4].c2b[1], vBitNodes[4].c2b[2]);
+mkConnection (vCheckNodes[4].c2b[2], vBitNodes[5].c2b[1]);
+
+// From check-node 5
+mkConnection (vCheckNodes[5].c2b[0], vBitNodes[1].c2b[2]);
+mkConnection (vCheckNodes[5].c2b[1], vBitNodes[5].c2b[2]);
+mkConnection (vCheckNodes[5].c2b[2], vBitNodes[6].c2b[1]);
+
+// From check-node 6
+mkConnection (vCheckNodes[6].c2b[0], vBitNodes[0].c2b[2]);
+mkConnection (vCheckNodes[6].c2b[1], vBitNodes[2].c2b[2]);
+mkConnection (vCheckNodes[6].c2b[2], vBitNodes[6].c2b[2]);
+
+@
 In order to get things started, the input code-word needs to be input
 to the bit nodes. The input code word will be sitting in the [[ffI]] FIFO.
 In the current architecture, we are sending one symbol per bit-node. In
@@ -240,34 +255,83 @@ A code-word can be sent to all bit-nodes only when all of them are ready to
 receive the code words.
 
 <<rules>>=
-rule rlPutCodeWordIn;
+rule rlPutCodeWordIn (rgIdle);
    // Get the codeword from ffI
    let codeIn = ffI.first; ffI.deq;
+   
+   // The decoder is busy now
+   rgIdle <= False;
 
    // Send each bit-node a symbol
    for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
       vBitNodes[i].codeIn.put (codeIn[i]);
+
+`ifdef DBG
+   $display ("(%s)::LdpcCore::rlEvaluateOutput::Decoding Okay", $time);
+`endif
 endrule
 
 @
-At the output end, the decoded symbols are collected from the bit-nodes and
-sent to the [[ffO]]. Again, one symbol each is connected from every
-bit-node in this architecture. Decoded words can be collected from all the
-bit-nodes only when all of them are ready with their decoded symbols.
+After every iteration, each bit-nodes return a symbol. All of these need to be
+collated and checked to see if the decoding is complete. If not, they are sent
+back to the bit nodes for another round of processing.
 
 <<rules>>=
-rule rlGetDecodedWordOut;
-   DataWord dOut;
-
-   // Get a symbol from each bit-node
+rule rlEvaluateOutput (!rgIdle);
+   DataWord vBitNodeOuts;
    for (Integer i=0; i<valueOf(NBitNodes); i=i+1) begin
-      let d <- vBitNodes[i].dataOut.get ();
-      dOut [i] = d;
+      let d <- vBitNodes[i].dataOut.get();
+      vBitNodeOuts[i] = d;
    end
 
-   // Write the collected symbols into the output fifo
-   ffO.enq (dOut);
+`ifdef DBG
+   $display ("(%s)::LdpcCore::rlEvaluateOutput::%07b", $time, pack (vBitNodeOuts));
+`endif
+
+   // Check if the decoding is complete
+   // Decoding is good
+   if (fnCheckDecodedWord (vBitNodeOuts) == 1'b0) begin
+      ffO.enq (vBitNodeOuts);
+      rgIdle <= True;
+`ifdef DBG
+      $display ("(%s)::LdpcCore::rlEvaluateOutput::Decoding Okay", $time);
+`endif
+   end
+
+   // Decoding is not complete - back to the bit node
+   else begin
+`ifdef DBG
+      $display ("(%s)::LdpcCore::rlEvaluateOutput::Decoding not okay. Back to bit-node", $time);
+`endif
+      // Send each bit-node a symbol
+      for (Integer i=0; i<valueOf(NBitNodes); i=i+1)
+         vBitNodes[i].codeIn.put (vBitNodeOuts[i]);
+   end
 endrule
+
+@
+The register [[rgIdle]] differentiates between whether the decoder is busy
+with an existing codeword or is waiting for new input.
+
+<<state>>=
+Reg #(Bool) rgIdle <- mkReg(True);
+
+@
+At the output end, the decoded symbols are collected from the bit-nodes and
+sent to the [[ffO]]. This is done if the [[fnCheckDecodedWord]] returns a
+positive result (no error).
+
+<<check function>>=
+function Bit#(1) fnCheckDecodedWord (DataWord b);
+return (
+      (b[0]^b[1]^b[3])
+    | (b[1]^b[2]^b[4])
+    | (b[2]^b[3]^b[5])
+    | (b[3]^b[4]^b[6])
+    | (b[0]^b[4]^b[5])
+    | (b[1]^b[5]^b[6])
+    | (b[0]^b[2]^b[6]));
+endfunction
 
 @
 The [[LdpcDecode]] interface simply does the connections to the [[ffI]]
@@ -280,5 +344,5 @@ return (toGPServer (ffI, ffO));
 endmodule : mkLdpcCore
 
 <<conn wrap up>>=
-endmodule
+endmodule : mkConnMulti
 endpackage : LdpcCore
