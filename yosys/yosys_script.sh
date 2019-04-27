@@ -14,7 +14,7 @@ mname=$(basename $1 ".v")
 # 1. Run yosys to generate spice and blif files.
 
 cat <<EOF | $YOSYS > ${mname}.log
-read_verilog ${mname}
+read_verilog $1
 hierarchy -check -top ${mname}
 proc; opt; memory; opt; fsm; opt
 techmap; opt
@@ -22,7 +22,7 @@ splitnets -ports
 dfflibmap -liberty mycells.lib
 abc -liberty mycells.lib
 clean
-write_verilog ${mname}.vg
+write_verilog -renameprefix ag ${mname}.vg
 show ${mname}
 #write_blif ${mname}.blif
 #write_spice raw_${mname}.spice

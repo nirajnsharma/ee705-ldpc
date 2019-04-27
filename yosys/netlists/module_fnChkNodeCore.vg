@@ -2,83 +2,83 @@
 
 (* top =  1  *)
 (* src = "module_fnChkNodeCore.v:30" *)
-module module_fnChkNodeCore(\fnChkNodeCore_i[0] , \fnChkNodeCore_i[1] , \fnChkNodeCore_i[2] , \fnChkNodeCore[0] , \fnChkNodeCore[1] , \fnChkNodeCore[2] );
-  wire _00_;
-  wire _01_;
-  wire _02_;
-  wire _03_;
-  wire _04_;
-  wire _05_;
-  wire _06_;
-  wire _07_;
-  wire _08_;
+module module_fnChkNodeCore(fnChkNodeCore_i_0 , fnChkNodeCore_i_1 , fnChkNodeCore_i_2 , fnChkNodeCore_0 , fnChkNodeCore_1 , fnChkNodeCore_2 );
+  wire ag_00_;
+  wire ag_01_;
+  wire ag_02_;
+  wire ag_03_;
+  wire ag_04_;
+  wire ag_05_;
+  wire ag_06_;
+  wire ag_07_;
+  wire ag_08_;
   (* src = "module_fnChkNodeCore.v:34" *)
-  output \fnChkNodeCore[0] ;
+  output fnChkNodeCore_0 ;
   (* src = "module_fnChkNodeCore.v:34" *)
-  output \fnChkNodeCore[1] ;
+  output fnChkNodeCore_1 ;
   (* src = "module_fnChkNodeCore.v:34" *)
-  output \fnChkNodeCore[2] ;
+  output fnChkNodeCore_2 ;
   (* src = "module_fnChkNodeCore.v:33" *)
-  input \fnChkNodeCore_i[0] ;
+  input fnChkNodeCore_i_0 ;
   (* src = "module_fnChkNodeCore.v:33" *)
-  input \fnChkNodeCore_i[1] ;
+  input fnChkNodeCore_i_1 ;
   (* src = "module_fnChkNodeCore.v:33" *)
-  input \fnChkNodeCore_i[2] ;
-  NOT _09_ (
-    .A(\fnChkNodeCore_i[2] ),
-    .Y(_06_)
+  input fnChkNodeCore_i_2 ;
+  std_inv ag_09_ (
+    .a(fnChkNodeCore_i_2 ),
+    .y(ag_06_)
   );
-  NAND _10_ (
-    .A(_06_),
-    .B(\fnChkNodeCore_i[1] ),
-    .Y(_07_)
+  std_nand2 ag_10_ (
+    .a(ag_06_),
+    .b(fnChkNodeCore_i_1 ),
+    .y(ag_07_)
   );
-  NOT _11_ (
-    .A(\fnChkNodeCore_i[1] ),
-    .Y(_08_)
+  std_inv ag_11_ (
+    .a(fnChkNodeCore_i_1 ),
+    .y(ag_08_)
   );
-  NAND _12_ (
-    .A(\fnChkNodeCore_i[2] ),
-    .B(_08_),
-    .Y(_00_)
+  std_nand2 ag_12_ (
+    .a(fnChkNodeCore_i_2 ),
+    .b(ag_08_),
+    .y(ag_00_)
   );
-  NAND _13_ (
-    .A(_00_),
-    .B(_07_),
-    .Y(\fnChkNodeCore[0] )
+  std_nand2 ag_13_ (
+    .a(ag_00_),
+    .b(ag_07_),
+    .y(fnChkNodeCore_0 )
   );
-  NOT _14_ (
-    .A(\fnChkNodeCore_i[0] ),
-    .Y(_01_)
+  std_inv ag_14_ (
+    .a(fnChkNodeCore_i_0 ),
+    .y(ag_01_)
   );
-  NAND _15_ (
-    .A(_01_),
-    .B(\fnChkNodeCore_i[2] ),
-    .Y(_02_)
+  std_nand2 ag_15_ (
+    .a(ag_01_),
+    .b(fnChkNodeCore_i_2 ),
+    .y(ag_02_)
   );
-  NAND _16_ (
-    .A(\fnChkNodeCore_i[0] ),
-    .B(_06_),
-    .Y(_03_)
+  std_nand2 ag_16_ (
+    .a(fnChkNodeCore_i_0 ),
+    .b(ag_06_),
+    .y(ag_03_)
   );
-  NAND _17_ (
-    .A(_03_),
-    .B(_02_),
-    .Y(\fnChkNodeCore[1] )
+  std_nand2 ag_17_ (
+    .a(ag_03_),
+    .b(ag_02_),
+    .y(fnChkNodeCore_1 )
   );
-  NAND _18_ (
-    .A(_01_),
-    .B(\fnChkNodeCore_i[1] ),
-    .Y(_04_)
+  std_nand2 ag_18_ (
+    .a(ag_01_),
+    .b(fnChkNodeCore_i_1 ),
+    .y(ag_04_)
   );
-  NAND _19_ (
-    .A(\fnChkNodeCore_i[0] ),
-    .B(_08_),
-    .Y(_05_)
+  std_nand2 ag_19_ (
+    .a(fnChkNodeCore_i_0 ),
+    .b(ag_08_),
+    .y(ag_05_)
   );
-  NAND _20_ (
-    .A(_05_),
-    .B(_04_),
-    .Y(\fnChkNodeCore[2] )
+  std_nand2 ag_20_ (
+    .a(ag_05_),
+    .b(ag_04_),
+    .y(fnChkNodeCore_2 )
   );
 endmodule
