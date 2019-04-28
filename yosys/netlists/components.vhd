@@ -8,8 +8,23 @@
            y : out std_logic);
    end component;
     
+   component std_nand3
+      port(a,b,c : in std_logic;
+           y : out std_logic);
+   end component;
+    
    component std_nor2
       port(a,b : in std_logic;
+           y : out std_logic);
+   end component;
+    
+   component std_nor3
+      port(a,b,c : in std_logic;
+           y : out std_logic);
+   end component;
+    
+   component std_aoi
+      port(a,b,c : in std_logic;
            y : out std_logic);
    end component;
     
