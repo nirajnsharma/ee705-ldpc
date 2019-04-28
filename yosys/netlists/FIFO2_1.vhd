@@ -1,3 +1,15 @@
+--------------------------------------------------------------------------------
+--
+-- File Type:    VHDL 
+-- Tool Version: verilog2vhdl 19.00c
+-- Input file was: ./netlists/FIFO2_1.vg.vpp
+-- Command line was: /home/sandeep/Desktop/ActualCoursework/SemII/EE705/synapticad-19.00c-x64/bin/x86_64/verilog2vhdl.bin ./netlists/FIFO2_1.vg -No_Component_Check -SYNTH
+-- Date Created: Sun Apr 28 12:26:21 2019
+--
+--------------------------------------------------------------------------------
+
+
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
@@ -113,8 +125,11 @@ ARCHITECTURE VeriArch OF FIFO2_1 IS
     SIGNAL ag_35 : std_logic;	
 
     SIGNAL ag_36 : std_logic;	
+-- Intermediate signal for D_OUT
     SIGNAL V2V_D_OUT : std_logic;	
+-- Intermediate signal for EMPTY_N
     SIGNAL V2V_EMPTY_N : std_logic;	
+-- Intermediate signal for FULL_N
     SIGNAL V2V_FULL_N : std_logic;	
 
     SIGNAL data0_reg : std_logic;	
@@ -142,6 +157,9 @@ BEGIN
     x => full_req,
     z => FULL_N
              );
+    FULL_N <= V2V_FULL_N;	
+    D_OUT <= V2V_D_OUT;	
+    EMPTY_N <= V2V_EMPTY_N;	
 
     ag_37 : std_inv
     PORT MAP (
@@ -401,6 +419,25 @@ BEGIN
 
 
     ag_75 : d_ff
+    ns_1 : user_defined.user_package.buf4x
+    PORT MAP (
+        a => data0_reg,
+        y => V2V_D_OUT);	
+
+
+    ns_2 : user_defined.user_package.buf4x
+    PORT MAP (
+        a => empty_reg,
+        y => V2V_EMPTY_N);	
+
+
+    ns_3 : user_defined.user_package.buf4x
+    PORT MAP (
+        a => full_reg,
+        y => V2V_FULL_N);	
+
+
+    ag_75 : user_defined.user_package.d_ff
     PORT MAP (
         clk => CLK,
         d => ag_01,
