@@ -1,15 +1,17 @@
 library(demo) {
-  cell(buf4x) {
-    area: 6;
-    pin(a) { direction: input; }
-    pin(y) { direction: output;
-              function: "a"; }
-  }
   cell(std_inv) {
     area: 3;
     pin(a) { direction: input; }
     pin(y) { direction: output;
               function: "a'"; }
+  }
+  cell(std_aoi) {
+    area: 9;
+    pin(a) { direction: input; }
+    pin(b) { direction: input; }
+    pin(c) { direction: input; }
+    pin(y) { direction: output;
+             function: "((a*b)+c)'"; }
   }
   cell(std_nand2) {
     area: 4;
@@ -18,12 +20,28 @@ library(demo) {
     pin(y) { direction: output;
              function: "(a*b)'"; }
   }
+  cell(std_nand3) {
+    area: 9;
+    pin(a) { direction: input; }
+    pin(b) { direction: input; }
+    pin(c) { direction: input; }
+    pin(y) { direction: output;
+             function: "(a*b*c)'"; }
+  }
   cell(std_nor2) {
     area: 4;
     pin(a) { direction: input; }
     pin(b) { direction: input; }
     pin(y) { direction: output;
              function: "(a+b)'"; }
+  }
+  cell(std_nor3) {
+    area: 9;
+    pin(a) { direction: input; }
+    pin(b) { direction: input; }
+    pin(c) { direction: input; }
+    pin(y) { direction: output;
+             function: "(a+b+c)'"; }
   }
   cell(d_ff) {
     area: 18;

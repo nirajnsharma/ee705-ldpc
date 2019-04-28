@@ -16,6 +16,7 @@ mname=$(basename $1 ".v")
 cat <<EOF | $YOSYS > ${mname}.log
 #read_verilog rtl/$1 lib/FIFO2_1.v rtl/module_fnBitNodeCore.v
 read_verilog lib/$1
+#read_verilog rtl/$1
 hierarchy -check -top ${mname}
 proc; opt; memory; opt; fsm; opt
 techmap; opt
