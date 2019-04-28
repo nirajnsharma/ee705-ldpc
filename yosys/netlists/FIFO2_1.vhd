@@ -4,7 +4,7 @@
 -- Tool Version: verilog2vhdl 19.00c
 -- Input file was: ./netlists/FIFO2_1.vg.vpp
 -- Command line was: /home/sandeep/Desktop/ActualCoursework/SemII/EE705/synapticad-19.00c-x64/bin/x86_64/verilog2vhdl.bin ./netlists/FIFO2_1.vg -No_Component_Check -SYNTH
--- Date Created: Sun Apr 28 12:26:21 2019
+-- Date Created: Sun Apr 28 12:48:28 2019
 --
 --------------------------------------------------------------------------------
 
@@ -13,45 +13,30 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
+LIBRARY ASC;
+USE ASC.numeric_std.all;
 ENTITY FIFO2_1 IS	-- 
     PORT (
-        CLK : IN std_logic;	
-        RST : IN std_logic;	
-        D_IN : IN std_logic;	
-        ENQ : IN std_logic;	
-        FULL_N : OUT std_logic;	
-        D_OUT : OUT std_logic;	
-        DEQ : IN std_logic;	
-        EMPTY_N : OUT std_logic;	
-        CLR : IN std_logic);	
+        SIGNAL CLK : IN std_logic;	
+        SIGNAL RST : IN std_logic;	
+        SIGNAL D_IN : IN std_logic;	
+        SIGNAL ENQ : IN std_logic;	
+        SIGNAL FULL_N : OUT std_logic;	
+        SIGNAL D_OUT : OUT std_logic;	
+        SIGNAL DEQ : IN std_logic;	
+        SIGNAL EMPTY_N : OUT std_logic;	
+        SIGNAL CLR : IN std_logic);	
 END FIFO2_1;
 
+
+
+LIBRARY ASC;
+
+LIBRARY user_defined;
 ARCHITECTURE VeriArch OF FIFO2_1 IS
-   component buffer1
-      port(x : in std_logic;
-           z : out std_logic);
-   end component;
+    USE ASC.FUNCTIONS.ALL;
+    USE user_defined.user_package.ALL;
 
-   component std_inv
-      port(a : in std_logic;
-           y : out std_logic);
-   end component;
-
-   component std_nand2
-      port(a,b : in std_logic;
-           y : out std_logic);
-   end component;
-    
-   component std_nor2
-      port(a,b : in std_logic;
-           y : out std_logic);
-   end component;
-    
-   component d_ff
-      port(clk, d : in std_logic;
-           q : out std_logic);
-   end component;
-    
     SIGNAL ag_00 : std_logic;	
 
     SIGNAL ag_01 : std_logic;	
@@ -140,285 +125,267 @@ ARCHITECTURE VeriArch OF FIFO2_1 IS
 
     SIGNAL full_reg : std_logic;	
 BEGIN
-    ns_buf1: buffer1
-    PORT MAP (
-    x => data0_reg,
-    z => D_OUT
-             );
-
-    ns_buf2: buffer1
-    PORT MAP (
-    x => empty_req,
-    z => EMPTY_N
-             );
-
-    ns_buf3: buffer1
-    PORT MAP (
-    x => full_req,
-    z => FULL_N
-             );
     FULL_N <= V2V_FULL_N;	
     D_OUT <= V2V_D_OUT;	
     EMPTY_N <= V2V_EMPTY_N;	
 
-    ag_37 : std_inv
+    ag_37 : user_defined.user_package.std_inv
     PORT MAP (
         a => empty_reg,
         y => ag_04);	
 
 
-    ag_38 : std_inv
+    ag_38 : user_defined.user_package.std_inv
     PORT MAP (
         a => ENQ,
         y => ag_05);	
 
 
-    ag_39 : std_nor2
+    ag_39 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_05,
         b => ag_04,
         y => ag_06);	
 
 
-    ag_40 : std_nor2
+    ag_40 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_06,
         b => data1_reg,
         y => ag_07);	
 
 
-    ag_41 : std_inv
+    ag_41 : user_defined.user_package.std_inv
     PORT MAP (
         a => ag_06,
         y => ag_08);	
 
 
-    ag_42 : std_nor2
+    ag_42 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_08,
         b => D_IN,
         y => ag_09);	
 
 
-    ag_43 : std_nor2
+    ag_43 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_09,
         b => ag_07,
         y => ag_01);	
 
 
-    ag_44 : std_inv
+    ag_44 : user_defined.user_package.std_inv
     PORT MAP (
         a => full_reg,
         y => ag_10);	
 
 
-    ag_45 : std_inv
+    ag_45 : user_defined.user_package.std_inv
     PORT MAP (
         a => DEQ,
         y => ag_11);	
 
 
-    ag_46 : std_nor2
+    ag_46 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_11,
         b => ENQ,
         y => ag_12);	
 
 
-    ag_47 : std_inv
+    ag_47 : user_defined.user_package.std_inv
     PORT MAP (
         a => ag_12,
         y => ag_13);	
 
 
-    ag_48 : std_nor2
+    ag_48 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_13,
         b => ag_10,
         y => ag_14);	
 
 
-    ag_49 : std_nor2
+    ag_49 : user_defined.user_package.std_nor2
     PORT MAP (
         a => DEQ,
         b => ag_05,
         y => ag_15);	
 
 
-    ag_50 : std_nor2
+    ag_50 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_15,
         b => ag_12,
         y => ag_16);	
 
 
-    ag_51 : std_nand2
+    ag_51 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_16,
         b => ag_04,
         y => ag_17);	
 
 
-    ag_52 : std_inv
+    ag_52 : user_defined.user_package.std_inv
     PORT MAP (
         a => RST,
         y => ag_18);	
 
 
-    ag_53 : std_nor2
+    ag_53 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_18,
         b => CLR,
         y => ag_19);	
 
 
-    ag_54 : std_nand2
+    ag_54 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_19,
         b => ag_17,
         y => ag_20);	
 
 
-    ag_55 : std_nor2
+    ag_55 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_20,
         b => ag_14,
         y => ag_02);	
 
 
-    ag_56 : std_nand2
+    ag_56 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_16,
         b => ag_10,
         y => ag_21);	
 
 
-    ag_57 : std_nand2
+    ag_57 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_15,
         b => empty_reg,
         y => ag_22);	
 
 
-    ag_58 : std_nand2
+    ag_58 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_22,
         b => ag_21,
         y => ag_23);	
 
 
-    ag_59 : std_nand2
+    ag_59 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_23,
         b => ag_19,
         y => ag_03);	
 
 
-    ag_60 : std_nand2
+    ag_60 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_11,
         b => empty_reg,
         y => ag_24);	
 
 
-    ag_61 : std_nand2
+    ag_61 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_24,
         b => ENQ,
         y => ag_25);	
 
 
-    ag_62 : std_inv
+    ag_62 : user_defined.user_package.std_inv
     PORT MAP (
         a => data0_reg,
         y => ag_26);	
 
 
-    ag_63 : std_nor2
+    ag_63 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_11,
         b => full_reg,
         y => ag_27);	
 
 
-    ag_64 : std_nor2
+    ag_64 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_27,
         b => ag_26,
         y => ag_28);	
 
 
-    ag_65 : std_nand2
+    ag_65 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_28,
         b => ag_25,
         y => ag_29);	
 
 
-    ag_66 : std_inv
+    ag_66 : user_defined.user_package.std_inv
     PORT MAP (
         a => data1_reg,
         y => ag_30);	
 
 
-    ag_67 : std_nand2
+    ag_67 : user_defined.user_package.std_nand2
     PORT MAP (
         a => DEQ,
         b => ag_10,
         y => ag_31);	
 
 
-    ag_68 : std_nor2
+    ag_68 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_31,
         b => ag_30,
         y => ag_32);	
 
 
-    ag_69 : std_nand2
+    ag_69 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_10,
         b => empty_reg,
         y => ag_33);	
 
 
-    ag_70 : std_nand2
+    ag_70 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_33,
         b => D_IN,
         y => ag_34);	
 
 
-    ag_71 : std_nor2
+    ag_71 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_34,
         b => ag_25,
         y => ag_35);	
 
 
-    ag_72 : std_nor2
+    ag_72 : user_defined.user_package.std_nor2
     PORT MAP (
         a => ag_35,
         b => ag_32,
         y => ag_36);	
 
 
-    ag_73 : std_nand2
+    ag_73 : user_defined.user_package.std_nand2
     PORT MAP (
         a => ag_36,
         b => ag_29,
         y => ag_00);	
 
 
-    ag_74 : d_ff
+    ag_74 : user_defined.user_package.d_ff
     PORT MAP (
         clk => CLK,
         d => ag_00,
         q => data0_reg);	
 
 
-    ag_75 : d_ff
     ns_1 : user_defined.user_package.buf4x
     PORT MAP (
         a => data0_reg,
@@ -444,14 +411,14 @@ BEGIN
         q => data1_reg);	
 
 
-    ag_76 : d_ff
+    ag_76 : user_defined.user_package.d_ff
     PORT MAP (
         clk => CLK,
         d => ag_03,
         q => full_reg);	
 
 
-    ag_77 : d_ff
+    ag_77 : user_defined.user_package.d_ff
     PORT MAP (
         clk => CLK,
         d => ag_02,
