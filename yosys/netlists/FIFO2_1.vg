@@ -230,6 +230,9 @@ module FIFO2_1(CLK, RST, D_IN, ENQ, FULL_N, D_OUT, DEQ, EMPTY_N, CLR);
     .d(ag_00),
     .q(data0_reg)
   );
+  buf4x ns_1 (.a (data0_reg), .y (D_OUT));
+  buf4x ns_2 (.a (empty_reg), .y (EMPTY_N));
+  buf4x ns_3 (.a (full_reg), .y (FULL_N));
   d_ff ag_75 (
     .clk(CLK),
     .d(ag_01),
@@ -245,7 +248,4 @@ module FIFO2_1(CLK, RST, D_IN, ENQ, FULL_N, D_OUT, DEQ, EMPTY_N, CLR);
     .d(ag_02),
     .q(empty_reg)
   );
-  assign D_OUT = data0_reg;
-  assign EMPTY_N = empty_reg;
-  assign FULL_N = full_reg;
 endmodule

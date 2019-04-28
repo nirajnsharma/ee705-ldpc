@@ -1,9 +1,9 @@
 library(demo) {
-  cell(buffer1) {
+  cell(buf4x) {
     area: 6;
-    pin(x) { direction: input; }
-    pin(z) { direction: output;
-              function: "x"; }
+    pin(a) { direction: input; }
+    pin(y) { direction: output;
+              function: "a"; }
   }
   cell(std_inv) {
     area: 3;

@@ -1,26 +1,19 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
-
-
 ENTITY FIFO2_1 IS	-- 
     PORT (
-        SIGNAL CLK : IN std_logic;	
-        SIGNAL RST : IN std_logic;	
-        SIGNAL D_IN : IN std_logic;	
-        SIGNAL ENQ : IN std_logic;	
-        SIGNAL FULL_N : OUT std_logic;	
-        SIGNAL D_OUT : OUT std_logic;	
-        SIGNAL DEQ : IN std_logic;	
-        SIGNAL EMPTY_N : OUT std_logic;	
-        SIGNAL CLR : IN std_logic);	
+        CLK : IN std_logic;	
+        RST : IN std_logic;	
+        D_IN : IN std_logic;	
+        ENQ : IN std_logic;	
+        FULL_N : OUT std_logic;	
+        D_OUT : OUT std_logic;	
+        DEQ : IN std_logic;	
+        EMPTY_N : OUT std_logic;	
+        CLR : IN std_logic);	
 END FIFO2_1;
 
-
-
-
-
-LIBRARY user_defined;
 ARCHITECTURE VeriArch OF FIFO2_1 IS
    component buffer1
       port(x : in std_logic;
@@ -47,8 +40,6 @@ ARCHITECTURE VeriArch OF FIFO2_1 IS
            q : out std_logic);
    end component;
     
-    USE ALL;
-
     SIGNAL ag_00 : std_logic;	
 
     SIGNAL ag_01 : std_logic;	
@@ -134,12 +125,23 @@ ARCHITECTURE VeriArch OF FIFO2_1 IS
 
     SIGNAL full_reg : std_logic;	
 BEGIN
-    V2V_D_OUT <= data0_reg;	
-    V2V_EMPTY_N <= empty_reg;	
-    V2V_FULL_N <= full_reg;	
-    FULL_N <= V2V_FULL_N;	
-    D_OUT <= V2V_D_OUT;	
-    EMPTY_N <= V2V_EMPTY_N;	
+    ns_buf1: buffer1
+    PORT MAP (
+    x => data0_reg,
+    z => D_OUT
+             );
+
+    ns_buf2: buffer1
+    PORT MAP (
+    x => empty_req,
+    z => EMPTY_N
+             );
+
+    ns_buf3: buffer1
+    PORT MAP (
+    x => full_req,
+    z => FULL_N
+             );
 
     ag_37 : std_inv
     PORT MAP (
