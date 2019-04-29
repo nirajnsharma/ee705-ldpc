@@ -1,4 +1,9 @@
 library(demo) {
+  cell(buf4x) {
+    area: 6;
+    pin(a) {direction: input;}
+    pin(y) {direction: output;}
+  }
   cell(std_inv) {
     area: 3;
     pin(a) { direction: input; }

@@ -1,3 +1,8 @@
+   component buf_4x
+      port(a : in std_logic;
+           y : out std_logic);
+   end component;
+
    component std_inv
       port(a : in std_logic;
            y : out std_logic);
