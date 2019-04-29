@@ -1,4 +1,25 @@
-module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[5] , D_IN[6] , ENQ, FULL_N, D_OUT[0] , D_OUT[1] , D_OUT[2] , D_OUT[3] , D_OUT[4] , D_OUT[5] , D_OUT[6] , DEQ, EMPTY_N, CLR);
+module FIFO2_7(CLK, RST, D_IN_0 , D_IN_1 , D_IN_2 , D_IN_3 , D_IN_4 , D_IN_5 , D_IN_6 , ENQ, FULL_N, D_OUT_0 , D_OUT_1 , D_OUT_2 , D_OUT_3 , D_OUT_4 , D_OUT_5 , D_OUT_6 , DEQ, EMPTY_N, CLR);
+  input CLK;
+  input CLR;
+  input DEQ;
+  input D_IN_0 ;
+  input D_IN_1 ;
+  input D_IN_2 ;
+  input D_IN_3 ;
+  input D_IN_4 ;
+  input D_IN_5 ;
+  input D_IN_6 ;
+  output D_OUT_0 ;
+  output D_OUT_1 ;
+  output D_OUT_2 ;
+  output D_OUT_3 ;
+  output D_OUT_4 ;
+  output D_OUT_5 ;
+  output D_OUT_6 ;
+  output EMPTY_N;
+  input ENQ;
+  output FULL_N;
+  input RST;
   wire ag_000;
   wire ag_001;
   wire ag_002;
@@ -100,41 +121,20 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   wire ag_098;
   wire ag_099;
   wire ag_100;
-  input CLK;
-  input CLR;
-  input DEQ;
-  input D_IN[0] ;
-  input D_IN[1] ;
-  input D_IN[2] ;
-  input D_IN[3] ;
-  input D_IN[4] ;
-  input D_IN[5] ;
-  input D_IN[6] ;
-  output D_OUT[0] ;
-  output D_OUT[1] ;
-  output D_OUT[2] ;
-  output D_OUT[3] ;
-  output D_OUT[4] ;
-  output D_OUT[5] ;
-  output D_OUT[6] ;
-  output EMPTY_N;
-  input ENQ;
-  output FULL_N;
-  input RST;
-  wire data0_reg[0] ;
-  wire data0_reg[1] ;
-  wire data0_reg[2] ;
-  wire data0_reg[3] ;
-  wire data0_reg[4] ;
-  wire data0_reg[5] ;
-  wire data0_reg[6] ;
-  wire data1_reg[0] ;
-  wire data1_reg[1] ;
-  wire data1_reg[2] ;
-  wire data1_reg[3] ;
-  wire data1_reg[4] ;
-  wire data1_reg[5] ;
-  wire data1_reg[6] ;
+  wire data0_reg_0 ;
+  wire data0_reg_1 ;
+  wire data0_reg_2 ;
+  wire data0_reg_3 ;
+  wire data0_reg_4 ;
+  wire data0_reg_5 ;
+  wire data0_reg_6 ;
+  wire data1_reg_0 ;
+  wire data1_reg_1 ;
+  wire data1_reg_2 ;
+  wire data1_reg_3 ;
+  wire data1_reg_4 ;
+  wire data1_reg_5 ;
+  wire data1_reg_6 ;
   wire empty_reg;
   wire full_reg;
   std_inv ag_101 (
@@ -152,7 +152,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_104 (
     .a(ag_057),
-    .b(D_IN[0] ),
+    .b(D_IN_0 ),
     .y(ag_058)
   );
   std_inv ag_105 (
@@ -161,7 +161,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_106 (
     .a(ag_059),
-    .b(data1_reg[0] ),
+    .b(data1_reg_0 ),
     .y(ag_060)
   );
   std_nand2 ag_107 (
@@ -171,12 +171,12 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_108 (
     .a(ag_057),
-    .b(D_IN[1] ),
+    .b(D_IN_1 ),
     .y(ag_061)
   );
   std_nand2 ag_109 (
     .a(ag_059),
-    .b(data1_reg[1] ),
+    .b(data1_reg_1 ),
     .y(ag_062)
   );
   std_nand2 ag_110 (
@@ -186,12 +186,12 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_111 (
     .a(ag_057),
-    .b(D_IN[2] ),
+    .b(D_IN_2 ),
     .y(ag_063)
   );
   std_nand2 ag_112 (
     .a(ag_059),
-    .b(data1_reg[2] ),
+    .b(data1_reg_2 ),
     .y(ag_064)
   );
   std_nand2 ag_113 (
@@ -201,12 +201,12 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_114 (
     .a(ag_057),
-    .b(D_IN[3] ),
+    .b(D_IN_3 ),
     .y(ag_065)
   );
   std_nand2 ag_115 (
     .a(ag_059),
-    .b(data1_reg[3] ),
+    .b(data1_reg_3 ),
     .y(ag_066)
   );
   std_nand2 ag_116 (
@@ -216,12 +216,12 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_117 (
     .a(ag_057),
-    .b(D_IN[4] ),
+    .b(D_IN_4 ),
     .y(ag_067)
   );
   std_nand2 ag_118 (
     .a(ag_059),
-    .b(data1_reg[4] ),
+    .b(data1_reg_4 ),
     .y(ag_068)
   );
   std_nand2 ag_119 (
@@ -231,12 +231,12 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_120 (
     .a(ag_057),
-    .b(D_IN[5] ),
+    .b(D_IN_5 ),
     .y(ag_069)
   );
   std_nand2 ag_121 (
     .a(ag_059),
-    .b(data1_reg[5] ),
+    .b(data1_reg_5 ),
     .y(ag_070)
   );
   std_nand2 ag_122 (
@@ -246,12 +246,12 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_123 (
     .a(ag_057),
-    .b(D_IN[6] ),
+    .b(D_IN_6 ),
     .y(ag_071)
   );
   std_nand2 ag_124 (
     .a(ag_059),
-    .b(data1_reg[6] ),
+    .b(data1_reg_6 ),
     .y(ag_072)
   );
   std_nand2 ag_125 (
@@ -361,11 +361,11 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_147 (
     .a(ag_091),
-    .b(D_IN[0] ),
+    .b(D_IN_0 ),
     .y(ag_092)
   );
   std_inv ag_148 (
-    .a(data1_reg[0] ),
+    .a(data1_reg_0 ),
     .y(ag_093)
   );
   std_nand2 ag_149 (
@@ -379,7 +379,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
     .y(ag_095)
   );
   std_inv ag_151 (
-    .a(data0_reg[0] ),
+    .a(data0_reg_0 ),
     .y(ag_096)
   );
   std_nand2 ag_152 (
@@ -404,11 +404,11 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_156 (
     .a(ag_091),
-    .b(D_IN[1] ),
+    .b(D_IN_1 ),
     .y(ag_100)
   );
   std_inv ag_157 (
-    .a(data1_reg[1] ),
+    .a(data1_reg_1 ),
     .y(ag_016)
   );
   std_nor2 ag_158 (
@@ -417,7 +417,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
     .y(ag_017)
   );
   std_inv ag_159 (
-    .a(data0_reg[1] ),
+    .a(data0_reg_1 ),
     .y(ag_018)
   );
   std_nor2 ag_160 (
@@ -441,11 +441,11 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_164 (
     .a(ag_021),
-    .b(data1_reg[2] ),
+    .b(data1_reg_2 ),
     .y(ag_022)
   );
   std_inv ag_165 (
-    .a(data0_reg[2] ),
+    .a(data0_reg_2 ),
     .y(ag_023)
   );
   std_nor2 ag_166 (
@@ -454,7 +454,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
     .y(ag_024)
   );
   std_inv ag_167 (
-    .a(D_IN[2] ),
+    .a(D_IN_2 ),
     .y(ag_025)
   );
   std_nor2 ag_168 (
@@ -489,11 +489,11 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_174 (
     .a(ag_091),
-    .b(D_IN[3] ),
+    .b(D_IN_3 ),
     .y(ag_031)
   );
   std_inv ag_175 (
-    .a(data1_reg[3] ),
+    .a(data1_reg_3 ),
     .y(ag_032)
   );
   std_nor2 ag_176 (
@@ -502,7 +502,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
     .y(ag_033)
   );
   std_inv ag_177 (
-    .a(data0_reg[3] ),
+    .a(data0_reg_3 ),
     .y(ag_034)
   );
   std_nor2 ag_178 (
@@ -522,11 +522,11 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_181 (
     .a(ag_091),
-    .b(D_IN[4] ),
+    .b(D_IN_4 ),
     .y(ag_037)
   );
   std_inv ag_182 (
-    .a(data1_reg[4] ),
+    .a(data1_reg_4 ),
     .y(ag_038)
   );
   std_nor2 ag_183 (
@@ -535,7 +535,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
     .y(ag_039)
   );
   std_inv ag_184 (
-    .a(data0_reg[4] ),
+    .a(data0_reg_4 ),
     .y(ag_040)
   );
   std_nor2 ag_185 (
@@ -555,11 +555,11 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_188 (
     .a(ag_091),
-    .b(D_IN[5] ),
+    .b(D_IN_5 ),
     .y(ag_043)
   );
   std_inv ag_189 (
-    .a(data1_reg[5] ),
+    .a(data1_reg_5 ),
     .y(ag_044)
   );
   std_nor2 ag_190 (
@@ -568,7 +568,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
     .y(ag_045)
   );
   std_inv ag_191 (
-    .a(data0_reg[5] ),
+    .a(data0_reg_5 ),
     .y(ag_046)
   );
   std_nor2 ag_192 (
@@ -588,11 +588,11 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   );
   std_nand2 ag_195 (
     .a(ag_091),
-    .b(D_IN[6] ),
+    .b(D_IN_6 ),
     .y(ag_049)
   );
   std_inv ag_196 (
-    .a(data1_reg[6] ),
+    .a(data1_reg_6 ),
     .y(ag_050)
   );
   std_nor2 ag_197 (
@@ -601,7 +601,7 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
     .y(ag_051)
   );
   std_inv ag_198 (
-    .a(data0_reg[6] ),
+    .a(data0_reg_6 ),
     .y(ag_052)
   );
   std_nor2 ag_199 (
@@ -622,72 +622,72 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
   d_ff ag_202 (
     .clk(CLK),
     .d(ag_000),
-    .q(data0_reg[0] )
+    .q(data0_reg_0 )
   );
   d_ff ag_203 (
     .clk(CLK),
     .d(ag_001),
-    .q(data0_reg[1] )
+    .q(data0_reg_1 )
   );
   d_ff ag_204 (
     .clk(CLK),
     .d(ag_002),
-    .q(data0_reg[2] )
+    .q(data0_reg_2 )
   );
   d_ff ag_205 (
     .clk(CLK),
     .d(ag_003),
-    .q(data0_reg[3] )
+    .q(data0_reg_3 )
   );
   d_ff ag_206 (
     .clk(CLK),
     .d(ag_004),
-    .q(data0_reg[4] )
+    .q(data0_reg_4 )
   );
   d_ff ag_207 (
     .clk(CLK),
     .d(ag_005),
-    .q(data0_reg[5] )
+    .q(data0_reg_5 )
   );
   d_ff ag_208 (
     .clk(CLK),
     .d(ag_006),
-    .q(data0_reg[6] )
+    .q(data0_reg_6 )
   );
   d_ff ag_209 (
     .clk(CLK),
     .d(ag_007),
-    .q(data1_reg[0] )
+    .q(data1_reg_0 )
   );
   d_ff ag_210 (
     .clk(CLK),
     .d(ag_008),
-    .q(data1_reg[1] )
+    .q(data1_reg_1 )
   );
   d_ff ag_211 (
     .clk(CLK),
     .d(ag_009),
-    .q(data1_reg[2] )
+    .q(data1_reg_2 )
   );
   d_ff ag_212 (
     .clk(CLK),
     .d(ag_010),
-    .q(data1_reg[3] )
+    .q(data1_reg_3 )
   );
   d_ff ag_213 (
     .clk(CLK),
     .d(ag_011),
-    .q(data1_reg[4] )
+    .q(data1_reg_4 )
   );
   d_ff ag_214 (
     .clk(CLK),
     .d(ag_012),
-    .q(data1_reg[5] )
+    .q(data1_reg_5 )
   );
   d_ff ag_215 (
     .clk(CLK),
     .d(ag_013),
-    .q(data1_reg[6] )
+    .q(data1_reg_6 )
   );
   d_ff ag_216 (
     .clk(CLK),
@@ -699,13 +699,13 @@ module FIFO2_7(CLK, RST, D_IN[0] , D_IN[1] , D_IN[2] , D_IN[3] , D_IN[4] , D_IN[
     .d(ag_014),
     .q(empty_reg)
   );
-  assign D_OUT[6]  = data0_reg[6] ;
-  assign D_OUT[5]  = data0_reg[5] ;
-  assign D_OUT[4]  = data0_reg[4] ;
-  assign D_OUT[3]  = data0_reg[3] ;
-  assign D_OUT[2]  = data0_reg[2] ;
-  assign D_OUT[1]  = data0_reg[1] ;
-  assign D_OUT[0]  = data0_reg[0] ;
+  assign D_OUT_6  = data0_reg_6 ;
+  assign D_OUT_5  = data0_reg_5 ;
+  assign D_OUT_4  = data0_reg_4 ;
+  assign D_OUT_3  = data0_reg_3 ;
+  assign D_OUT_2  = data0_reg_2 ;
+  assign D_OUT_1  = data0_reg_1 ;
+  assign D_OUT_0  = data0_reg_0 ;
   assign EMPTY_N = empty_reg;
   assign FULL_N = full_reg;
 endmodule

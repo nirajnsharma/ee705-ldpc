@@ -1,4 +1,4 @@
-   component buf_4x
+   component buf1
       port(a : in std_logic;
            y : out std_logic);
    end component;
@@ -33,8 +33,8 @@
            y : out std_logic);
    end component;
     
-   component std_latch
-      port(d, g : in std_logic;
+   component std_dff
+      port(d, clk : in std_logic;
            q : out std_logic);
    end component;
     
