@@ -1,0 +1,3237 @@
+module FIFO2_1(CLK, RST, D_IN, ENQ, FULL_N, D_OUT, DEQ, EMPTY_N, CLR);
+  wire ag_00;
+  wire ag_01;
+  wire ag_02;
+  wire ag_03;
+  wire ag_04;
+  wire ag_05;
+  wire ag_06;
+  wire ag_07;
+  wire ag_08;
+  wire ag_09;
+  wire ag_10;
+  wire ag_11;
+  wire ag_12;
+  wire ag_13;
+  wire ag_14;
+  wire ag_15;
+  wire ag_16;
+  wire ag_17;
+  wire ag_18;
+  wire ag_19;
+  wire ag_20;
+  wire ag_21;
+  wire ag_22;
+  wire ag_23;
+  wire ag_24;
+  wire ag_25;
+  wire ag_26;
+  wire ag_27;
+  wire ag_28;
+  wire ag_29;
+  wire ag_30;
+  wire ag_31;
+  input CLK;
+  input CLR;
+  input DEQ;
+  input D_IN;
+  output D_OUT;
+  output EMPTY_N;
+  input ENQ;
+  output FULL_N;
+  input RST;
+  wire data0_reg;
+  wire data1_reg;
+  wire empty_reg;
+  wire full_reg;
+  std_inv ag_32 (
+    .a(data1_reg),
+    .y(ag_04)
+  );
+  std_nand2 ag_33 (
+    .a(ENQ),
+    .b(empty_reg),
+    .y(ag_05)
+  );
+  std_nor2 ag_34 (
+    .a(ag_05),
+    .b(D_IN),
+    .y(ag_06)
+  );
+  std_aoi ag_35 (
+    .a(ag_05),
+    .b(ag_04),
+    .c(ag_06),
+    .y(ag_01)
+  );
+  std_inv ag_36 (
+    .a(ENQ),
+    .y(ag_07)
+  );
+  std_nand2 ag_37 (
+    .a(DEQ),
+    .b(ag_07),
+    .y(ag_08)
+  );
+  std_inv ag_38 (
+    .a(DEQ),
+    .y(ag_09)
+  );
+  std_nand2 ag_39 (
+    .a(ag_09),
+    .b(ENQ),
+    .y(ag_10)
+  );
+  std_nand2 ag_40 (
+    .a(ag_10),
+    .b(ag_08),
+    .y(ag_11)
+  );
+  std_nor2 ag_41 (
+    .a(ag_11),
+    .b(empty_reg),
+    .y(ag_12)
+  );
+  std_inv ag_42 (
+    .a(RST),
+    .y(ag_13)
+  );
+  std_nor2 ag_43 (
+    .a(ag_13),
+    .b(CLR),
+    .y(ag_14)
+  );
+  std_nor2 ag_44 (
+    .a(ag_09),
+    .b(ENQ),
+    .y(ag_15)
+  );
+  std_nand2 ag_45 (
+    .a(ag_15),
+    .b(full_reg),
+    .y(ag_16)
+  );
+  std_nand2 ag_46 (
+    .a(ag_16),
+    .b(ag_14),
+    .y(ag_17)
+  );
+  std_nor2 ag_47 (
+    .a(ag_17),
+    .b(ag_12),
+    .y(ag_02)
+  );
+  std_inv ag_48 (
+    .a(full_reg),
+    .y(ag_18)
+  );
+  std_nand3 ag_49 (
+    .a(ag_10),
+    .b(ag_08),
+    .c(ag_18),
+    .y(ag_19)
+  );
+  std_nor2 ag_50 (
+    .a(DEQ),
+    .b(ag_07),
+    .y(ag_20)
+  );
+  std_nand2 ag_51 (
+    .a(ag_20),
+    .b(empty_reg),
+    .y(ag_21)
+  );
+  std_nand2 ag_52 (
+    .a(ag_21),
+    .b(ag_19),
+    .y(ag_22)
+  );
+  std_nand2 ag_53 (
+    .a(ag_22),
+    .b(ag_14),
+    .y(ag_03)
+  );
+  std_nand2 ag_54 (
+    .a(DEQ),
+    .b(ag_18),
+    .y(ag_23)
+  );
+  std_inv ag_55 (
+    .a(data0_reg),
+    .y(ag_24)
+  );
+  std_aoi ag_56 (
+    .a(ag_09),
+    .b(empty_reg),
+    .c(ag_07),
+    .y(ag_25)
+  );
+  std_nor2 ag_57 (
+    .a(ag_25),
+    .b(ag_24),
+    .y(ag_26)
+  );
+  std_nand2 ag_58 (
+    .a(ag_26),
+    .b(ag_23),
+    .y(ag_27)
+  );
+  std_nor2 ag_59 (
+    .a(ag_09),
+    .b(full_reg),
+    .y(ag_28)
+  );
+  std_nand2 ag_60 (
+    .a(ag_28),
+    .b(data1_reg),
+    .y(ag_29)
+  );
+  std_nand2 ag_61 (
+    .a(ag_18),
+    .b(empty_reg),
+    .y(ag_30)
+  );
+  std_nand3 ag_62 (
+    .a(ag_30),
+    .b(ag_25),
+    .c(D_IN),
+    .y(ag_31)
+  );
+  std_nand3 ag_63 (
+    .a(ag_31),
+    .b(ag_29),
+    .c(ag_27),
+    .y(ag_00)
+  );
+  d_ff ag_64 (
+    .clk(CLK),
+    .d(ag_00),
+    .q(data0_reg)
+  );
+  d_ff ag_65 (
+    .clk(CLK),
+    .d(ag_01),
+    .q(data1_reg)
+  );
+  d_ff ag_66 (
+    .clk(CLK),
+    .d(ag_03),
+    .q(full_reg)
+  );
+  d_ff ag_67 (
+    .clk(CLK),
+    .d(ag_02),
+    .q(empty_reg)
+  );
+  assign D_OUT = data0_reg;
+  assign EMPTY_N = empty_reg;
+  assign FULL_N = full_reg;
+endmodule
+
+module FIFO2_7(CLK, RST, SD_IN_0 , SD_IN_1 , SD_IN_2 , SD_IN_3 , SD_IN_4 , SD_IN_5 , SD_IN_6 , ENQ, FULL_N, SD_OUT_0 , SD_OUT_1 , SD_OUT_2 , SD_OUT_3 , SD_OUT_4 , SD_OUT_5 , SD_OUT_6 , DEQ, EMPTY_N, CLR);
+  wire ag_000;
+  wire ag_001;
+  wire ag_002;
+  wire ag_003;
+  wire ag_004;
+  wire ag_005;
+  wire ag_006;
+  wire ag_007;
+  wire ag_008;
+  wire ag_009;
+  wire ag_010;
+  wire ag_011;
+  wire ag_012;
+  wire ag_013;
+  wire ag_014;
+  wire ag_015;
+  wire ag_016;
+  wire ag_017;
+  wire ag_018;
+  wire ag_019;
+  wire ag_020;
+  wire ag_021;
+  wire ag_022;
+  wire ag_023;
+  wire ag_024;
+  wire ag_025;
+  wire ag_026;
+  wire ag_027;
+  wire ag_028;
+  wire ag_029;
+  wire ag_030;
+  wire ag_031;
+  wire ag_032;
+  wire ag_033;
+  wire ag_034;
+  wire ag_035;
+  wire ag_036;
+  wire ag_037;
+  wire ag_038;
+  wire ag_039;
+  wire ag_040;
+  wire ag_041;
+  wire ag_042;
+  wire ag_043;
+  wire ag_044;
+  wire ag_045;
+  wire ag_046;
+  wire ag_047;
+  wire ag_048;
+  wire ag_049;
+  wire ag_050;
+  wire ag_051;
+  wire ag_052;
+  wire ag_053;
+  wire ag_054;
+  wire ag_055;
+  wire ag_056;
+  wire ag_057;
+  wire ag_058;
+  wire ag_059;
+  wire ag_060;
+  wire ag_061;
+  wire ag_062;
+  wire ag_063;
+  wire ag_064;
+  wire ag_065;
+  wire ag_066;
+  wire ag_067;
+  wire ag_068;
+  wire ag_069;
+  wire ag_070;
+  wire ag_071;
+  input CLK;
+  input CLR;
+  input DEQ;
+  input SD_IN_0 ;
+  input SD_IN_1 ;
+  input SD_IN_2 ;
+  input SD_IN_3 ;
+  input SD_IN_4 ;
+  input SD_IN_5 ;
+  input SD_IN_6 ;
+  output SD_OUT_0 ;
+  output SD_OUT_1 ;
+  output SD_OUT_2 ;
+  output SD_OUT_3 ;
+  output SD_OUT_4 ;
+  output SD_OUT_5 ;
+  output SD_OUT_6 ;
+  output EMPTY_N;
+  input ENQ;
+  output FULL_N;
+  input RST;
+  wire sdata0_reg_0 ;
+  wire sdata0_reg_1 ;
+  wire sdata0_reg_2 ;
+  wire sdata0_reg_3 ;
+  wire sdata0_reg_4 ;
+  wire sdata0_reg_5 ;
+  wire sdata0_reg_6 ;
+  wire sdata1_reg_0 ;
+  wire sdata1_reg_1 ;
+  wire sdata1_reg_2 ;
+  wire sdata1_reg_3 ;
+  wire sdata1_reg_4 ;
+  wire sdata1_reg_5 ;
+  wire sdata1_reg_6 ;
+  wire empty_reg;
+  wire full_reg;
+  std_inv ag_072 (
+    .a(sdata1_reg_0 ),
+    .y(ag_028)
+  );
+  std_nand2 ag_073 (
+    .a(ENQ),
+    .b(empty_reg),
+    .y(ag_029)
+  );
+  std_nor2 ag_074 (
+    .a(ag_029),
+    .b(SD_IN_0 ),
+    .y(ag_030)
+  );
+  std_aoi ag_075 (
+    .a(ag_029),
+    .b(ag_028),
+    .c(ag_030),
+    .y(ag_007)
+  );
+  std_inv ag_076 (
+    .a(sdata1_reg_1 ),
+    .y(ag_031)
+  );
+  std_nor2 ag_077 (
+    .a(ag_029),
+    .b(SD_IN_1 ),
+    .y(ag_032)
+  );
+  std_aoi ag_078 (
+    .a(ag_029),
+    .b(ag_031),
+    .c(ag_032),
+    .y(ag_008)
+  );
+  std_inv ag_079 (
+    .a(sdata1_reg_2 ),
+    .y(ag_033)
+  );
+  std_nor2 ag_080 (
+    .a(ag_029),
+    .b(SD_IN_2 ),
+    .y(ag_034)
+  );
+  std_aoi ag_081 (
+    .a(ag_029),
+    .b(ag_033),
+    .c(ag_034),
+    .y(ag_009)
+  );
+  std_inv ag_082 (
+    .a(sdata1_reg_3 ),
+    .y(ag_035)
+  );
+  std_nor2 ag_083 (
+    .a(ag_029),
+    .b(SD_IN_3 ),
+    .y(ag_036)
+  );
+  std_aoi ag_084 (
+    .a(ag_029),
+    .b(ag_035),
+    .c(ag_036),
+    .y(ag_010)
+  );
+  std_inv ag_085 (
+    .a(sdata1_reg_4 ),
+    .y(ag_037)
+  );
+  std_nor2 ag_086 (
+    .a(ag_029),
+    .b(SD_IN_4 ),
+    .y(ag_038)
+  );
+  std_aoi ag_087 (
+    .a(ag_029),
+    .b(ag_037),
+    .c(ag_038),
+    .y(ag_011)
+  );
+  std_inv ag_088 (
+    .a(sdata1_reg_5 ),
+    .y(ag_039)
+  );
+  std_nor2 ag_089 (
+    .a(ag_029),
+    .b(SD_IN_5 ),
+    .y(ag_040)
+  );
+  std_aoi ag_090 (
+    .a(ag_029),
+    .b(ag_039),
+    .c(ag_040),
+    .y(ag_012)
+  );
+  std_inv ag_091 (
+    .a(sdata1_reg_6 ),
+    .y(ag_041)
+  );
+  std_nor2 ag_092 (
+    .a(ag_029),
+    .b(SD_IN_6 ),
+    .y(ag_042)
+  );
+  std_aoi ag_093 (
+    .a(ag_029),
+    .b(ag_041),
+    .c(ag_042),
+    .y(ag_013)
+  );
+  std_inv ag_094 (
+    .a(full_reg),
+    .y(ag_043)
+  );
+  std_inv ag_095 (
+    .a(ENQ),
+    .y(ag_044)
+  );
+  std_nand2 ag_096 (
+    .a(DEQ),
+    .b(ag_044),
+    .y(ag_045)
+  );
+  std_nor2 ag_097 (
+    .a(ag_045),
+    .b(ag_043),
+    .y(ag_046)
+  );
+  std_inv ag_098 (
+    .a(empty_reg),
+    .y(ag_047)
+  );
+  std_inv ag_099 (
+    .a(DEQ),
+    .y(ag_048)
+  );
+  std_nand2 ag_100 (
+    .a(ag_048),
+    .b(ENQ),
+    .y(ag_049)
+  );
+  std_nand3 ag_101 (
+    .a(ag_049),
+    .b(ag_045),
+    .c(ag_047),
+    .y(ag_050)
+  );
+  std_inv ag_102 (
+    .a(RST),
+    .y(ag_051)
+  );
+  std_nor2 ag_103 (
+    .a(ag_051),
+    .b(CLR),
+    .y(ag_052)
+  );
+  std_nand2 ag_104 (
+    .a(ag_052),
+    .b(ag_050),
+    .y(ag_053)
+  );
+  std_nor2 ag_105 (
+    .a(ag_053),
+    .b(ag_046),
+    .y(ag_014)
+  );
+  std_nand3 ag_106 (
+    .a(ag_049),
+    .b(ag_045),
+    .c(ag_043),
+    .y(ag_054)
+  );
+  std_nor2 ag_107 (
+    .a(DEQ),
+    .b(ag_047),
+    .y(ag_055)
+  );
+  std_nand2 ag_108 (
+    .a(ag_055),
+    .b(ENQ),
+    .y(ag_056)
+  );
+  std_nand2 ag_109 (
+    .a(ag_056),
+    .b(ag_054),
+    .y(ag_057)
+  );
+  std_nand2 ag_110 (
+    .a(ag_057),
+    .b(ag_052),
+    .y(ag_015)
+  );
+  std_nor2 ag_111 (
+    .a(full_reg),
+    .b(ag_047),
+    .y(ag_058)
+  );
+  std_nor3 ag_112 (
+    .a(ag_058),
+    .b(ag_055),
+    .c(ag_044),
+    .y(ag_059)
+  );
+  std_nand2 ag_113 (
+    .a(ag_059),
+    .b(SD_IN_0 ),
+    .y(ag_060)
+  );
+  std_nor2 ag_114 (
+    .a(ag_048),
+    .b(full_reg),
+    .y(ag_061)
+  );
+  std_nand2 ag_115 (
+    .a(ag_061),
+    .b(sdata1_reg_0 ),
+    .y(ag_062)
+  );
+  std_aoi ag_116 (
+    .a(ag_048),
+    .b(empty_reg),
+    .c(ag_044),
+    .y(ag_063)
+  );
+  std_nor2 ag_117 (
+    .a(ag_063),
+    .b(ag_061),
+    .y(ag_064)
+  );
+  std_nand2 ag_118 (
+    .a(ag_064),
+    .b(sdata0_reg_0 ),
+    .y(ag_065)
+  );
+  std_nand3 ag_119 (
+    .a(ag_065),
+    .b(ag_062),
+    .c(ag_060),
+    .y(ag_000)
+  );
+  std_nand2 ag_120 (
+    .a(ag_059),
+    .b(SD_IN_1 ),
+    .y(ag_066)
+  );
+  std_nand2 ag_121 (
+    .a(ag_061),
+    .b(sdata1_reg_1 ),
+    .y(ag_067)
+  );
+  std_nand2 ag_122 (
+    .a(ag_064),
+    .b(sdata0_reg_1 ),
+    .y(ag_068)
+  );
+  std_nand3 ag_123 (
+    .a(ag_068),
+    .b(ag_067),
+    .c(ag_066),
+    .y(ag_001)
+  );
+  std_nand2 ag_124 (
+    .a(ag_064),
+    .b(sdata0_reg_2 ),
+    .y(ag_069)
+  );
+  std_nand2 ag_125 (
+    .a(ag_061),
+    .b(sdata1_reg_2 ),
+    .y(ag_070)
+  );
+  std_nand2 ag_126 (
+    .a(ag_059),
+    .b(SD_IN_2 ),
+    .y(ag_071)
+  );
+  std_nand3 ag_127 (
+    .a(ag_071),
+    .b(ag_070),
+    .c(ag_069),
+    .y(ag_002)
+  );
+  std_nand2 ag_128 (
+    .a(ag_059),
+    .b(SD_IN_3 ),
+    .y(ag_016)
+  );
+  std_nand2 ag_129 (
+    .a(ag_061),
+    .b(sdata1_reg_3 ),
+    .y(ag_017)
+  );
+  std_nand2 ag_130 (
+    .a(ag_064),
+    .b(sdata0_reg_3 ),
+    .y(ag_018)
+  );
+  std_nand3 ag_131 (
+    .a(ag_018),
+    .b(ag_017),
+    .c(ag_016),
+    .y(ag_003)
+  );
+  std_nand2 ag_132 (
+    .a(ag_059),
+    .b(SD_IN_4 ),
+    .y(ag_019)
+  );
+  std_nand2 ag_133 (
+    .a(ag_061),
+    .b(sdata1_reg_4 ),
+    .y(ag_020)
+  );
+  std_nand2 ag_134 (
+    .a(ag_064),
+    .b(sdata0_reg_4 ),
+    .y(ag_021)
+  );
+  std_nand3 ag_135 (
+    .a(ag_021),
+    .b(ag_020),
+    .c(ag_019),
+    .y(ag_004)
+  );
+  std_nand2 ag_136 (
+    .a(ag_059),
+    .b(SD_IN_5 ),
+    .y(ag_022)
+  );
+  std_nand2 ag_137 (
+    .a(ag_061),
+    .b(sdata1_reg_5 ),
+    .y(ag_023)
+  );
+  std_nand2 ag_138 (
+    .a(ag_064),
+    .b(sdata0_reg_5 ),
+    .y(ag_024)
+  );
+  std_nand3 ag_139 (
+    .a(ag_024),
+    .b(ag_023),
+    .c(ag_022),
+    .y(ag_005)
+  );
+  std_nand2 ag_140 (
+    .a(ag_059),
+    .b(SD_IN_6 ),
+    .y(ag_025)
+  );
+  std_nand2 ag_141 (
+    .a(ag_061),
+    .b(sdata1_reg_6 ),
+    .y(ag_026)
+  );
+  std_nand2 ag_142 (
+    .a(ag_064),
+    .b(sdata0_reg_6 ),
+    .y(ag_027)
+  );
+  std_nand3 ag_143 (
+    .a(ag_027),
+    .b(ag_026),
+    .c(ag_025),
+    .y(ag_006)
+  );
+  d_ff ag_144 (
+    .clk(CLK),
+    .d(ag_000),
+    .q(sdata0_reg_0 )
+  );
+  d_ff ag_145 (
+    .clk(CLK),
+    .d(ag_001),
+    .q(sdata0_reg_1 )
+  );
+  d_ff ag_146 (
+    .clk(CLK),
+    .d(ag_002),
+    .q(sdata0_reg_2 )
+  );
+  d_ff ag_147 (
+    .clk(CLK),
+    .d(ag_003),
+    .q(sdata0_reg_3 )
+  );
+  d_ff ag_148 (
+    .clk(CLK),
+    .d(ag_004),
+    .q(sdata0_reg_4 )
+  );
+  d_ff ag_149 (
+    .clk(CLK),
+    .d(ag_005),
+    .q(sdata0_reg_5 )
+  );
+  d_ff ag_150 (
+    .clk(CLK),
+    .d(ag_006),
+    .q(sdata0_reg_6 )
+  );
+  d_ff ag_151 (
+    .clk(CLK),
+    .d(ag_007),
+    .q(sdata1_reg_0 )
+  );
+  d_ff ag_152 (
+    .clk(CLK),
+    .d(ag_008),
+    .q(sdata1_reg_1 )
+  );
+  d_ff ag_153 (
+    .clk(CLK),
+    .d(ag_009),
+    .q(sdata1_reg_2 )
+  );
+  d_ff ag_154 (
+    .clk(CLK),
+    .d(ag_010),
+    .q(sdata1_reg_3 )
+  );
+  d_ff ag_155 (
+    .clk(CLK),
+    .d(ag_011),
+    .q(sdata1_reg_4 )
+  );
+  d_ff ag_156 (
+    .clk(CLK),
+    .d(ag_012),
+    .q(sdata1_reg_5 )
+  );
+  d_ff ag_157 (
+    .clk(CLK),
+    .d(ag_013),
+    .q(sdata1_reg_6 )
+  );
+  d_ff ag_158 (
+    .clk(CLK),
+    .d(ag_015),
+    .q(full_reg)
+  );
+  d_ff ag_159 (
+    .clk(CLK),
+    .d(ag_014),
+    .q(empty_reg)
+  );
+  assign SD_OUT_6  = sdata0_reg_6 ;
+  assign SD_OUT_5  = sdata0_reg_5 ;
+  assign SD_OUT_4  = sdata0_reg_4 ;
+  assign SD_OUT_3  = sdata0_reg_3 ;
+  assign SD_OUT_2  = sdata0_reg_2 ;
+  assign SD_OUT_1  = sdata0_reg_1 ;
+  assign SD_OUT_0  = sdata0_reg_0 ;
+  assign EMPTY_N = empty_reg;
+  assign FULL_N = full_reg;
+endmodule
+
+module mkBitNode(CLK, RST_N, c2b_0_put, EN_c2b_0_put, RDY_c2b_0_put, c2b_1_put, EN_c2b_1_put, RDY_c2b_1_put, c2b_2_put, EN_c2b_2_put, RDY_c2b_2_put, EN_b2c_get, b2c_get, RDY_b2c_get, codeIn_put, EN_codeIn_put, RDY_codeIn_put, EN_dataOut_get, dataOut_get, RDY_dataOut_get);
+  wire ag_0;
+  wire ag_1;
+  wire ag_2;
+  wire ag_3;
+  wire CAN_FIRE_RL_rlProcessChkNodeResult;
+  wire CAN_FIRE_RL_rlProcessNewData;
+  wire CAN_FIRE_b2c_get;
+  wire CAN_FIRE_c2b_0_put;
+  wire CAN_FIRE_c2b_1_put;
+  wire CAN_FIRE_c2b_2_put;
+  wire CAN_FIRE_codeIn_put;
+  wire CAN_FIRE_dataOut_get;
+  input CLK;
+  input EN_b2c_get;
+  input EN_c2b_0_put;
+  input EN_c2b_1_put;
+  input EN_c2b_2_put;
+  input EN_codeIn_put;
+  input EN_dataOut_get;
+  output RDY_b2c_get;
+  output RDY_c2b_0_put;
+  output RDY_c2b_1_put;
+  output RDY_c2b_2_put;
+  output RDY_codeIn_put;
+  output RDY_dataOut_get;
+  input RST_N;
+  wire WILL_FIRE_RL_rlProcessChkNodeResult;
+  wire WILL_FIRE_RL_rlProcessNewData;
+  wire WILL_FIRE_b2c_get;
+  wire WILL_FIRE_c2b_0_put;
+  wire WILL_FIRE_c2b_1_put;
+  wire WILL_FIRE_c2b_2_put;
+  wire WILL_FIRE_codeIn_put;
+  wire WILL_FIRE_dataOut_get;
+  output b2c_get;
+  input c2b_0_put;
+  input c2b_1_put;
+  input c2b_2_put;
+  input codeIn_put;
+  output dataOut_get;
+  wire sffB2C_DEQ ;
+  wire sffB2C_D_IN ;
+  wire sffB2C_D_OUT ;
+  wire sffB2C_EMPTY_N ;
+  wire sffB2C_ENQ ;
+  wire sffB2C_FULL_N ;
+  wire sffCodeIn_DEQ ;
+  wire sffCodeIn_D_IN ;
+  wire sffCodeIn_D_OUT ;
+  wire sffCodeIn_EMPTY_N ;
+  wire sffCodeIn_ENQ ;
+  wire sffCodeIn_FULL_N ;
+  wire sffDataOut_DEQ ;
+  wire sffDataOut_D_IN ;
+  wire sffDataOut_D_OUT ;
+  wire sffDataOut_EMPTY_N ;
+  wire sffDataOut_ENQ ;
+  wire sffDataOut_FULL_N ;
+  wire svffC2B_0_DEQ ;
+  wire svffC2B_0_D_IN ;
+  wire svffC2B_0_D_OUT ;
+  wire svffC2B_0_EMPTY_N ;
+  wire svffC2B_0_ENQ ;
+  wire svffC2B_0_FULL_N ;
+  wire svffC2B_1_DEQ ;
+  wire svffC2B_1_D_IN ;
+  wire svffC2B_1_D_OUT ;
+  wire svffC2B_1_EMPTY_N ;
+  wire svffC2B_1_ENQ ;
+  wire svffC2B_1_FULL_N ;
+  wire svffC2B_2_DEQ ;
+  wire svffC2B_2_D_IN ;
+  wire svffC2B_2_D_OUT ;
+  wire svffC2B_2_EMPTY_N ;
+  wire svffC2B_2_ENQ ;
+  wire svffC2B_2_FULL_N ;
+  std_inv ag_4 (
+    .a(sffCodeIn_EMPTY_N ),
+    .y(ag_3)
+  );
+  std_inv ag_5 (
+    .a(sffB2C_FULL_N ),
+    .y(ag_0)
+  );
+  std_nor2 ag_6 (
+    .a(ag_0),
+    .b(ag_3),
+    .y(sffB2C_ENQ )
+  );
+  std_nand2 ag_7 (
+    .a(svffC2B_1_EMPTY_N ),
+    .b(svffC2B_0_EMPTY_N ),
+    .y(ag_1)
+  );
+  std_nand2 ag_8 (
+    .a(sffDataOut_FULL_N ),
+    .b(svffC2B_2_EMPTY_N ),
+    .y(ag_2)
+  );
+  std_nor2 ag_9 (
+    .a(ag_2),
+    .b(ag_1),
+    .y(sffDataOut_ENQ )
+  );
+  FIFO2_1 ffB2C (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(EN_b2c_get),
+    .D_IN(sffB2C_D_IN ),
+    .D_OUT(sffB2C_D_OUT ),
+    .EMPTY_N(sffB2C_EMPTY_N ),
+    .ENQ(sffB2C_ENQ ),
+    .FULL_N(sffB2C_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 ffCodeIn (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(sffB2C_ENQ ),
+    .D_IN(codeIn_put),
+    .D_OUT(sffB2C_D_IN ),
+    .EMPTY_N(sffCodeIn_EMPTY_N ),
+    .ENQ(EN_codeIn_put),
+    .FULL_N(sffCodeIn_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 ffDataOut (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(EN_dataOut_get),
+    .D_IN(sffDataOut_D_IN ),
+    .D_OUT(sffDataOut_D_OUT ),
+    .EMPTY_N(sffDataOut_EMPTY_N ),
+    .ENQ(sffDataOut_ENQ ),
+    .FULL_N(sffDataOut_FULL_N ),
+    .RST(RST_N)
+  );
+  module_fnBitNodeCore instance_fnBitNodeCore_0 (
+    .fnBitNodeCore(sffDataOut_D_IN ),
+    .sfnBitNodeCore_i_0 (svffC2B_0_D_OUT ),
+    .sfnBitNodeCore_i_1 (svffC2B_1_D_OUT ),
+    .sfnBitNodeCore_i_2 (svffC2B_2_D_OUT )
+  );
+  FIFO2_1 vffC2B_0 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(sffDataOut_ENQ ),
+    .D_IN(c2b_0_put),
+    .D_OUT(svffC2B_0_D_OUT ),
+    .EMPTY_N(svffC2B_0_EMPTY_N ),
+    .ENQ(EN_c2b_0_put),
+    .FULL_N(svffC2B_0_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 vffC2B_1 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(sffDataOut_ENQ ),
+    .D_IN(c2b_1_put),
+    .D_OUT(svffC2B_1_D_OUT ),
+    .EMPTY_N(svffC2B_1_EMPTY_N ),
+    .ENQ(EN_c2b_1_put),
+    .FULL_N(svffC2B_1_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 vffC2B_2 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(sffDataOut_ENQ ),
+    .D_IN(c2b_2_put),
+    .D_OUT(svffC2B_2_D_OUT ),
+    .EMPTY_N(svffC2B_2_EMPTY_N ),
+    .ENQ(EN_c2b_2_put),
+    .FULL_N(svffC2B_2_FULL_N ),
+    .RST(RST_N)
+  );
+  assign CAN_FIRE_RL_rlProcessChkNodeResult = sffDataOut_ENQ ;
+  assign CAN_FIRE_RL_rlProcessNewData = sffB2C_ENQ ;
+  assign CAN_FIRE_b2c_get = sffB2C_EMPTY_N ;
+  assign CAN_FIRE_c2b_0_put = svffC2B_0_FULL_N ;
+  assign CAN_FIRE_c2b_1_put = svffC2B_1_FULL_N ;
+  assign CAN_FIRE_c2b_2_put = svffC2B_2_FULL_N ;
+  assign CAN_FIRE_codeIn_put = sffCodeIn_FULL_N ;
+  assign CAN_FIRE_dataOut_get = sffDataOut_EMPTY_N ;
+  assign RDY_b2c_get = sffB2C_EMPTY_N ;
+  assign RDY_c2b_0_put = svffC2B_0_FULL_N ;
+  assign RDY_c2b_1_put = svffC2B_1_FULL_N ;
+  assign RDY_c2b_2_put = svffC2B_2_FULL_N ;
+  assign RDY_codeIn_put = sffCodeIn_FULL_N ;
+  assign RDY_dataOut_get = sffDataOut_EMPTY_N ;
+  assign WILL_FIRE_RL_rlProcessChkNodeResult = sffDataOut_ENQ ;
+  assign WILL_FIRE_RL_rlProcessNewData = sffB2C_ENQ ;
+  assign WILL_FIRE_b2c_get = EN_b2c_get;
+  assign WILL_FIRE_c2b_0_put = EN_c2b_0_put;
+  assign WILL_FIRE_c2b_1_put = EN_c2b_1_put;
+  assign WILL_FIRE_c2b_2_put = EN_c2b_2_put;
+  assign WILL_FIRE_codeIn_put = EN_codeIn_put;
+  assign WILL_FIRE_dataOut_get = EN_dataOut_get;
+  assign b2c_get = sffB2C_D_OUT ;
+  assign dataOut_get = sffDataOut_D_OUT ;
+  assign sffB2C_DEQ  = EN_b2c_get;
+  assign sffCodeIn_DEQ  = sffB2C_ENQ ;
+  assign sffCodeIn_D_IN  = codeIn_put;
+  assign sffCodeIn_D_OUT  = sffB2C_D_IN ;
+  assign sffCodeIn_ENQ  = EN_codeIn_put;
+  assign sffDataOut_DEQ  = EN_dataOut_get;
+  assign svffC2B_0_DEQ  = sffDataOut_ENQ ;
+  assign svffC2B_0_D_IN  = c2b_0_put;
+  assign svffC2B_0_ENQ  = EN_c2b_0_put;
+  assign svffC2B_1_DEQ  = sffDataOut_ENQ ;
+  assign svffC2B_1_D_IN  = c2b_1_put;
+  assign svffC2B_1_ENQ  = EN_c2b_1_put;
+  assign svffC2B_2_DEQ  = sffDataOut_ENQ ;
+  assign svffC2B_2_D_IN  = c2b_2_put;
+  assign svffC2B_2_ENQ  = EN_c2b_2_put;
+endmodule
+
+module mkChkNode(CLK, RST_N, b2c_0_put, EN_b2c_0_put, RDY_b2c_0_put, b2c_1_put, EN_b2c_1_put, RDY_b2c_1_put, b2c_2_put, EN_b2c_2_put, RDY_b2c_2_put, EN_c2b_0_get, c2b_0_get, RDY_c2b_0_get, EN_c2b_1_get, c2b_1_get, RDY_c2b_1_get, EN_c2b_2_get, c2b_2_get, RDY_c2b_2_get);
+  input CLK;
+  input EN_b2c_0_put;
+  input EN_b2c_1_put;
+  input EN_b2c_2_put;
+  input EN_c2b_0_get;
+  input EN_c2b_1_get;
+  input EN_c2b_2_get;
+  output RDY_b2c_0_put;
+  output RDY_b2c_1_put;
+  output RDY_b2c_2_put;
+  output RDY_c2b_0_get;
+  output RDY_c2b_1_get;
+  output RDY_c2b_2_get;
+  input RST_N;
+  input b2c_0_put;
+  input b2c_1_put;
+  input b2c_2_put;
+  output c2b_0_get;
+  output c2b_1_get;
+  output c2b_2_get;
+  wire sfnChkNodeCore_d16_0 ;
+  wire sfnChkNodeCore_d16_1 ;
+  wire sfnChkNodeCore_d16_2 ;
+  wire svffB2C_0_DEQ ;
+  wire svffB2C_0_D_OUT ;
+  wire svffB2C_0_EMPTY_N ;
+  wire svffB2C_0_FULL_N ;
+  wire svffB2C_1_DEQ ;
+  wire svffB2C_1_D_OUT ;
+  wire svffB2C_1_EMPTY_N ;
+  wire svffB2C_1_FULL_N ;
+  wire svffB2C_2_DEQ ;
+  wire svffB2C_2_D_OUT ;
+  wire svffB2C_2_EMPTY_N ;
+  wire svffB2C_2_FULL_N ;
+  wire svffC2B_0_D_OUT ;
+  wire svffC2B_0_EMPTY_N ;
+  wire svffC2B_0_ENQ ;
+  wire svffC2B_0_FULL_N ;
+  wire svffC2B_1_D_OUT ;
+  wire svffC2B_1_EMPTY_N ;
+  wire svffC2B_1_ENQ ;
+  wire svffC2B_1_FULL_N ;
+  wire svffC2B_2_D_OUT ;
+  wire svffC2B_2_EMPTY_N ;
+  wire svffC2B_2_ENQ ;
+  wire svffC2B_2_FULL_N ;
+  mkChkNodeCtrl ctrl (
+    .B2C_0_DEQ(svffB2C_0_DEQ ),
+    .B2C_0_EMPTY_N(svffB2C_0_EMPTY_N ),
+    .B2C_0_FULL_N(svffB2C_0_FULL_N ),
+    .B2C_1_DEQ(svffB2C_1_DEQ ),
+    .B2C_1_EMPTY_N(svffB2C_1_EMPTY_N ),
+    .B2C_1_FULL_N(svffB2C_1_FULL_N ),
+    .B2C_2_DEQ(svffB2C_2_DEQ ),
+    .B2C_2_EMPTY_N(svffB2C_2_EMPTY_N ),
+    .B2C_2_FULL_N(svffB2C_2_FULL_N ),
+    .C2B_0_EMPTY_N(svffC2B_0_EMPTY_N ),
+    .C2B_0_ENQ(svffC2B_0_ENQ ),
+    .C2B_0_FULL_N(svffC2B_0_FULL_N ),
+    .C2B_1_EMPTY_N(svffC2B_1_EMPTY_N ),
+    .C2B_1_ENQ(svffC2B_1_ENQ ),
+    .C2B_1_FULL_N(svffC2B_1_FULL_N ),
+    .C2B_2_EMPTY_N(svffC2B_2_EMPTY_N ),
+    .C2B_2_ENQ(svffC2B_2_ENQ ),
+    .C2B_2_FULL_N(svffC2B_2_FULL_N )
+  );
+  module_fnChkNodeCore instance_fnChkNodeCore_0 (
+    .sfnChkNodeCore_0 (sfnChkNodeCore_d16_0 ),
+    .sfnChkNodeCore_1 (sfnChkNodeCore_d16_1 ),
+    .sfnChkNodeCore_2 (sfnChkNodeCore_d16_2 ),
+    .sfnChkNodeCore_i_0 (svffB2C_0_D_OUT ),
+    .sfnChkNodeCore_i_1 (svffB2C_1_D_OUT ),
+    .sfnChkNodeCore_i_2 (svffB2C_2_D_OUT )
+  );
+  FIFO2_1 vffB2C_0 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(svffB2C_0_DEQ ),
+    .D_IN(b2c_0_put),
+    .D_OUT(svffB2C_0_D_OUT ),
+    .EMPTY_N(svffB2C_0_EMPTY_N ),
+    .ENQ(EN_b2c_0_put),
+    .FULL_N(svffB2C_0_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 vffB2C_1 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(svffB2C_1_DEQ ),
+    .D_IN(b2c_1_put),
+    .D_OUT(svffB2C_1_D_OUT ),
+    .EMPTY_N(svffB2C_1_EMPTY_N ),
+    .ENQ(EN_b2c_1_put),
+    .FULL_N(svffB2C_1_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 vffB2C_2 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(svffB2C_2_DEQ ),
+    .D_IN(b2c_2_put),
+    .D_OUT(svffB2C_2_D_OUT ),
+    .EMPTY_N(svffB2C_2_EMPTY_N ),
+    .ENQ(EN_b2c_2_put),
+    .FULL_N(svffB2C_2_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 vffC2B_0 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(EN_c2b_0_get),
+    .D_IN(sfnChkNodeCore_d16_0 ),
+    .D_OUT(svffC2B_0_D_OUT ),
+    .EMPTY_N(svffC2B_0_EMPTY_N ),
+    .ENQ(svffC2B_0_ENQ ),
+    .FULL_N(svffC2B_0_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 vffC2B_1 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(EN_c2b_1_get),
+    .D_IN(sfnChkNodeCore_d16_1 ),
+    .D_OUT(svffC2B_1_D_OUT ),
+    .EMPTY_N(svffC2B_1_EMPTY_N ),
+    .ENQ(svffC2B_1_ENQ ),
+    .FULL_N(svffC2B_1_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_1 vffC2B_2 (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(EN_c2b_2_get),
+    .D_IN(sfnChkNodeCore_d16_2 ),
+    .D_OUT(svffC2B_2_D_OUT ),
+    .EMPTY_N(svffC2B_2_EMPTY_N ),
+    .ENQ(svffC2B_2_ENQ ),
+    .FULL_N(svffC2B_2_FULL_N ),
+    .RST(RST_N)
+  );
+  assign RDY_b2c_0_put = svffB2C_0_FULL_N ;
+  assign RDY_b2c_1_put = svffB2C_1_FULL_N ;
+  assign RDY_b2c_2_put = svffB2C_2_FULL_N ;
+  assign RDY_c2b_0_get = svffC2B_0_EMPTY_N ;
+  assign RDY_c2b_1_get = svffC2B_1_EMPTY_N ;
+  assign RDY_c2b_2_get = svffC2B_2_EMPTY_N ;
+  assign c2b_0_get = svffC2B_0_D_OUT ;
+  assign c2b_1_get = svffC2B_1_D_OUT ;
+  assign c2b_2_get = svffC2B_2_D_OUT ;
+endmodule
+
+module mkChkNodeCtrl(B2C_0_DEQ, B2C_0_EMPTY_N, B2C_0_FULL_N, B2C_1_DEQ, B2C_1_EMPTY_N, B2C_1_FULL_N, B2C_2_DEQ, B2C_2_EMPTY_N, B2C_2_FULL_N, C2B_0_EMPTY_N, C2B_0_FULL_N, C2B_1_EMPTY_N, C2B_1_FULL_N, C2B_2_EMPTY_N, C2B_2_FULL_N, C2B_0_ENQ, C2B_1_ENQ, C2B_2_ENQ);
+  wire ag_0;
+  wire ag_1;
+  wire ag_2;
+  output B2C_0_DEQ;
+  input B2C_0_EMPTY_N;
+  input B2C_0_FULL_N;
+  output B2C_1_DEQ;
+  input B2C_1_EMPTY_N;
+  input B2C_1_FULL_N;
+  output B2C_2_DEQ;
+  input B2C_2_EMPTY_N;
+  input B2C_2_FULL_N;
+  input C2B_0_EMPTY_N;
+  output C2B_0_ENQ;
+  input C2B_0_FULL_N;
+  input C2B_1_EMPTY_N;
+  output C2B_1_ENQ;
+  input C2B_1_FULL_N;
+  input C2B_2_EMPTY_N;
+  output C2B_2_ENQ;
+  input C2B_2_FULL_N;
+  wire CAN_FIRE_RL_rlProcessIteration;
+  std_nand2 ag_3 (
+    .a(C2B_0_FULL_N),
+    .b(B2C_2_EMPTY_N),
+    .y(ag_1)
+  );
+  std_nand2 ag_4 (
+    .a(B2C_0_EMPTY_N),
+    .b(C2B_2_FULL_N),
+    .y(ag_2)
+  );
+  std_nand2 ag_5 (
+    .a(B2C_1_EMPTY_N),
+    .b(C2B_1_FULL_N),
+    .y(ag_0)
+  );
+  std_nor3 ag_6 (
+    .a(ag_0),
+    .b(ag_2),
+    .c(ag_1),
+    .y(B2C_0_DEQ)
+  );
+  assign B2C_1_DEQ = B2C_0_DEQ;
+  assign B2C_2_DEQ = B2C_0_DEQ;
+  assign C2B_0_ENQ = B2C_0_DEQ;
+  assign C2B_1_ENQ = B2C_0_DEQ;
+  assign C2B_2_ENQ = B2C_0_DEQ;
+  assign CAN_FIRE_RL_rlProcessIteration = B2C_0_DEQ;
+endmodule
+
+module mkLdpcCore(CLK, RST_N, \request_put_0 , \request_put_1 , \request_put_2 , \request_put_3 , \request_put_4 , \request_put_5 , \request_put_6 , EN_request_put, RDY_request_put, EN_response_get, \response_get_0 , \response_get_1 , \response_get_2 , \response_get_3 , \response_get_4 , \response_get_5 , \response_get_6 , RDY_response_get);
+  wire ag_000;
+  wire ag_001;
+  wire ag_002;
+  wire ag_003;
+  wire ag_004;
+  wire ag_005;
+  wire ag_006;
+  wire ag_007;
+  wire ag_008;
+  wire ag_009;
+  wire ag_010;
+  wire ag_011;
+  wire ag_012;
+  wire ag_013;
+  wire ag_014;
+  wire ag_015;
+  wire ag_016;
+  wire ag_017;
+  wire ag_018;
+  wire ag_019;
+  wire ag_020;
+  wire ag_021;
+  wire ag_022;
+  wire ag_023;
+  wire ag_024;
+  wire ag_025;
+  wire ag_026;
+  wire ag_027;
+  wire ag_028;
+  wire ag_029;
+  wire ag_030;
+  wire ag_031;
+  wire ag_032;
+  wire ag_033;
+  wire ag_034;
+  wire ag_035;
+  wire ag_036;
+  wire ag_037;
+  wire ag_038;
+  wire ag_039;
+  wire ag_040;
+  wire ag_041;
+  wire ag_042;
+  wire ag_043;
+  wire ag_044;
+  wire ag_045;
+  wire ag_046;
+  wire ag_047;
+  wire ag_048;
+  wire ag_049;
+  wire ag_050;
+  wire ag_051;
+  wire ag_052;
+  wire ag_053;
+  wire ag_054;
+  wire ag_055;
+  wire ag_056;
+  wire ag_057;
+  wire ag_058;
+  wire ag_059;
+  wire ag_060;
+  wire ag_061;
+  wire ag_062;
+  wire ag_063;
+  wire ag_064;
+  wire ag_065;
+  wire ag_066;
+  wire ag_067;
+  wire ag_068;
+  wire ag_069;
+  wire ag_070;
+  wire ag_071;
+  wire ag_072;
+  wire ag_073;
+  wire ag_074;
+  wire ag_075;
+  wire ag_076;
+  wire ag_077;
+  wire ag_078;
+  wire ag_079;
+  wire ag_080;
+  wire ag_081;
+  wire ag_082;
+  wire ag_083;
+  wire ag_084;
+  wire ag_085;
+  wire ag_086;
+  wire ag_087;
+  wire ag_088;
+  wire ag_089;
+  wire ag_090;
+  wire ag_091;
+  wire ag_092;
+  wire ag_093;
+  wire ag_094;
+  wire ag_095;
+  wire ag_096;
+  wire ag_097;
+  wire ag_098;
+  wire ag_099;
+  wire ag_100;
+  wire ag_101;
+  wire ag_102;
+  wire ag_103;
+  wire CAN_FIRE_RL_mkConnectionGetPut;
+  wire CAN_FIRE_RL_mkConnectionGetPut_1;
+  wire CAN_FIRE_RL_mkConnectionGetPut_10;
+  wire CAN_FIRE_RL_mkConnectionGetPut_11;
+  wire CAN_FIRE_RL_mkConnectionGetPut_12;
+  wire CAN_FIRE_RL_mkConnectionGetPut_13;
+  wire CAN_FIRE_RL_mkConnectionGetPut_14;
+  wire CAN_FIRE_RL_mkConnectionGetPut_15;
+  wire CAN_FIRE_RL_mkConnectionGetPut_16;
+  wire CAN_FIRE_RL_mkConnectionGetPut_17;
+  wire CAN_FIRE_RL_mkConnectionGetPut_18;
+  wire CAN_FIRE_RL_mkConnectionGetPut_19;
+  wire CAN_FIRE_RL_mkConnectionGetPut_2;
+  wire CAN_FIRE_RL_mkConnectionGetPut_20;
+  wire CAN_FIRE_RL_mkConnectionGetPut_3;
+  wire CAN_FIRE_RL_mkConnectionGetPut_4;
+  wire CAN_FIRE_RL_mkConnectionGetPut_5;
+  wire CAN_FIRE_RL_mkConnectionGetPut_6;
+  wire CAN_FIRE_RL_mkConnectionGetPut_7;
+  wire CAN_FIRE_RL_mkConnectionGetPut_8;
+  wire CAN_FIRE_RL_mkConnectionGetPut_9;
+  wire CAN_FIRE_RL_rlConnect;
+  wire CAN_FIRE_RL_rlConnect_1;
+  wire CAN_FIRE_RL_rlConnect_2;
+  wire CAN_FIRE_RL_rlConnect_3;
+  wire CAN_FIRE_RL_rlConnect_4;
+  wire CAN_FIRE_RL_rlConnect_5;
+  wire CAN_FIRE_RL_rlConnect_6;
+  wire CAN_FIRE_RL_rlEvaluateOutput;
+  wire CAN_FIRE_RL_rlPutCodeWordIn;
+  wire CAN_FIRE_request_put;
+  wire CAN_FIRE_response_get;
+  input CLK;
+  input EN_request_put;
+  input EN_response_get;
+  wire \MUX_rgIdle_write_1__SEL_1 ;
+  output RDY_request_put;
+  output RDY_response_get;
+  input RST_N;
+  wire WILL_FIRE_RL_mkConnectionGetPut;
+  wire WILL_FIRE_RL_mkConnectionGetPut_1;
+  wire WILL_FIRE_RL_mkConnectionGetPut_10;
+  wire WILL_FIRE_RL_mkConnectionGetPut_11;
+  wire WILL_FIRE_RL_mkConnectionGetPut_12;
+  wire WILL_FIRE_RL_mkConnectionGetPut_13;
+  wire WILL_FIRE_RL_mkConnectionGetPut_14;
+  wire WILL_FIRE_RL_mkConnectionGetPut_15;
+  wire WILL_FIRE_RL_mkConnectionGetPut_16;
+  wire WILL_FIRE_RL_mkConnectionGetPut_17;
+  wire WILL_FIRE_RL_mkConnectionGetPut_18;
+  wire WILL_FIRE_RL_mkConnectionGetPut_19;
+  wire WILL_FIRE_RL_mkConnectionGetPut_2;
+  wire WILL_FIRE_RL_mkConnectionGetPut_20;
+  wire WILL_FIRE_RL_mkConnectionGetPut_3;
+  wire WILL_FIRE_RL_mkConnectionGetPut_4;
+  wire WILL_FIRE_RL_mkConnectionGetPut_5;
+  wire WILL_FIRE_RL_mkConnectionGetPut_6;
+  wire WILL_FIRE_RL_mkConnectionGetPut_7;
+  wire WILL_FIRE_RL_mkConnectionGetPut_8;
+  wire WILL_FIRE_RL_mkConnectionGetPut_9;
+  wire WILL_FIRE_RL_rlConnect;
+  wire WILL_FIRE_RL_rlConnect_1;
+  wire WILL_FIRE_RL_rlConnect_2;
+  wire WILL_FIRE_RL_rlConnect_3;
+  wire WILL_FIRE_RL_rlConnect_4;
+  wire WILL_FIRE_RL_rlConnect_5;
+  wire WILL_FIRE_RL_rlConnect_6;
+  wire WILL_FIRE_RL_rlEvaluateOutput;
+  wire WILL_FIRE_RL_rlPutCodeWordIn;
+  wire WILL_FIRE_request_put;
+  wire WILL_FIRE_response_get;
+  wire sffI_DEQ ;
+  wire sffI_D_IN_0 ;
+  wire sffI_D_IN_1 ;
+  wire sffI_D_IN_2 ;
+  wire sffI_D_IN_3 ;
+  wire sffI_D_IN_4 ;
+  wire sffI_D_IN_5 ;
+  wire sffI_D_IN_6 ;
+  wire sffI_D_OUT_0 ;
+  wire sffI_D_OUT_1 ;
+  wire sffI_D_OUT_2 ;
+  wire sffI_D_OUT_3 ;
+  wire sffI_D_OUT_4 ;
+  wire sffI_D_OUT_5 ;
+  wire sffI_D_OUT_6 ;
+  wire sffI_EMPTY_N ;
+  wire sffI_ENQ ;
+  wire sffI_FULL_N ;
+  wire sffO_DEQ ;
+  wire sffO_D_IN_0 ;
+  wire sffO_D_IN_1 ;
+  wire sffO_D_IN_2 ;
+  wire sffO_D_IN_3 ;
+  wire sffO_D_IN_4 ;
+  wire sffO_D_IN_5 ;
+  wire sffO_D_IN_6 ;
+  wire sffO_D_OUT_0 ;
+  wire sffO_D_OUT_1 ;
+  wire sffO_D_OUT_2 ;
+  wire sffO_D_OUT_3 ;
+  wire sffO_D_OUT_4 ;
+  wire sffO_D_OUT_5 ;
+  wire sffO_D_OUT_6 ;
+  wire sffO_EMPTY_N ;
+  wire sffO_ENQ ;
+  wire sffO_FULL_N ;
+  wire fnCheckDecodedWord_d200;
+  input \request_put_0 ;
+  input \request_put_1 ;
+  input \request_put_2 ;
+  input \request_put_3 ;
+  input \request_put_4 ;
+  input \request_put_5 ;
+  input \request_put_6 ;
+  output \response_get_0 ;
+  output \response_get_1 ;
+  output \response_get_2 ;
+  output \response_get_3 ;
+  output \response_get_4 ;
+  output \response_get_5 ;
+  output \response_get_6 ;
+  wire rgIdle;
+  wire \rgIdle_D_IN ;
+  wire svBitNodes_0_EN_b2c_get ;
+  wire svBitNodes_0_EN_c2b_0_put ;
+  wire svBitNodes_0_EN_c2b_1_put ;
+  wire svBitNodes_0_EN_c2b_2_put ;
+  wire svBitNodes_0_EN_codeIn_put ;
+  wire svBitNodes_0_EN_dataOut_get ;
+  wire svBitNodes_0_RDY_b2c_get ;
+  wire svBitNodes_0_RDY_c2b_0_put ;
+  wire svBitNodes_0_RDY_c2b_1_put ;
+  wire svBitNodes_0_RDY_c2b_2_put ;
+  wire svBitNodes_0_RDY_codeIn_put ;
+  wire svBitNodes_0_RDY_dataOut_get ;
+  wire svBitNodes_0_b2c_get ;
+  wire svBitNodes_0_c2b_0_put ;
+  wire svBitNodes_0_c2b_1_put ;
+  wire svBitNodes_0_c2b_2_put ;
+  wire svBitNodes_0_codeIn_put ;
+  wire svBitNodes_0_dataOut_get ;
+  wire svBitNodes_1_EN_b2c_get ;
+  wire svBitNodes_1_EN_c2b_0_put ;
+  wire svBitNodes_1_EN_c2b_1_put ;
+  wire svBitNodes_1_EN_c2b_2_put ;
+  wire svBitNodes_1_EN_codeIn_put ;
+  wire svBitNodes_1_EN_dataOut_get ;
+  wire svBitNodes_1_RDY_b2c_get ;
+  wire svBitNodes_1_RDY_c2b_0_put ;
+  wire svBitNodes_1_RDY_c2b_1_put ;
+  wire svBitNodes_1_RDY_c2b_2_put ;
+  wire svBitNodes_1_RDY_codeIn_put ;
+  wire svBitNodes_1_RDY_dataOut_get ;
+  wire svBitNodes_1_b2c_get ;
+  wire svBitNodes_1_c2b_0_put ;
+  wire svBitNodes_1_c2b_1_put ;
+  wire svBitNodes_1_c2b_2_put ;
+  wire svBitNodes_1_codeIn_put ;
+  wire svBitNodes_1_dataOut_get ;
+  wire svBitNodes_2_EN_b2c_get ;
+  wire svBitNodes_2_EN_c2b_0_put ;
+  wire svBitNodes_2_EN_c2b_1_put ;
+  wire svBitNodes_2_EN_c2b_2_put ;
+  wire svBitNodes_2_EN_codeIn_put ;
+  wire svBitNodes_2_EN_dataOut_get ;
+  wire svBitNodes_2_RDY_b2c_get ;
+  wire svBitNodes_2_RDY_c2b_0_put ;
+  wire svBitNodes_2_RDY_c2b_1_put ;
+  wire svBitNodes_2_RDY_c2b_2_put ;
+  wire svBitNodes_2_RDY_codeIn_put ;
+  wire svBitNodes_2_RDY_dataOut_get ;
+  wire svBitNodes_2_b2c_get ;
+  wire svBitNodes_2_c2b_0_put ;
+  wire svBitNodes_2_c2b_1_put ;
+  wire svBitNodes_2_c2b_2_put ;
+  wire svBitNodes_2_codeIn_put ;
+  wire svBitNodes_2_dataOut_get ;
+  wire svBitNodes_3_EN_b2c_get ;
+  wire svBitNodes_3_EN_c2b_0_put ;
+  wire svBitNodes_3_EN_c2b_1_put ;
+  wire svBitNodes_3_EN_c2b_2_put ;
+  wire svBitNodes_3_EN_codeIn_put ;
+  wire svBitNodes_3_EN_dataOut_get ;
+  wire svBitNodes_3_RDY_b2c_get ;
+  wire svBitNodes_3_RDY_c2b_0_put ;
+  wire svBitNodes_3_RDY_c2b_1_put ;
+  wire svBitNodes_3_RDY_c2b_2_put ;
+  wire svBitNodes_3_RDY_codeIn_put ;
+  wire svBitNodes_3_RDY_dataOut_get ;
+  wire svBitNodes_3_b2c_get ;
+  wire svBitNodes_3_c2b_0_put ;
+  wire svBitNodes_3_c2b_1_put ;
+  wire svBitNodes_3_c2b_2_put ;
+  wire svBitNodes_3_codeIn_put ;
+  wire svBitNodes_3_dataOut_get ;
+  wire svBitNodes_4_EN_b2c_get ;
+  wire svBitNodes_4_EN_c2b_0_put ;
+  wire svBitNodes_4_EN_c2b_1_put ;
+  wire svBitNodes_4_EN_c2b_2_put ;
+  wire svBitNodes_4_EN_codeIn_put ;
+  wire svBitNodes_4_EN_dataOut_get ;
+  wire svBitNodes_4_RDY_b2c_get ;
+  wire svBitNodes_4_RDY_c2b_0_put ;
+  wire svBitNodes_4_RDY_c2b_1_put ;
+  wire svBitNodes_4_RDY_c2b_2_put ;
+  wire svBitNodes_4_RDY_codeIn_put ;
+  wire svBitNodes_4_RDY_dataOut_get ;
+  wire svBitNodes_4_b2c_get ;
+  wire svBitNodes_4_c2b_0_put ;
+  wire svBitNodes_4_c2b_1_put ;
+  wire svBitNodes_4_c2b_2_put ;
+  wire svBitNodes_4_codeIn_put ;
+  wire svBitNodes_4_dataOut_get ;
+  wire svBitNodes_5_EN_b2c_get ;
+  wire svBitNodes_5_EN_c2b_0_put ;
+  wire svBitNodes_5_EN_c2b_1_put ;
+  wire svBitNodes_5_EN_c2b_2_put ;
+  wire svBitNodes_5_EN_codeIn_put ;
+  wire svBitNodes_5_EN_dataOut_get ;
+  wire svBitNodes_5_RDY_b2c_get ;
+  wire svBitNodes_5_RDY_c2b_0_put ;
+  wire svBitNodes_5_RDY_c2b_1_put ;
+  wire svBitNodes_5_RDY_c2b_2_put ;
+  wire svBitNodes_5_RDY_codeIn_put ;
+  wire svBitNodes_5_RDY_dataOut_get ;
+  wire svBitNodes_5_b2c_get ;
+  wire svBitNodes_5_c2b_0_put ;
+  wire svBitNodes_5_c2b_1_put ;
+  wire svBitNodes_5_c2b_2_put ;
+  wire svBitNodes_5_codeIn_put ;
+  wire svBitNodes_5_dataOut_get ;
+  wire svBitNodes_6_EN_b2c_get ;
+  wire svBitNodes_6_EN_c2b_0_put ;
+  wire svBitNodes_6_EN_c2b_1_put ;
+  wire svBitNodes_6_EN_c2b_2_put ;
+  wire svBitNodes_6_EN_codeIn_put ;
+  wire svBitNodes_6_EN_dataOut_get ;
+  wire svBitNodes_6_RDY_b2c_get ;
+  wire svBitNodes_6_RDY_c2b_0_put ;
+  wire svBitNodes_6_RDY_c2b_1_put ;
+  wire svBitNodes_6_RDY_c2b_2_put ;
+  wire svBitNodes_6_RDY_codeIn_put ;
+  wire svBitNodes_6_RDY_dataOut_get ;
+  wire svBitNodes_6_b2c_get ;
+  wire svBitNodes_6_c2b_0_put ;
+  wire svBitNodes_6_c2b_1_put ;
+  wire svBitNodes_6_c2b_2_put ;
+  wire svBitNodes_6_codeIn_put ;
+  wire svBitNodes_6_dataOut_get ;
+  wire svCheckNodes_0_EN_b2c_0_put ;
+  wire svCheckNodes_0_EN_b2c_1_put ;
+  wire svCheckNodes_0_EN_b2c_2_put ;
+  wire svCheckNodes_0_EN_c2b_0_get ;
+  wire svCheckNodes_0_EN_c2b_1_get ;
+  wire svCheckNodes_0_EN_c2b_2_get ;
+  wire svCheckNodes_0_RDY_b2c_0_put ;
+  wire svCheckNodes_0_RDY_b2c_1_put ;
+  wire svCheckNodes_0_RDY_b2c_2_put ;
+  wire svCheckNodes_0_RDY_c2b_0_get ;
+  wire svCheckNodes_0_RDY_c2b_1_get ;
+  wire svCheckNodes_0_RDY_c2b_2_get ;
+  wire svCheckNodes_0_b2c_0_put ;
+  wire svCheckNodes_0_b2c_1_put ;
+  wire svCheckNodes_0_b2c_2_put ;
+  wire svCheckNodes_0_c2b_0_get ;
+  wire svCheckNodes_0_c2b_1_get ;
+  wire svCheckNodes_0_c2b_2_get ;
+  wire svCheckNodes_1_EN_b2c_0_put ;
+  wire svCheckNodes_1_EN_b2c_1_put ;
+  wire svCheckNodes_1_EN_b2c_2_put ;
+  wire svCheckNodes_1_EN_c2b_0_get ;
+  wire svCheckNodes_1_EN_c2b_1_get ;
+  wire svCheckNodes_1_EN_c2b_2_get ;
+  wire svCheckNodes_1_RDY_b2c_0_put ;
+  wire svCheckNodes_1_RDY_b2c_1_put ;
+  wire svCheckNodes_1_RDY_b2c_2_put ;
+  wire svCheckNodes_1_RDY_c2b_0_get ;
+  wire svCheckNodes_1_RDY_c2b_1_get ;
+  wire svCheckNodes_1_RDY_c2b_2_get ;
+  wire svCheckNodes_1_b2c_0_put ;
+  wire svCheckNodes_1_b2c_1_put ;
+  wire svCheckNodes_1_b2c_2_put ;
+  wire svCheckNodes_1_c2b_0_get ;
+  wire svCheckNodes_1_c2b_1_get ;
+  wire svCheckNodes_1_c2b_2_get ;
+  wire svCheckNodes_2_EN_b2c_0_put ;
+  wire svCheckNodes_2_EN_b2c_1_put ;
+  wire svCheckNodes_2_EN_b2c_2_put ;
+  wire svCheckNodes_2_EN_c2b_0_get ;
+  wire svCheckNodes_2_EN_c2b_1_get ;
+  wire svCheckNodes_2_EN_c2b_2_get ;
+  wire svCheckNodes_2_RDY_b2c_0_put ;
+  wire svCheckNodes_2_RDY_b2c_1_put ;
+  wire svCheckNodes_2_RDY_b2c_2_put ;
+  wire svCheckNodes_2_RDY_c2b_0_get ;
+  wire svCheckNodes_2_RDY_c2b_1_get ;
+  wire svCheckNodes_2_RDY_c2b_2_get ;
+  wire svCheckNodes_2_b2c_0_put ;
+  wire svCheckNodes_2_b2c_1_put ;
+  wire svCheckNodes_2_b2c_2_put ;
+  wire svCheckNodes_2_c2b_0_get ;
+  wire svCheckNodes_2_c2b_1_get ;
+  wire svCheckNodes_2_c2b_2_get ;
+  wire svCheckNodes_3_EN_b2c_0_put ;
+  wire svCheckNodes_3_EN_b2c_1_put ;
+  wire svCheckNodes_3_EN_b2c_2_put ;
+  wire svCheckNodes_3_EN_c2b_0_get ;
+  wire svCheckNodes_3_EN_c2b_1_get ;
+  wire svCheckNodes_3_EN_c2b_2_get ;
+  wire svCheckNodes_3_RDY_b2c_0_put ;
+  wire svCheckNodes_3_RDY_b2c_1_put ;
+  wire svCheckNodes_3_RDY_b2c_2_put ;
+  wire svCheckNodes_3_RDY_c2b_0_get ;
+  wire svCheckNodes_3_RDY_c2b_1_get ;
+  wire svCheckNodes_3_RDY_c2b_2_get ;
+  wire svCheckNodes_3_b2c_0_put ;
+  wire svCheckNodes_3_b2c_1_put ;
+  wire svCheckNodes_3_b2c_2_put ;
+  wire svCheckNodes_3_c2b_0_get ;
+  wire svCheckNodes_3_c2b_1_get ;
+  wire svCheckNodes_3_c2b_2_get ;
+  wire svCheckNodes_4_EN_b2c_0_put ;
+  wire svCheckNodes_4_EN_b2c_1_put ;
+  wire svCheckNodes_4_EN_b2c_2_put ;
+  wire svCheckNodes_4_EN_c2b_0_get ;
+  wire svCheckNodes_4_EN_c2b_1_get ;
+  wire svCheckNodes_4_EN_c2b_2_get ;
+  wire svCheckNodes_4_RDY_b2c_0_put ;
+  wire svCheckNodes_4_RDY_b2c_1_put ;
+  wire svCheckNodes_4_RDY_b2c_2_put ;
+  wire svCheckNodes_4_RDY_c2b_0_get ;
+  wire svCheckNodes_4_RDY_c2b_1_get ;
+  wire svCheckNodes_4_RDY_c2b_2_get ;
+  wire svCheckNodes_4_b2c_0_put ;
+  wire svCheckNodes_4_b2c_1_put ;
+  wire svCheckNodes_4_b2c_2_put ;
+  wire svCheckNodes_4_c2b_0_get ;
+  wire svCheckNodes_4_c2b_1_get ;
+  wire svCheckNodes_4_c2b_2_get ;
+  wire svCheckNodes_5_EN_b2c_0_put ;
+  wire svCheckNodes_5_EN_b2c_1_put ;
+  wire svCheckNodes_5_EN_b2c_2_put ;
+  wire svCheckNodes_5_EN_c2b_0_get ;
+  wire svCheckNodes_5_EN_c2b_1_get ;
+  wire svCheckNodes_5_EN_c2b_2_get ;
+  wire svCheckNodes_5_RDY_b2c_0_put ;
+  wire svCheckNodes_5_RDY_b2c_1_put ;
+  wire svCheckNodes_5_RDY_b2c_2_put ;
+  wire svCheckNodes_5_RDY_c2b_0_get ;
+  wire svCheckNodes_5_RDY_c2b_1_get ;
+  wire svCheckNodes_5_RDY_c2b_2_get ;
+  wire svCheckNodes_5_b2c_0_put ;
+  wire svCheckNodes_5_b2c_1_put ;
+  wire svCheckNodes_5_b2c_2_put ;
+  wire svCheckNodes_5_c2b_0_get ;
+  wire svCheckNodes_5_c2b_1_get ;
+  wire svCheckNodes_5_c2b_2_get ;
+  wire svCheckNodes_6_EN_b2c_0_put ;
+  wire svCheckNodes_6_EN_b2c_1_put ;
+  wire svCheckNodes_6_EN_b2c_2_put ;
+  wire svCheckNodes_6_EN_c2b_0_get ;
+  wire svCheckNodes_6_EN_c2b_1_get ;
+  wire svCheckNodes_6_EN_c2b_2_get ;
+  wire svCheckNodes_6_RDY_b2c_0_put ;
+  wire svCheckNodes_6_RDY_b2c_1_put ;
+  wire svCheckNodes_6_RDY_b2c_2_put ;
+  wire svCheckNodes_6_RDY_c2b_0_get ;
+  wire svCheckNodes_6_RDY_c2b_1_get ;
+  wire svCheckNodes_6_RDY_c2b_2_get ;
+  wire svCheckNodes_6_b2c_0_put ;
+  wire svCheckNodes_6_b2c_1_put ;
+  wire svCheckNodes_6_b2c_2_put ;
+  wire svCheckNodes_6_c2b_0_get ;
+  wire svCheckNodes_6_c2b_1_get ;
+  wire svCheckNodes_6_c2b_2_get ;
+  std_nand2 ag_104 (
+    .a(svCheckNodes_0_RDY_b2c_0_put ),
+    .b(svBitNodes_0_RDY_b2c_get ),
+    .y(ag_001)
+  );
+  std_nand2 ag_105 (
+    .a(svCheckNodes_6_RDY_b2c_0_put ),
+    .b(svCheckNodes_4_RDY_b2c_0_put ),
+    .y(ag_002)
+  );
+  std_nor2 ag_106 (
+    .a(ag_002),
+    .b(ag_001),
+    .y(svBitNodes_0_EN_b2c_get )
+  );
+  std_nand2 ag_107 (
+    .a(svCheckNodes_0_RDY_b2c_1_put ),
+    .b(svBitNodes_1_RDY_b2c_get ),
+    .y(ag_003)
+  );
+  std_nand2 ag_108 (
+    .a(svCheckNodes_5_RDY_b2c_0_put ),
+    .b(svCheckNodes_1_RDY_b2c_0_put ),
+    .y(ag_004)
+  );
+  std_nor2 ag_109 (
+    .a(ag_004),
+    .b(ag_003),
+    .y(svBitNodes_1_EN_b2c_get )
+  );
+  std_nand2 ag_110 (
+    .a(svCheckNodes_1_RDY_b2c_1_put ),
+    .b(svBitNodes_2_RDY_b2c_get ),
+    .y(ag_005)
+  );
+  std_nand2 ag_111 (
+    .a(svCheckNodes_2_RDY_b2c_0_put ),
+    .b(svCheckNodes_6_RDY_b2c_1_put ),
+    .y(ag_006)
+  );
+  std_nor2 ag_112 (
+    .a(ag_006),
+    .b(ag_005),
+    .y(svBitNodes_2_EN_b2c_get )
+  );
+  std_nand2 ag_113 (
+    .a(svCheckNodes_0_RDY_b2c_2_put ),
+    .b(svBitNodes_3_RDY_b2c_get ),
+    .y(ag_007)
+  );
+  std_nand2 ag_114 (
+    .a(svCheckNodes_3_RDY_b2c_0_put ),
+    .b(svCheckNodes_2_RDY_b2c_1_put ),
+    .y(ag_008)
+  );
+  std_nor2 ag_115 (
+    .a(ag_008),
+    .b(ag_007),
+    .y(svBitNodes_3_EN_b2c_get )
+  );
+  std_nand2 ag_116 (
+    .a(svCheckNodes_1_RDY_b2c_2_put ),
+    .b(svBitNodes_4_RDY_b2c_get ),
+    .y(ag_009)
+  );
+  std_nand2 ag_117 (
+    .a(svCheckNodes_4_RDY_b2c_1_put ),
+    .b(svCheckNodes_3_RDY_b2c_1_put ),
+    .y(ag_010)
+  );
+  std_nor2 ag_118 (
+    .a(ag_010),
+    .b(ag_009),
+    .y(svBitNodes_4_EN_b2c_get )
+  );
+  std_nand2 ag_119 (
+    .a(svCheckNodes_2_RDY_b2c_2_put ),
+    .b(svBitNodes_5_RDY_b2c_get ),
+    .y(ag_011)
+  );
+  std_nand2 ag_120 (
+    .a(svCheckNodes_5_RDY_b2c_1_put ),
+    .b(svCheckNodes_4_RDY_b2c_2_put ),
+    .y(ag_012)
+  );
+  std_nor2 ag_121 (
+    .a(ag_012),
+    .b(ag_011),
+    .y(svBitNodes_5_EN_b2c_get )
+  );
+  std_nand2 ag_122 (
+    .a(svCheckNodes_3_RDY_b2c_2_put ),
+    .b(svBitNodes_6_RDY_b2c_get ),
+    .y(ag_013)
+  );
+  std_nand2 ag_123 (
+    .a(svCheckNodes_6_RDY_b2c_2_put ),
+    .b(svCheckNodes_5_RDY_b2c_2_put ),
+    .y(ag_014)
+  );
+  std_nor2 ag_124 (
+    .a(ag_014),
+    .b(ag_013),
+    .y(svBitNodes_6_EN_b2c_get )
+  );
+  std_inv ag_125 (
+    .a(svBitNodes_0_RDY_c2b_0_put ),
+    .y(ag_015)
+  );
+  std_inv ag_126 (
+    .a(svCheckNodes_0_RDY_c2b_0_get ),
+    .y(ag_016)
+  );
+  std_nor2 ag_127 (
+    .a(ag_016),
+    .b(ag_015),
+    .y(svBitNodes_0_EN_c2b_0_put )
+  );
+  std_inv ag_128 (
+    .a(svBitNodes_1_RDY_c2b_0_put ),
+    .y(ag_017)
+  );
+  std_inv ag_129 (
+    .a(svCheckNodes_0_RDY_c2b_1_get ),
+    .y(ag_018)
+  );
+  std_nor2 ag_130 (
+    .a(ag_018),
+    .b(ag_017),
+    .y(svBitNodes_1_EN_c2b_0_put )
+  );
+  std_inv ag_131 (
+    .a(svBitNodes_3_RDY_c2b_0_put ),
+    .y(ag_019)
+  );
+  std_inv ag_132 (
+    .a(svCheckNodes_0_RDY_c2b_2_get ),
+    .y(ag_020)
+  );
+  std_nor2 ag_133 (
+    .a(ag_020),
+    .b(ag_019),
+    .y(svBitNodes_3_EN_c2b_0_put )
+  );
+  std_inv ag_134 (
+    .a(svBitNodes_1_RDY_c2b_1_put ),
+    .y(ag_021)
+  );
+  std_inv ag_135 (
+    .a(svCheckNodes_1_RDY_c2b_0_get ),
+    .y(ag_022)
+  );
+  std_nor2 ag_136 (
+    .a(ag_022),
+    .b(ag_021),
+    .y(svBitNodes_1_EN_c2b_1_put )
+  );
+  std_inv ag_137 (
+    .a(svBitNodes_2_RDY_c2b_0_put ),
+    .y(ag_023)
+  );
+  std_inv ag_138 (
+    .a(svCheckNodes_1_RDY_c2b_1_get ),
+    .y(ag_024)
+  );
+  std_nor2 ag_139 (
+    .a(ag_024),
+    .b(ag_023),
+    .y(svBitNodes_2_EN_c2b_0_put )
+  );
+  std_inv ag_140 (
+    .a(svBitNodes_4_RDY_c2b_0_put ),
+    .y(ag_025)
+  );
+  std_inv ag_141 (
+    .a(svCheckNodes_1_RDY_c2b_2_get ),
+    .y(ag_026)
+  );
+  std_nor2 ag_142 (
+    .a(ag_026),
+    .b(ag_025),
+    .y(svBitNodes_4_EN_c2b_0_put )
+  );
+  std_inv ag_143 (
+    .a(svBitNodes_2_RDY_c2b_1_put ),
+    .y(ag_027)
+  );
+  std_inv ag_144 (
+    .a(svCheckNodes_2_RDY_c2b_0_get ),
+    .y(ag_028)
+  );
+  std_nor2 ag_145 (
+    .a(ag_028),
+    .b(ag_027),
+    .y(svBitNodes_2_EN_c2b_1_put )
+  );
+  std_inv ag_146 (
+    .a(svBitNodes_3_RDY_c2b_1_put ),
+    .y(ag_029)
+  );
+  std_inv ag_147 (
+    .a(svCheckNodes_2_RDY_c2b_1_get ),
+    .y(ag_030)
+  );
+  std_nor2 ag_148 (
+    .a(ag_030),
+    .b(ag_029),
+    .y(svBitNodes_3_EN_c2b_1_put )
+  );
+  std_inv ag_149 (
+    .a(svBitNodes_5_RDY_c2b_0_put ),
+    .y(ag_031)
+  );
+  std_inv ag_150 (
+    .a(svCheckNodes_2_RDY_c2b_2_get ),
+    .y(ag_032)
+  );
+  std_nor2 ag_151 (
+    .a(ag_032),
+    .b(ag_031),
+    .y(svBitNodes_5_EN_c2b_0_put )
+  );
+  std_inv ag_152 (
+    .a(svBitNodes_3_RDY_c2b_2_put ),
+    .y(ag_033)
+  );
+  std_inv ag_153 (
+    .a(svCheckNodes_3_RDY_c2b_0_get ),
+    .y(ag_034)
+  );
+  std_nor2 ag_154 (
+    .a(ag_034),
+    .b(ag_033),
+    .y(svBitNodes_3_EN_c2b_2_put )
+  );
+  std_inv ag_155 (
+    .a(svBitNodes_4_RDY_c2b_1_put ),
+    .y(ag_035)
+  );
+  std_inv ag_156 (
+    .a(svCheckNodes_3_RDY_c2b_1_get ),
+    .y(ag_036)
+  );
+  std_nor2 ag_157 (
+    .a(ag_036),
+    .b(ag_035),
+    .y(svBitNodes_4_EN_c2b_1_put )
+  );
+  std_inv ag_158 (
+    .a(svBitNodes_6_RDY_c2b_0_put ),
+    .y(ag_037)
+  );
+  std_inv ag_159 (
+    .a(svCheckNodes_3_RDY_c2b_2_get ),
+    .y(ag_038)
+  );
+  std_nor2 ag_160 (
+    .a(ag_038),
+    .b(ag_037),
+    .y(svBitNodes_6_EN_c2b_0_put )
+  );
+  std_inv ag_161 (
+    .a(svBitNodes_0_RDY_c2b_1_put ),
+    .y(ag_039)
+  );
+  std_inv ag_162 (
+    .a(svCheckNodes_4_RDY_c2b_0_get ),
+    .y(ag_040)
+  );
+  std_nor2 ag_163 (
+    .a(ag_040),
+    .b(ag_039),
+    .y(svBitNodes_0_EN_c2b_1_put )
+  );
+  std_inv ag_164 (
+    .a(svBitNodes_4_RDY_c2b_2_put ),
+    .y(ag_041)
+  );
+  std_inv ag_165 (
+    .a(svCheckNodes_4_RDY_c2b_1_get ),
+    .y(ag_042)
+  );
+  std_nor2 ag_166 (
+    .a(ag_042),
+    .b(ag_041),
+    .y(svBitNodes_4_EN_c2b_2_put )
+  );
+  std_inv ag_167 (
+    .a(svBitNodes_5_RDY_c2b_1_put ),
+    .y(ag_043)
+  );
+  std_inv ag_168 (
+    .a(svCheckNodes_4_RDY_c2b_2_get ),
+    .y(ag_044)
+  );
+  std_nor2 ag_169 (
+    .a(ag_044),
+    .b(ag_043),
+    .y(svBitNodes_5_EN_c2b_1_put )
+  );
+  std_inv ag_170 (
+    .a(svBitNodes_1_RDY_c2b_2_put ),
+    .y(ag_045)
+  );
+  std_inv ag_171 (
+    .a(svCheckNodes_5_RDY_c2b_0_get ),
+    .y(ag_046)
+  );
+  std_nor2 ag_172 (
+    .a(ag_046),
+    .b(ag_045),
+    .y(svBitNodes_1_EN_c2b_2_put )
+  );
+  std_inv ag_173 (
+    .a(svBitNodes_5_RDY_c2b_2_put ),
+    .y(ag_047)
+  );
+  std_inv ag_174 (
+    .a(svCheckNodes_5_RDY_c2b_1_get ),
+    .y(ag_048)
+  );
+  std_nor2 ag_175 (
+    .a(ag_048),
+    .b(ag_047),
+    .y(svBitNodes_5_EN_c2b_2_put )
+  );
+  std_inv ag_176 (
+    .a(svBitNodes_6_RDY_c2b_1_put ),
+    .y(ag_049)
+  );
+  std_inv ag_177 (
+    .a(svCheckNodes_5_RDY_c2b_2_get ),
+    .y(ag_050)
+  );
+  std_nor2 ag_178 (
+    .a(ag_050),
+    .b(ag_049),
+    .y(svBitNodes_6_EN_c2b_1_put )
+  );
+  std_inv ag_179 (
+    .a(svBitNodes_0_RDY_c2b_2_put ),
+    .y(ag_051)
+  );
+  std_inv ag_180 (
+    .a(svCheckNodes_6_RDY_c2b_0_get ),
+    .y(ag_052)
+  );
+  std_nor2 ag_181 (
+    .a(ag_052),
+    .b(ag_051),
+    .y(svBitNodes_0_EN_c2b_2_put )
+  );
+  std_inv ag_182 (
+    .a(svBitNodes_2_RDY_c2b_2_put ),
+    .y(ag_053)
+  );
+  std_inv ag_183 (
+    .a(svCheckNodes_6_RDY_c2b_1_get ),
+    .y(ag_054)
+  );
+  std_nor2 ag_184 (
+    .a(ag_054),
+    .b(ag_053),
+    .y(svBitNodes_2_EN_c2b_2_put )
+  );
+  std_inv ag_185 (
+    .a(svBitNodes_6_RDY_c2b_2_put ),
+    .y(ag_055)
+  );
+  std_inv ag_186 (
+    .a(svCheckNodes_6_RDY_c2b_2_get ),
+    .y(ag_056)
+  );
+  std_nor2 ag_187 (
+    .a(ag_056),
+    .b(ag_055),
+    .y(svBitNodes_6_EN_c2b_2_put )
+  );
+  std_nand2 ag_188 (
+    .a(svBitNodes_2_RDY_codeIn_put ),
+    .b(svBitNodes_1_RDY_codeIn_put ),
+    .y(ag_057)
+  );
+  std_nand2 ag_189 (
+    .a(svBitNodes_5_RDY_codeIn_put ),
+    .b(svBitNodes_4_RDY_codeIn_put ),
+    .y(ag_058)
+  );
+  std_nand2 ag_190 (
+    .a(svBitNodes_6_RDY_codeIn_put ),
+    .b(svBitNodes_3_RDY_codeIn_put ),
+    .y(ag_059)
+  );
+  std_nor3 ag_191 (
+    .a(ag_059),
+    .b(ag_058),
+    .c(ag_057),
+    .y(ag_060)
+  );
+  std_inv ag_192 (
+    .a(svBitNodes_0_RDY_codeIn_put ),
+    .y(ag_061)
+  );
+  std_inv ag_193 (
+    .a(rgIdle),
+    .y(ag_062)
+  );
+  std_nor2 ag_194 (
+    .a(ag_062),
+    .b(ag_061),
+    .y(ag_063)
+  );
+  std_nand3 ag_195 (
+    .a(ag_063),
+    .b(ag_060),
+    .c(sffI_EMPTY_N ),
+    .y(ag_064)
+  );
+  std_inv ag_196 (
+    .a(ag_064),
+    .y(WILL_FIRE_RL_rlPutCodeWordIn)
+  );
+  std_nor2 ag_197 (
+    .a(ag_059),
+    .b(ag_057),
+    .y(ag_065)
+  );
+  std_nand3 ag_198 (
+    .a(ag_065),
+    .b(svBitNodes_5_RDY_codeIn_put ),
+    .c(svBitNodes_4_RDY_codeIn_put ),
+    .y(ag_066)
+  );
+  std_nand2 ag_199 (
+    .a(svBitNodes_5_RDY_dataOut_get ),
+    .b(svBitNodes_4_RDY_dataOut_get ),
+    .y(ag_067)
+  );
+  std_nand2 ag_200 (
+    .a(sffO_FULL_N ),
+    .b(svBitNodes_6_RDY_dataOut_get ),
+    .y(ag_068)
+  );
+  std_nor2 ag_201 (
+    .a(ag_068),
+    .b(ag_067),
+    .y(ag_069)
+  );
+  std_nor2 ag_202 (
+    .a(rgIdle),
+    .b(ag_061),
+    .y(ag_070)
+  );
+  std_nand2 ag_203 (
+    .a(svBitNodes_1_RDY_dataOut_get ),
+    .b(svBitNodes_0_RDY_dataOut_get ),
+    .y(ag_071)
+  );
+  std_nand2 ag_204 (
+    .a(svBitNodes_3_RDY_dataOut_get ),
+    .b(svBitNodes_2_RDY_dataOut_get ),
+    .y(ag_072)
+  );
+  std_nor2 ag_205 (
+    .a(ag_072),
+    .b(ag_071),
+    .y(ag_073)
+  );
+  std_nand3 ag_206 (
+    .a(ag_073),
+    .b(ag_070),
+    .c(ag_069),
+    .y(ag_074)
+  );
+  std_nor2 ag_207 (
+    .a(ag_074),
+    .b(ag_066),
+    .y(WILL_FIRE_RL_rlEvaluateOutput)
+  );
+  std_nor3 ag_208 (
+    .a(ag_074),
+    .b(ag_066),
+    .c(fnCheckDecodedWord_d200),
+    .y(sffO_ENQ )
+  );
+  std_nand2 ag_209 (
+    .a(WILL_FIRE_RL_rlEvaluateOutput),
+    .b(fnCheckDecodedWord_d200),
+    .y(ag_075)
+  );
+  std_nand2 ag_210 (
+    .a(ag_075),
+    .b(ag_064),
+    .y(svBitNodes_0_EN_codeIn_put )
+  );
+  std_inv ag_211 (
+    .a(svBitNodes_0_dataOut_get ),
+    .y(ag_076)
+  );
+  std_inv ag_212 (
+    .a(fnCheckDecodedWord_d200),
+    .y(ag_077)
+  );
+  std_nand2 ag_213 (
+    .a(svBitNodes_2_RDY_dataOut_get ),
+    .b(svBitNodes_1_RDY_dataOut_get ),
+    .y(ag_078)
+  );
+  std_nor2 ag_214 (
+    .a(ag_078),
+    .b(ag_067),
+    .y(ag_079)
+  );
+  std_nand2 ag_215 (
+    .a(ag_079),
+    .b(ag_060),
+    .y(ag_080)
+  );
+  std_inv ag_216 (
+    .a(svBitNodes_6_RDY_dataOut_get ),
+    .y(ag_081)
+  );
+  std_inv ag_217 (
+    .a(sffO_FULL_N ),
+    .y(ag_082)
+  );
+  std_nor2 ag_218 (
+    .a(ag_082),
+    .b(ag_081),
+    .y(ag_083)
+  );
+  std_inv ag_219 (
+    .a(svBitNodes_0_RDY_dataOut_get ),
+    .y(ag_084)
+  );
+  std_inv ag_220 (
+    .a(svBitNodes_3_RDY_dataOut_get ),
+    .y(ag_085)
+  );
+  std_nor3 ag_221 (
+    .a(ag_085),
+    .b(ag_084),
+    .c(rgIdle),
+    .y(ag_086)
+  );
+  std_nand3 ag_222 (
+    .a(ag_086),
+    .b(ag_083),
+    .c(svBitNodes_0_RDY_codeIn_put ),
+    .y(ag_087)
+  );
+  std_nor3 ag_223 (
+    .a(ag_087),
+    .b(ag_080),
+    .c(ag_077),
+    .y(ag_088)
+  );
+  std_nor2 ag_224 (
+    .a(ag_088),
+    .b(sffI_D_OUT_0 ),
+    .y(ag_089)
+  );
+  std_aoi ag_225 (
+    .a(ag_088),
+    .b(ag_076),
+    .c(ag_089),
+    .y(svBitNodes_0_codeIn_put )
+  );
+  std_inv ag_226 (
+    .a(svBitNodes_1_dataOut_get ),
+    .y(ag_090)
+  );
+  std_nor2 ag_227 (
+    .a(ag_088),
+    .b(sffI_D_OUT_1 ),
+    .y(ag_091)
+  );
+  std_aoi ag_228 (
+    .a(ag_088),
+    .b(ag_090),
+    .c(ag_091),
+    .y(svBitNodes_1_codeIn_put )
+  );
+  std_inv ag_229 (
+    .a(svBitNodes_2_dataOut_get ),
+    .y(ag_092)
+  );
+  std_nor2 ag_230 (
+    .a(ag_088),
+    .b(sffI_D_OUT_2 ),
+    .y(ag_093)
+  );
+  std_aoi ag_231 (
+    .a(ag_088),
+    .b(ag_092),
+    .c(ag_093),
+    .y(svBitNodes_2_codeIn_put )
+  );
+  std_inv ag_232 (
+    .a(svBitNodes_3_dataOut_get ),
+    .y(ag_094)
+  );
+  std_nor2 ag_233 (
+    .a(ag_088),
+    .b(sffI_D_OUT_3 ),
+    .y(ag_095)
+  );
+  std_aoi ag_234 (
+    .a(ag_088),
+    .b(ag_094),
+    .c(ag_095),
+    .y(svBitNodes_3_codeIn_put )
+  );
+  std_inv ag_235 (
+    .a(svBitNodes_4_dataOut_get ),
+    .y(ag_096)
+  );
+  std_nor2 ag_236 (
+    .a(ag_088),
+    .b(sffI_D_OUT_4 ),
+    .y(ag_097)
+  );
+  std_aoi ag_237 (
+    .a(ag_088),
+    .b(ag_096),
+    .c(ag_097),
+    .y(svBitNodes_4_codeIn_put )
+  );
+  std_inv ag_238 (
+    .a(svBitNodes_5_dataOut_get ),
+    .y(ag_098)
+  );
+  std_nor2 ag_239 (
+    .a(ag_088),
+    .b(sffI_D_OUT_5 ),
+    .y(ag_099)
+  );
+  std_aoi ag_240 (
+    .a(ag_088),
+    .b(ag_098),
+    .c(ag_099),
+    .y(svBitNodes_5_codeIn_put )
+  );
+  std_inv ag_241 (
+    .a(svBitNodes_6_dataOut_get ),
+    .y(ag_100)
+  );
+  std_nor2 ag_242 (
+    .a(ag_088),
+    .b(sffI_D_OUT_6 ),
+    .y(ag_101)
+  );
+  std_aoi ag_243 (
+    .a(ag_088),
+    .b(ag_100),
+    .c(ag_101),
+    .y(svBitNodes_6_codeIn_put )
+  );
+  std_nand2 ag_244 (
+    .a(WILL_FIRE_RL_rlEvaluateOutput),
+    .b(ag_077),
+    .y(ag_102)
+  );
+  std_nand2 ag_245 (
+    .a(ag_064),
+    .b(rgIdle),
+    .y(ag_103)
+  );
+  std_nand3 ag_246 (
+    .a(ag_103),
+    .b(ag_102),
+    .c(RST_N),
+    .y(ag_000)
+  );
+  d_ff ag_247 (
+    .clk(CLK),
+    .d(ag_000),
+    .q(rgIdle)
+  );
+  FIFO2_7 ffI (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(WILL_FIRE_RL_rlPutCodeWordIn),
+    .SD_IN_0 (\request_put_0 ),
+    .SD_IN_1 (\request_put_1 ),
+    .SD_IN_2 (\request_put_2 ),
+    .SD_IN_3 (\request_put_3 ),
+    .SD_IN_4 (\request_put_4 ),
+    .SD_IN_5 (\request_put_5 ),
+    .SD_IN_6 (\request_put_6 ),
+    .SD_OUT_0 (sffI_D_OUT_0 ),
+    .SD_OUT_1 (sffI_D_OUT_1 ),
+    .SD_OUT_2 (sffI_D_OUT_2 ),
+    .SD_OUT_3 (sffI_D_OUT_3 ),
+    .SD_OUT_4 (sffI_D_OUT_4 ),
+    .SD_OUT_5 (sffI_D_OUT_5 ),
+    .SD_OUT_6 (sffI_D_OUT_6 ),
+    .EMPTY_N(sffI_EMPTY_N ),
+    .ENQ(EN_request_put),
+    .FULL_N(sffI_FULL_N ),
+    .RST(RST_N)
+  );
+  FIFO2_7 ffO (
+    .CLK(CLK),
+    .CLR(1'b0),
+    .DEQ(EN_response_get),
+    .SD_IN_0 (svBitNodes_0_dataOut_get ),
+    .SD_IN_1 (svBitNodes_1_dataOut_get ),
+    .SD_IN_2 (svBitNodes_2_dataOut_get ),
+    .SD_IN_3 (svBitNodes_3_dataOut_get ),
+    .SD_IN_4 (svBitNodes_4_dataOut_get ),
+    .SD_IN_5 (svBitNodes_5_dataOut_get ),
+    .SD_IN_6 (svBitNodes_6_dataOut_get ),
+    .SD_OUT_0 (sffO_D_OUT_0 ),
+    .SD_OUT_1 (sffO_D_OUT_1 ),
+    .SD_OUT_2 (sffO_D_OUT_2 ),
+    .SD_OUT_3 (sffO_D_OUT_3 ),
+    .SD_OUT_4 (sffO_D_OUT_4 ),
+    .SD_OUT_5 (sffO_D_OUT_5 ),
+    .SD_OUT_6 (sffO_D_OUT_6 ),
+    .EMPTY_N(sffO_EMPTY_N ),
+    .ENQ(sffO_ENQ ),
+    .FULL_N(sffO_FULL_N ),
+    .RST(RST_N)
+  );
+  module_fnCheckDecodedWord instance_fnCheckDecodedWord_0 (
+    .fnCheckDecodedWord(fnCheckDecodedWord_d200),
+    .sfnCheckDecodedWord_b_0 (svBitNodes_0_dataOut_get ),
+    .sfnCheckDecodedWord_b_1 (svBitNodes_1_dataOut_get ),
+    .sfnCheckDecodedWord_b_2 (svBitNodes_2_dataOut_get ),
+    .sfnCheckDecodedWord_b_3 (svBitNodes_3_dataOut_get ),
+    .sfnCheckDecodedWord_b_4 (svBitNodes_4_dataOut_get ),
+    .sfnCheckDecodedWord_b_5 (svBitNodes_5_dataOut_get ),
+    .sfnCheckDecodedWord_b_6 (svBitNodes_6_dataOut_get )
+  );
+  mkBitNode vBitNodes_0 (
+    .CLK(CLK),
+    .EN_b2c_get(svBitNodes_0_EN_b2c_get ),
+    .EN_c2b_0_put(svBitNodes_0_EN_c2b_0_put ),
+    .EN_c2b_1_put(svBitNodes_0_EN_c2b_1_put ),
+    .EN_c2b_2_put(svBitNodes_0_EN_c2b_2_put ),
+    .EN_codeIn_put(svBitNodes_0_EN_codeIn_put ),
+    .EN_dataOut_get(WILL_FIRE_RL_rlEvaluateOutput),
+    .RDY_b2c_get(svBitNodes_0_RDY_b2c_get ),
+    .RDY_c2b_0_put(svBitNodes_0_RDY_c2b_0_put ),
+    .RDY_c2b_1_put(svBitNodes_0_RDY_c2b_1_put ),
+    .RDY_c2b_2_put(svBitNodes_0_RDY_c2b_2_put ),
+    .RDY_codeIn_put(svBitNodes_0_RDY_codeIn_put ),
+    .RDY_dataOut_get(svBitNodes_0_RDY_dataOut_get ),
+    .RST_N(RST_N),
+    .b2c_get(svBitNodes_0_b2c_get ),
+    .c2b_0_put(svBitNodes_0_c2b_0_put ),
+    .c2b_1_put(svBitNodes_0_c2b_1_put ),
+    .c2b_2_put(svBitNodes_0_c2b_2_put ),
+    .codeIn_put(svBitNodes_0_codeIn_put ),
+    .dataOut_get(svBitNodes_0_dataOut_get )
+  );
+  mkBitNode vBitNodes_1 (
+    .CLK(CLK),
+    .EN_b2c_get(svBitNodes_1_EN_b2c_get ),
+    .EN_c2b_0_put(svBitNodes_1_EN_c2b_0_put ),
+    .EN_c2b_1_put(svBitNodes_1_EN_c2b_1_put ),
+    .EN_c2b_2_put(svBitNodes_1_EN_c2b_2_put ),
+    .EN_codeIn_put(svBitNodes_0_EN_codeIn_put ),
+    .EN_dataOut_get(WILL_FIRE_RL_rlEvaluateOutput),
+    .RDY_b2c_get(svBitNodes_1_RDY_b2c_get ),
+    .RDY_c2b_0_put(svBitNodes_1_RDY_c2b_0_put ),
+    .RDY_c2b_1_put(svBitNodes_1_RDY_c2b_1_put ),
+    .RDY_c2b_2_put(svBitNodes_1_RDY_c2b_2_put ),
+    .RDY_codeIn_put(svBitNodes_1_RDY_codeIn_put ),
+    .RDY_dataOut_get(svBitNodes_1_RDY_dataOut_get ),
+    .RST_N(RST_N),
+    .b2c_get(svBitNodes_1_b2c_get ),
+    .c2b_0_put(svBitNodes_1_c2b_0_put ),
+    .c2b_1_put(svBitNodes_1_c2b_1_put ),
+    .c2b_2_put(svBitNodes_1_c2b_2_put ),
+    .codeIn_put(svBitNodes_1_codeIn_put ),
+    .dataOut_get(svBitNodes_1_dataOut_get )
+  );
+  mkBitNode vBitNodes_2 (
+    .CLK(CLK),
+    .EN_b2c_get(svBitNodes_2_EN_b2c_get ),
+    .EN_c2b_0_put(svBitNodes_2_EN_c2b_0_put ),
+    .EN_c2b_1_put(svBitNodes_2_EN_c2b_1_put ),
+    .EN_c2b_2_put(svBitNodes_2_EN_c2b_2_put ),
+    .EN_codeIn_put(svBitNodes_0_EN_codeIn_put ),
+    .EN_dataOut_get(WILL_FIRE_RL_rlEvaluateOutput),
+    .RDY_b2c_get(svBitNodes_2_RDY_b2c_get ),
+    .RDY_c2b_0_put(svBitNodes_2_RDY_c2b_0_put ),
+    .RDY_c2b_1_put(svBitNodes_2_RDY_c2b_1_put ),
+    .RDY_c2b_2_put(svBitNodes_2_RDY_c2b_2_put ),
+    .RDY_codeIn_put(svBitNodes_2_RDY_codeIn_put ),
+    .RDY_dataOut_get(svBitNodes_2_RDY_dataOut_get ),
+    .RST_N(RST_N),
+    .b2c_get(svBitNodes_2_b2c_get ),
+    .c2b_0_put(svBitNodes_2_c2b_0_put ),
+    .c2b_1_put(svBitNodes_2_c2b_1_put ),
+    .c2b_2_put(svBitNodes_2_c2b_2_put ),
+    .codeIn_put(svBitNodes_2_codeIn_put ),
+    .dataOut_get(svBitNodes_2_dataOut_get )
+  );
+  mkBitNode vBitNodes_3 (
+    .CLK(CLK),
+    .EN_b2c_get(svBitNodes_3_EN_b2c_get ),
+    .EN_c2b_0_put(svBitNodes_3_EN_c2b_0_put ),
+    .EN_c2b_1_put(svBitNodes_3_EN_c2b_1_put ),
+    .EN_c2b_2_put(svBitNodes_3_EN_c2b_2_put ),
+    .EN_codeIn_put(svBitNodes_0_EN_codeIn_put ),
+    .EN_dataOut_get(WILL_FIRE_RL_rlEvaluateOutput),
+    .RDY_b2c_get(svBitNodes_3_RDY_b2c_get ),
+    .RDY_c2b_0_put(svBitNodes_3_RDY_c2b_0_put ),
+    .RDY_c2b_1_put(svBitNodes_3_RDY_c2b_1_put ),
+    .RDY_c2b_2_put(svBitNodes_3_RDY_c2b_2_put ),
+    .RDY_codeIn_put(svBitNodes_3_RDY_codeIn_put ),
+    .RDY_dataOut_get(svBitNodes_3_RDY_dataOut_get ),
+    .RST_N(RST_N),
+    .b2c_get(svBitNodes_3_b2c_get ),
+    .c2b_0_put(svBitNodes_3_c2b_0_put ),
+    .c2b_1_put(svBitNodes_3_c2b_1_put ),
+    .c2b_2_put(svBitNodes_3_c2b_2_put ),
+    .codeIn_put(svBitNodes_3_codeIn_put ),
+    .dataOut_get(svBitNodes_3_dataOut_get )
+  );
+  mkBitNode vBitNodes_4 (
+    .CLK(CLK),
+    .EN_b2c_get(svBitNodes_4_EN_b2c_get ),
+    .EN_c2b_0_put(svBitNodes_4_EN_c2b_0_put ),
+    .EN_c2b_1_put(svBitNodes_4_EN_c2b_1_put ),
+    .EN_c2b_2_put(svBitNodes_4_EN_c2b_2_put ),
+    .EN_codeIn_put(svBitNodes_0_EN_codeIn_put ),
+    .EN_dataOut_get(WILL_FIRE_RL_rlEvaluateOutput),
+    .RDY_b2c_get(svBitNodes_4_RDY_b2c_get ),
+    .RDY_c2b_0_put(svBitNodes_4_RDY_c2b_0_put ),
+    .RDY_c2b_1_put(svBitNodes_4_RDY_c2b_1_put ),
+    .RDY_c2b_2_put(svBitNodes_4_RDY_c2b_2_put ),
+    .RDY_codeIn_put(svBitNodes_4_RDY_codeIn_put ),
+    .RDY_dataOut_get(svBitNodes_4_RDY_dataOut_get ),
+    .RST_N(RST_N),
+    .b2c_get(svBitNodes_4_b2c_get ),
+    .c2b_0_put(svBitNodes_4_c2b_0_put ),
+    .c2b_1_put(svBitNodes_4_c2b_1_put ),
+    .c2b_2_put(svBitNodes_4_c2b_2_put ),
+    .codeIn_put(svBitNodes_4_codeIn_put ),
+    .dataOut_get(svBitNodes_4_dataOut_get )
+  );
+  mkBitNode vBitNodes_5 (
+    .CLK(CLK),
+    .EN_b2c_get(svBitNodes_5_EN_b2c_get ),
+    .EN_c2b_0_put(svBitNodes_5_EN_c2b_0_put ),
+    .EN_c2b_1_put(svBitNodes_5_EN_c2b_1_put ),
+    .EN_c2b_2_put(svBitNodes_5_EN_c2b_2_put ),
+    .EN_codeIn_put(svBitNodes_0_EN_codeIn_put ),
+    .EN_dataOut_get(WILL_FIRE_RL_rlEvaluateOutput),
+    .RDY_b2c_get(svBitNodes_5_RDY_b2c_get ),
+    .RDY_c2b_0_put(svBitNodes_5_RDY_c2b_0_put ),
+    .RDY_c2b_1_put(svBitNodes_5_RDY_c2b_1_put ),
+    .RDY_c2b_2_put(svBitNodes_5_RDY_c2b_2_put ),
+    .RDY_codeIn_put(svBitNodes_5_RDY_codeIn_put ),
+    .RDY_dataOut_get(svBitNodes_5_RDY_dataOut_get ),
+    .RST_N(RST_N),
+    .b2c_get(svBitNodes_5_b2c_get ),
+    .c2b_0_put(svBitNodes_5_c2b_0_put ),
+    .c2b_1_put(svBitNodes_5_c2b_1_put ),
+    .c2b_2_put(svBitNodes_5_c2b_2_put ),
+    .codeIn_put(svBitNodes_5_codeIn_put ),
+    .dataOut_get(svBitNodes_5_dataOut_get )
+  );
+  mkBitNode vBitNodes_6 (
+    .CLK(CLK),
+    .EN_b2c_get(svBitNodes_6_EN_b2c_get ),
+    .EN_c2b_0_put(svBitNodes_6_EN_c2b_0_put ),
+    .EN_c2b_1_put(svBitNodes_6_EN_c2b_1_put ),
+    .EN_c2b_2_put(svBitNodes_6_EN_c2b_2_put ),
+    .EN_codeIn_put(svBitNodes_0_EN_codeIn_put ),
+    .EN_dataOut_get(WILL_FIRE_RL_rlEvaluateOutput),
+    .RDY_b2c_get(svBitNodes_6_RDY_b2c_get ),
+    .RDY_c2b_0_put(svBitNodes_6_RDY_c2b_0_put ),
+    .RDY_c2b_1_put(svBitNodes_6_RDY_c2b_1_put ),
+    .RDY_c2b_2_put(svBitNodes_6_RDY_c2b_2_put ),
+    .RDY_codeIn_put(svBitNodes_6_RDY_codeIn_put ),
+    .RDY_dataOut_get(svBitNodes_6_RDY_dataOut_get ),
+    .RST_N(RST_N),
+    .b2c_get(svBitNodes_6_b2c_get ),
+    .c2b_0_put(svBitNodes_6_c2b_0_put ),
+    .c2b_1_put(svBitNodes_6_c2b_1_put ),
+    .c2b_2_put(svBitNodes_6_c2b_2_put ),
+    .codeIn_put(svBitNodes_6_codeIn_put ),
+    .dataOut_get(svBitNodes_6_dataOut_get )
+  );
+  mkChkNode vCheckNodes_0 (
+    .CLK(CLK),
+    .EN_b2c_0_put(svBitNodes_0_EN_b2c_get ),
+    .EN_b2c_1_put(svBitNodes_1_EN_b2c_get ),
+    .EN_b2c_2_put(svBitNodes_3_EN_b2c_get ),
+    .EN_c2b_0_get(svBitNodes_0_EN_c2b_0_put ),
+    .EN_c2b_1_get(svBitNodes_1_EN_c2b_0_put ),
+    .EN_c2b_2_get(svBitNodes_3_EN_c2b_0_put ),
+    .RDY_b2c_0_put(svCheckNodes_0_RDY_b2c_0_put ),
+    .RDY_b2c_1_put(svCheckNodes_0_RDY_b2c_1_put ),
+    .RDY_b2c_2_put(svCheckNodes_0_RDY_b2c_2_put ),
+    .RDY_c2b_0_get(svCheckNodes_0_RDY_c2b_0_get ),
+    .RDY_c2b_1_get(svCheckNodes_0_RDY_c2b_1_get ),
+    .RDY_c2b_2_get(svCheckNodes_0_RDY_c2b_2_get ),
+    .RST_N(RST_N),
+    .b2c_0_put(svBitNodes_0_b2c_get ),
+    .b2c_1_put(svBitNodes_1_b2c_get ),
+    .b2c_2_put(svBitNodes_3_b2c_get ),
+    .c2b_0_get(svBitNodes_0_c2b_0_put ),
+    .c2b_1_get(svBitNodes_1_c2b_0_put ),
+    .c2b_2_get(svBitNodes_3_c2b_0_put )
+  );
+  mkChkNode vCheckNodes_1 (
+    .CLK(CLK),
+    .EN_b2c_0_put(svBitNodes_1_EN_b2c_get ),
+    .EN_b2c_1_put(svBitNodes_2_EN_b2c_get ),
+    .EN_b2c_2_put(svBitNodes_4_EN_b2c_get ),
+    .EN_c2b_0_get(svBitNodes_1_EN_c2b_1_put ),
+    .EN_c2b_1_get(svBitNodes_2_EN_c2b_0_put ),
+    .EN_c2b_2_get(svBitNodes_4_EN_c2b_0_put ),
+    .RDY_b2c_0_put(svCheckNodes_1_RDY_b2c_0_put ),
+    .RDY_b2c_1_put(svCheckNodes_1_RDY_b2c_1_put ),
+    .RDY_b2c_2_put(svCheckNodes_1_RDY_b2c_2_put ),
+    .RDY_c2b_0_get(svCheckNodes_1_RDY_c2b_0_get ),
+    .RDY_c2b_1_get(svCheckNodes_1_RDY_c2b_1_get ),
+    .RDY_c2b_2_get(svCheckNodes_1_RDY_c2b_2_get ),
+    .RST_N(RST_N),
+    .b2c_0_put(svBitNodes_1_b2c_get ),
+    .b2c_1_put(svBitNodes_2_b2c_get ),
+    .b2c_2_put(svBitNodes_4_b2c_get ),
+    .c2b_0_get(svBitNodes_1_c2b_1_put ),
+    .c2b_1_get(svBitNodes_2_c2b_0_put ),
+    .c2b_2_get(svBitNodes_4_c2b_0_put )
+  );
+  mkChkNode vCheckNodes_2 (
+    .CLK(CLK),
+    .EN_b2c_0_put(svBitNodes_2_EN_b2c_get ),
+    .EN_b2c_1_put(svBitNodes_3_EN_b2c_get ),
+    .EN_b2c_2_put(svBitNodes_5_EN_b2c_get ),
+    .EN_c2b_0_get(svBitNodes_2_EN_c2b_1_put ),
+    .EN_c2b_1_get(svBitNodes_3_EN_c2b_1_put ),
+    .EN_c2b_2_get(svBitNodes_5_EN_c2b_0_put ),
+    .RDY_b2c_0_put(svCheckNodes_2_RDY_b2c_0_put ),
+    .RDY_b2c_1_put(svCheckNodes_2_RDY_b2c_1_put ),
+    .RDY_b2c_2_put(svCheckNodes_2_RDY_b2c_2_put ),
+    .RDY_c2b_0_get(svCheckNodes_2_RDY_c2b_0_get ),
+    .RDY_c2b_1_get(svCheckNodes_2_RDY_c2b_1_get ),
+    .RDY_c2b_2_get(svCheckNodes_2_RDY_c2b_2_get ),
+    .RST_N(RST_N),
+    .b2c_0_put(svBitNodes_2_b2c_get ),
+    .b2c_1_put(svBitNodes_3_b2c_get ),
+    .b2c_2_put(svBitNodes_5_b2c_get ),
+    .c2b_0_get(svBitNodes_2_c2b_1_put ),
+    .c2b_1_get(svBitNodes_3_c2b_1_put ),
+    .c2b_2_get(svBitNodes_5_c2b_0_put )
+  );
+  mkChkNode vCheckNodes_3 (
+    .CLK(CLK),
+    .EN_b2c_0_put(svBitNodes_3_EN_b2c_get ),
+    .EN_b2c_1_put(svBitNodes_4_EN_b2c_get ),
+    .EN_b2c_2_put(svBitNodes_6_EN_b2c_get ),
+    .EN_c2b_0_get(svBitNodes_3_EN_c2b_2_put ),
+    .EN_c2b_1_get(svBitNodes_4_EN_c2b_1_put ),
+    .EN_c2b_2_get(svBitNodes_6_EN_c2b_0_put ),
+    .RDY_b2c_0_put(svCheckNodes_3_RDY_b2c_0_put ),
+    .RDY_b2c_1_put(svCheckNodes_3_RDY_b2c_1_put ),
+    .RDY_b2c_2_put(svCheckNodes_3_RDY_b2c_2_put ),
+    .RDY_c2b_0_get(svCheckNodes_3_RDY_c2b_0_get ),
+    .RDY_c2b_1_get(svCheckNodes_3_RDY_c2b_1_get ),
+    .RDY_c2b_2_get(svCheckNodes_3_RDY_c2b_2_get ),
+    .RST_N(RST_N),
+    .b2c_0_put(svBitNodes_3_b2c_get ),
+    .b2c_1_put(svBitNodes_4_b2c_get ),
+    .b2c_2_put(svBitNodes_6_b2c_get ),
+    .c2b_0_get(svBitNodes_3_c2b_2_put ),
+    .c2b_1_get(svBitNodes_4_c2b_1_put ),
+    .c2b_2_get(svBitNodes_6_c2b_0_put )
+  );
+  mkChkNode vCheckNodes_4 (
+    .CLK(CLK),
+    .EN_b2c_0_put(svBitNodes_0_EN_b2c_get ),
+    .EN_b2c_1_put(svBitNodes_4_EN_b2c_get ),
+    .EN_b2c_2_put(svBitNodes_5_EN_b2c_get ),
+    .EN_c2b_0_get(svBitNodes_0_EN_c2b_1_put ),
+    .EN_c2b_1_get(svBitNodes_4_EN_c2b_2_put ),
+    .EN_c2b_2_get(svBitNodes_5_EN_c2b_1_put ),
+    .RDY_b2c_0_put(svCheckNodes_4_RDY_b2c_0_put ),
+    .RDY_b2c_1_put(svCheckNodes_4_RDY_b2c_1_put ),
+    .RDY_b2c_2_put(svCheckNodes_4_RDY_b2c_2_put ),
+    .RDY_c2b_0_get(svCheckNodes_4_RDY_c2b_0_get ),
+    .RDY_c2b_1_get(svCheckNodes_4_RDY_c2b_1_get ),
+    .RDY_c2b_2_get(svCheckNodes_4_RDY_c2b_2_get ),
+    .RST_N(RST_N),
+    .b2c_0_put(svBitNodes_0_b2c_get ),
+    .b2c_1_put(svBitNodes_4_b2c_get ),
+    .b2c_2_put(svBitNodes_5_b2c_get ),
+    .c2b_0_get(svBitNodes_0_c2b_1_put ),
+    .c2b_1_get(svBitNodes_4_c2b_2_put ),
+    .c2b_2_get(svBitNodes_5_c2b_1_put )
+  );
+  mkChkNode vCheckNodes_5 (
+    .CLK(CLK),
+    .EN_b2c_0_put(svBitNodes_1_EN_b2c_get ),
+    .EN_b2c_1_put(svBitNodes_5_EN_b2c_get ),
+    .EN_b2c_2_put(svBitNodes_6_EN_b2c_get ),
+    .EN_c2b_0_get(svBitNodes_1_EN_c2b_2_put ),
+    .EN_c2b_1_get(svBitNodes_5_EN_c2b_2_put ),
+    .EN_c2b_2_get(svBitNodes_6_EN_c2b_1_put ),
+    .RDY_b2c_0_put(svCheckNodes_5_RDY_b2c_0_put ),
+    .RDY_b2c_1_put(svCheckNodes_5_RDY_b2c_1_put ),
+    .RDY_b2c_2_put(svCheckNodes_5_RDY_b2c_2_put ),
+    .RDY_c2b_0_get(svCheckNodes_5_RDY_c2b_0_get ),
+    .RDY_c2b_1_get(svCheckNodes_5_RDY_c2b_1_get ),
+    .RDY_c2b_2_get(svCheckNodes_5_RDY_c2b_2_get ),
+    .RST_N(RST_N),
+    .b2c_0_put(svBitNodes_1_b2c_get ),
+    .b2c_1_put(svBitNodes_5_b2c_get ),
+    .b2c_2_put(svBitNodes_6_b2c_get ),
+    .c2b_0_get(svBitNodes_1_c2b_2_put ),
+    .c2b_1_get(svBitNodes_5_c2b_2_put ),
+    .c2b_2_get(svBitNodes_6_c2b_1_put )
+  );
+  mkChkNode vCheckNodes_6 (
+    .CLK(CLK),
+    .EN_b2c_0_put(svBitNodes_0_EN_b2c_get ),
+    .EN_b2c_1_put(svBitNodes_2_EN_b2c_get ),
+    .EN_b2c_2_put(svBitNodes_6_EN_b2c_get ),
+    .EN_c2b_0_get(svBitNodes_0_EN_c2b_2_put ),
+    .EN_c2b_1_get(svBitNodes_2_EN_c2b_2_put ),
+    .EN_c2b_2_get(svBitNodes_6_EN_c2b_2_put ),
+    .RDY_b2c_0_put(svCheckNodes_6_RDY_b2c_0_put ),
+    .RDY_b2c_1_put(svCheckNodes_6_RDY_b2c_1_put ),
+    .RDY_b2c_2_put(svCheckNodes_6_RDY_b2c_2_put ),
+    .RDY_c2b_0_get(svCheckNodes_6_RDY_c2b_0_get ),
+    .RDY_c2b_1_get(svCheckNodes_6_RDY_c2b_1_get ),
+    .RDY_c2b_2_get(svCheckNodes_6_RDY_c2b_2_get ),
+    .RST_N(RST_N),
+    .b2c_0_put(svBitNodes_0_b2c_get ),
+    .b2c_1_put(svBitNodes_2_b2c_get ),
+    .b2c_2_put(svBitNodes_6_b2c_get ),
+    .c2b_0_get(svBitNodes_0_c2b_2_put ),
+    .c2b_1_get(svBitNodes_2_c2b_2_put ),
+    .c2b_2_get(svBitNodes_6_c2b_2_put )
+  );
+  assign sffO_D_IN_6  = svBitNodes_6_dataOut_get ;
+  assign sffO_D_IN_5  = svBitNodes_5_dataOut_get ;
+  assign sffO_D_IN_4  = svBitNodes_4_dataOut_get ;
+  assign sffO_D_IN_3  = svBitNodes_3_dataOut_get ;
+  assign sffO_D_IN_2  = svBitNodes_2_dataOut_get ;
+  assign sffO_D_IN_1  = svBitNodes_1_dataOut_get ;
+  assign sffO_D_IN_0  = svBitNodes_0_dataOut_get ;
+  assign sffI_D_IN_6  = \request_put_6 ;
+  assign sffI_D_IN_5  = \request_put_5 ;
+  assign sffI_D_IN_4  = \request_put_4 ;
+  assign sffI_D_IN_3  = \request_put_3 ;
+  assign sffI_D_IN_2  = \request_put_2 ;
+  assign sffI_D_IN_1  = \request_put_1 ;
+  assign sffI_D_IN_0  = \request_put_0 ;
+  assign \response_get_6  = sffO_D_OUT_6 ;
+  assign \response_get_5  = sffO_D_OUT_5 ;
+  assign \response_get_4  = sffO_D_OUT_4 ;
+  assign \response_get_3  = sffO_D_OUT_3 ;
+  assign \response_get_2  = sffO_D_OUT_2 ;
+  assign \response_get_1  = sffO_D_OUT_1 ;
+  assign \response_get_0  = sffO_D_OUT_0 ;
+  assign CAN_FIRE_RL_mkConnectionGetPut = svBitNodes_0_EN_c2b_0_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_1 = svBitNodes_1_EN_c2b_0_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_10 = svBitNodes_4_EN_c2b_1_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_11 = svBitNodes_6_EN_c2b_0_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_12 = svBitNodes_0_EN_c2b_1_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_13 = svBitNodes_4_EN_c2b_2_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_14 = svBitNodes_5_EN_c2b_1_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_15 = svBitNodes_1_EN_c2b_2_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_16 = svBitNodes_5_EN_c2b_2_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_17 = svBitNodes_6_EN_c2b_1_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_18 = svBitNodes_0_EN_c2b_2_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_19 = svBitNodes_2_EN_c2b_2_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_2 = svBitNodes_3_EN_c2b_0_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_20 = svBitNodes_6_EN_c2b_2_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_3 = svBitNodes_1_EN_c2b_1_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_4 = svBitNodes_2_EN_c2b_0_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_5 = svBitNodes_4_EN_c2b_0_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_6 = svBitNodes_2_EN_c2b_1_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_7 = svBitNodes_3_EN_c2b_1_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_8 = svBitNodes_5_EN_c2b_0_put ;
+  assign CAN_FIRE_RL_mkConnectionGetPut_9 = svBitNodes_3_EN_c2b_2_put ;
+  assign CAN_FIRE_RL_rlConnect = svBitNodes_0_EN_b2c_get ;
+  assign CAN_FIRE_RL_rlConnect_1 = svBitNodes_1_EN_b2c_get ;
+  assign CAN_FIRE_RL_rlConnect_2 = svBitNodes_2_EN_b2c_get ;
+  assign CAN_FIRE_RL_rlConnect_3 = svBitNodes_3_EN_b2c_get ;
+  assign CAN_FIRE_RL_rlConnect_4 = svBitNodes_4_EN_b2c_get ;
+  assign CAN_FIRE_RL_rlConnect_5 = svBitNodes_5_EN_b2c_get ;
+  assign CAN_FIRE_RL_rlConnect_6 = svBitNodes_6_EN_b2c_get ;
+  assign CAN_FIRE_RL_rlEvaluateOutput = WILL_FIRE_RL_rlEvaluateOutput;
+  assign CAN_FIRE_RL_rlPutCodeWordIn = WILL_FIRE_RL_rlPutCodeWordIn;
+  assign CAN_FIRE_request_put = sffI_FULL_N ;
+  assign CAN_FIRE_response_get = sffO_EMPTY_N ;
+  assign \MUX_rgIdle_write_1__SEL_1  = sffO_ENQ ;
+  assign RDY_request_put = sffI_FULL_N ;
+  assign RDY_response_get = sffO_EMPTY_N ;
+  assign WILL_FIRE_RL_mkConnectionGetPut = svBitNodes_0_EN_c2b_0_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_1 = svBitNodes_1_EN_c2b_0_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_10 = svBitNodes_4_EN_c2b_1_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_11 = svBitNodes_6_EN_c2b_0_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_12 = svBitNodes_0_EN_c2b_1_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_13 = svBitNodes_4_EN_c2b_2_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_14 = svBitNodes_5_EN_c2b_1_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_15 = svBitNodes_1_EN_c2b_2_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_16 = svBitNodes_5_EN_c2b_2_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_17 = svBitNodes_6_EN_c2b_1_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_18 = svBitNodes_0_EN_c2b_2_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_19 = svBitNodes_2_EN_c2b_2_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_2 = svBitNodes_3_EN_c2b_0_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_20 = svBitNodes_6_EN_c2b_2_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_3 = svBitNodes_1_EN_c2b_1_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_4 = svBitNodes_2_EN_c2b_0_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_5 = svBitNodes_4_EN_c2b_0_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_6 = svBitNodes_2_EN_c2b_1_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_7 = svBitNodes_3_EN_c2b_1_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_8 = svBitNodes_5_EN_c2b_0_put ;
+  assign WILL_FIRE_RL_mkConnectionGetPut_9 = svBitNodes_3_EN_c2b_2_put ;
+  assign WILL_FIRE_RL_rlConnect = svBitNodes_0_EN_b2c_get ;
+  assign WILL_FIRE_RL_rlConnect_1 = svBitNodes_1_EN_b2c_get ;
+  assign WILL_FIRE_RL_rlConnect_2 = svBitNodes_2_EN_b2c_get ;
+  assign WILL_FIRE_RL_rlConnect_3 = svBitNodes_3_EN_b2c_get ;
+  assign WILL_FIRE_RL_rlConnect_4 = svBitNodes_4_EN_b2c_get ;
+  assign WILL_FIRE_RL_rlConnect_5 = svBitNodes_5_EN_b2c_get ;
+  assign WILL_FIRE_RL_rlConnect_6 = svBitNodes_6_EN_b2c_get ;
+  assign WILL_FIRE_request_put = EN_request_put;
+  assign WILL_FIRE_response_get = EN_response_get;
+  assign sffI_DEQ  = WILL_FIRE_RL_rlPutCodeWordIn;
+  assign sffI_ENQ  = EN_request_put;
+  assign sffO_DEQ  = EN_response_get;
+  assign \rgIdle_D_IN  = sffO_ENQ ;
+  assign svBitNodes_0_EN_dataOut_get  = WILL_FIRE_RL_rlEvaluateOutput;
+  assign svBitNodes_1_EN_codeIn_put  = svBitNodes_0_EN_codeIn_put ;
+  assign svBitNodes_1_EN_dataOut_get  = WILL_FIRE_RL_rlEvaluateOutput;
+  assign svBitNodes_2_EN_codeIn_put  = svBitNodes_0_EN_codeIn_put ;
+  assign svBitNodes_2_EN_dataOut_get  = WILL_FIRE_RL_rlEvaluateOutput;
+  assign svBitNodes_3_EN_codeIn_put  = svBitNodes_0_EN_codeIn_put ;
+  assign svBitNodes_3_EN_dataOut_get  = WILL_FIRE_RL_rlEvaluateOutput;
+  assign svBitNodes_4_EN_codeIn_put  = svBitNodes_0_EN_codeIn_put ;
+  assign svBitNodes_4_EN_dataOut_get  = WILL_FIRE_RL_rlEvaluateOutput;
+  assign svBitNodes_5_EN_codeIn_put  = svBitNodes_0_EN_codeIn_put ;
+  assign svBitNodes_5_EN_dataOut_get  = WILL_FIRE_RL_rlEvaluateOutput;
+  assign svBitNodes_6_EN_codeIn_put  = svBitNodes_0_EN_codeIn_put ;
+  assign svBitNodes_6_EN_dataOut_get  = WILL_FIRE_RL_rlEvaluateOutput;
+  assign svCheckNodes_0_EN_b2c_0_put  = svBitNodes_0_EN_b2c_get ;
+  assign svCheckNodes_0_EN_b2c_1_put  = svBitNodes_1_EN_b2c_get ;
+  assign svCheckNodes_0_EN_b2c_2_put  = svBitNodes_3_EN_b2c_get ;
+  assign svCheckNodes_0_EN_c2b_0_get  = svBitNodes_0_EN_c2b_0_put ;
+  assign svCheckNodes_0_EN_c2b_1_get  = svBitNodes_1_EN_c2b_0_put ;
+  assign svCheckNodes_0_EN_c2b_2_get  = svBitNodes_3_EN_c2b_0_put ;
+  assign svCheckNodes_0_b2c_0_put  = svBitNodes_0_b2c_get ;
+  assign svCheckNodes_0_b2c_1_put  = svBitNodes_1_b2c_get ;
+  assign svCheckNodes_0_b2c_2_put  = svBitNodes_3_b2c_get ;
+  assign svCheckNodes_0_c2b_0_get  = svBitNodes_0_c2b_0_put ;
+  assign svCheckNodes_0_c2b_1_get  = svBitNodes_1_c2b_0_put ;
+  assign svCheckNodes_0_c2b_2_get  = svBitNodes_3_c2b_0_put ;
+  assign svCheckNodes_1_EN_b2c_0_put  = svBitNodes_1_EN_b2c_get ;
+  assign svCheckNodes_1_EN_b2c_1_put  = svBitNodes_2_EN_b2c_get ;
+  assign svCheckNodes_1_EN_b2c_2_put  = svBitNodes_4_EN_b2c_get ;
+  assign svCheckNodes_1_EN_c2b_0_get  = svBitNodes_1_EN_c2b_1_put ;
+  assign svCheckNodes_1_EN_c2b_1_get  = svBitNodes_2_EN_c2b_0_put ;
+  assign svCheckNodes_1_EN_c2b_2_get  = svBitNodes_4_EN_c2b_0_put ;
+  assign svCheckNodes_1_b2c_0_put  = svBitNodes_1_b2c_get ;
+  assign svCheckNodes_1_b2c_1_put  = svBitNodes_2_b2c_get ;
+  assign svCheckNodes_1_b2c_2_put  = svBitNodes_4_b2c_get ;
+  assign svCheckNodes_1_c2b_0_get  = svBitNodes_1_c2b_1_put ;
+  assign svCheckNodes_1_c2b_1_get  = svBitNodes_2_c2b_0_put ;
+  assign svCheckNodes_1_c2b_2_get  = svBitNodes_4_c2b_0_put ;
+  assign svCheckNodes_2_EN_b2c_0_put  = svBitNodes_2_EN_b2c_get ;
+  assign svCheckNodes_2_EN_b2c_1_put  = svBitNodes_3_EN_b2c_get ;
+  assign svCheckNodes_2_EN_b2c_2_put  = svBitNodes_5_EN_b2c_get ;
+  assign svCheckNodes_2_EN_c2b_0_get  = svBitNodes_2_EN_c2b_1_put ;
+  assign svCheckNodes_2_EN_c2b_1_get  = svBitNodes_3_EN_c2b_1_put ;
+  assign svCheckNodes_2_EN_c2b_2_get  = svBitNodes_5_EN_c2b_0_put ;
+  assign svCheckNodes_2_b2c_0_put  = svBitNodes_2_b2c_get ;
+  assign svCheckNodes_2_b2c_1_put  = svBitNodes_3_b2c_get ;
+  assign svCheckNodes_2_b2c_2_put  = svBitNodes_5_b2c_get ;
+  assign svCheckNodes_2_c2b_0_get  = svBitNodes_2_c2b_1_put ;
+  assign svCheckNodes_2_c2b_1_get  = svBitNodes_3_c2b_1_put ;
+  assign svCheckNodes_2_c2b_2_get  = svBitNodes_5_c2b_0_put ;
+  assign svCheckNodes_3_EN_b2c_0_put  = svBitNodes_3_EN_b2c_get ;
+  assign svCheckNodes_3_EN_b2c_1_put  = svBitNodes_4_EN_b2c_get ;
+  assign svCheckNodes_3_EN_b2c_2_put  = svBitNodes_6_EN_b2c_get ;
+  assign svCheckNodes_3_EN_c2b_0_get  = svBitNodes_3_EN_c2b_2_put ;
+  assign svCheckNodes_3_EN_c2b_1_get  = svBitNodes_4_EN_c2b_1_put ;
+  assign svCheckNodes_3_EN_c2b_2_get  = svBitNodes_6_EN_c2b_0_put ;
+  assign svCheckNodes_3_b2c_0_put  = svBitNodes_3_b2c_get ;
+  assign svCheckNodes_3_b2c_1_put  = svBitNodes_4_b2c_get ;
+  assign svCheckNodes_3_b2c_2_put  = svBitNodes_6_b2c_get ;
+  assign svCheckNodes_3_c2b_0_get  = svBitNodes_3_c2b_2_put ;
+  assign svCheckNodes_3_c2b_1_get  = svBitNodes_4_c2b_1_put ;
+  assign svCheckNodes_3_c2b_2_get  = svBitNodes_6_c2b_0_put ;
+  assign svCheckNodes_4_EN_b2c_0_put  = svBitNodes_0_EN_b2c_get ;
+  assign svCheckNodes_4_EN_b2c_1_put  = svBitNodes_4_EN_b2c_get ;
+  assign svCheckNodes_4_EN_b2c_2_put  = svBitNodes_5_EN_b2c_get ;
+  assign svCheckNodes_4_EN_c2b_0_get  = svBitNodes_0_EN_c2b_1_put ;
+  assign svCheckNodes_4_EN_c2b_1_get  = svBitNodes_4_EN_c2b_2_put ;
+  assign svCheckNodes_4_EN_c2b_2_get  = svBitNodes_5_EN_c2b_1_put ;
+  assign svCheckNodes_4_b2c_0_put  = svBitNodes_0_b2c_get ;
+  assign svCheckNodes_4_b2c_1_put  = svBitNodes_4_b2c_get ;
+  assign svCheckNodes_4_b2c_2_put  = svBitNodes_5_b2c_get ;
+  assign svCheckNodes_4_c2b_0_get  = svBitNodes_0_c2b_1_put ;
+  assign svCheckNodes_4_c2b_1_get  = svBitNodes_4_c2b_2_put ;
+  assign svCheckNodes_4_c2b_2_get  = svBitNodes_5_c2b_1_put ;
+  assign svCheckNodes_5_EN_b2c_0_put  = svBitNodes_1_EN_b2c_get ;
+  assign svCheckNodes_5_EN_b2c_1_put  = svBitNodes_5_EN_b2c_get ;
+  assign svCheckNodes_5_EN_b2c_2_put  = svBitNodes_6_EN_b2c_get ;
+  assign svCheckNodes_5_EN_c2b_0_get  = svBitNodes_1_EN_c2b_2_put ;
+  assign svCheckNodes_5_EN_c2b_1_get  = svBitNodes_5_EN_c2b_2_put ;
+  assign svCheckNodes_5_EN_c2b_2_get  = svBitNodes_6_EN_c2b_1_put ;
+  assign svCheckNodes_5_b2c_0_put  = svBitNodes_1_b2c_get ;
+  assign svCheckNodes_5_b2c_1_put  = svBitNodes_5_b2c_get ;
+  assign svCheckNodes_5_b2c_2_put  = svBitNodes_6_b2c_get ;
+  assign svCheckNodes_5_c2b_0_get  = svBitNodes_1_c2b_2_put ;
+  assign svCheckNodes_5_c2b_1_get  = svBitNodes_5_c2b_2_put ;
+  assign svCheckNodes_5_c2b_2_get  = svBitNodes_6_c2b_1_put ;
+  assign svCheckNodes_6_EN_b2c_0_put  = svBitNodes_0_EN_b2c_get ;
+  assign svCheckNodes_6_EN_b2c_1_put  = svBitNodes_2_EN_b2c_get ;
+  assign svCheckNodes_6_EN_b2c_2_put  = svBitNodes_6_EN_b2c_get ;
+  assign svCheckNodes_6_EN_c2b_0_get  = svBitNodes_0_EN_c2b_2_put ;
+  assign svCheckNodes_6_EN_c2b_1_get  = svBitNodes_2_EN_c2b_2_put ;
+  assign svCheckNodes_6_EN_c2b_2_get  = svBitNodes_6_EN_c2b_2_put ;
+  assign svCheckNodes_6_b2c_0_put  = svBitNodes_0_b2c_get ;
+  assign svCheckNodes_6_b2c_1_put  = svBitNodes_2_b2c_get ;
+  assign svCheckNodes_6_b2c_2_put  = svBitNodes_6_b2c_get ;
+  assign svCheckNodes_6_c2b_0_get  = svBitNodes_0_c2b_2_put ;
+  assign svCheckNodes_6_c2b_1_get  = svBitNodes_2_c2b_2_put ;
+  assign svCheckNodes_6_c2b_2_get  = svBitNodes_6_c2b_2_put ;
+endmodule
+
+module module_fnBitNodeCore(sfnBitNodeCore_i_0 , sfnBitNodeCore_i_1 , sfnBitNodeCore_i_2 , fnBitNodeCore);
+  wire ag_0;
+  wire ag_1;
+  output fnBitNodeCore;
+  input sfnBitNodeCore_i_0 ;
+  input sfnBitNodeCore_i_1 ;
+  input sfnBitNodeCore_i_2 ;
+  std_nor2 ag_2 (
+    .a(sfnBitNodeCore_i_0 ),
+    .b(sfnBitNodeCore_i_1 ),
+    .y(ag_0)
+  );
+  std_aoi ag_3 (
+    .a(sfnBitNodeCore_i_0 ),
+    .b(sfnBitNodeCore_i_1 ),
+    .c(sfnBitNodeCore_i_2 ),
+    .y(ag_1)
+  );
+  std_nor2 ag_4 (
+    .a(ag_1),
+    .b(ag_0),
+    .y(fnBitNodeCore)
+  );
+endmodule
+
+module module_fnCheckDecodedWord(sfnCheckDecodedWord_b_0 , sfnCheckDecodedWord_b_1 , sfnCheckDecodedWord_b_2 , sfnCheckDecodedWord_b_3 , sfnCheckDecodedWord_b_4 , sfnCheckDecodedWord_b_5 , sfnCheckDecodedWord_b_6 , fnCheckDecodedWord);
+  wire ag_00;
+  wire ag_01;
+  wire ag_02;
+  wire ag_03;
+  wire ag_04;
+  wire ag_05;
+  wire ag_06;
+  wire ag_07;
+  wire ag_08;
+  wire ag_09;
+  wire ag_10;
+  wire ag_11;
+  wire ag_12;
+  wire ag_13;
+  wire ag_14;
+  wire ag_15;
+  wire ag_16;
+  wire ag_17;
+  wire ag_18;
+  wire ag_19;
+  wire ag_20;
+  wire ag_21;
+  wire ag_22;
+  wire ag_23;
+  wire ag_24;
+  wire ag_25;
+  wire ag_26;
+  wire ag_27;
+  wire ag_28;
+  wire ag_29;
+  wire ag_30;
+  wire ag_31;
+  output fnCheckDecodedWord;
+  input sfnCheckDecodedWord_b_0 ;
+  input sfnCheckDecodedWord_b_1 ;
+  input sfnCheckDecodedWord_b_2 ;
+  input sfnCheckDecodedWord_b_3 ;
+  input sfnCheckDecodedWord_b_4 ;
+  input sfnCheckDecodedWord_b_5 ;
+  input sfnCheckDecodedWord_b_6 ;
+  std_inv ag_32 (
+    .a(sfnCheckDecodedWord_b_3 ),
+    .y(ag_31)
+  );
+  std_nand2 ag_33 (
+    .a(ag_31),
+    .b(sfnCheckDecodedWord_b_1 ),
+    .y(ag_00)
+  );
+  std_inv ag_34 (
+    .a(sfnCheckDecodedWord_b_1 ),
+    .y(ag_01)
+  );
+  std_nand2 ag_35 (
+    .a(sfnCheckDecodedWord_b_3 ),
+    .b(ag_01),
+    .y(ag_02)
+  );
+  std_nand2 ag_36 (
+    .a(ag_02),
+    .b(ag_00),
+    .y(ag_03)
+  );
+  std_inv ag_37 (
+    .a(sfnCheckDecodedWord_b_5 ),
+    .y(ag_04)
+  );
+  std_nand2 ag_38 (
+    .a(ag_04),
+    .b(sfnCheckDecodedWord_b_4 ),
+    .y(ag_05)
+  );
+  std_inv ag_39 (
+    .a(sfnCheckDecodedWord_b_4 ),
+    .y(ag_06)
+  );
+  std_nand2 ag_40 (
+    .a(sfnCheckDecodedWord_b_5 ),
+    .b(ag_06),
+    .y(ag_07)
+  );
+  std_nand2 ag_41 (
+    .a(ag_07),
+    .b(ag_05),
+    .y(ag_08)
+  );
+  std_nand3 ag_42 (
+    .a(ag_08),
+    .b(ag_03),
+    .c(sfnCheckDecodedWord_b_0 ),
+    .y(ag_09)
+  );
+  std_inv ag_43 (
+    .a(sfnCheckDecodedWord_b_0 ),
+    .y(ag_10)
+  );
+  std_nor2 ag_44 (
+    .a(sfnCheckDecodedWord_b_3 ),
+    .b(ag_01),
+    .y(ag_11)
+  );
+  std_nor2 ag_45 (
+    .a(ag_31),
+    .b(sfnCheckDecodedWord_b_1 ),
+    .y(ag_12)
+  );
+  std_nor2 ag_46 (
+    .a(ag_12),
+    .b(ag_11),
+    .y(ag_13)
+  );
+  std_nor2 ag_47 (
+    .a(sfnCheckDecodedWord_b_5 ),
+    .b(ag_06),
+    .y(ag_14)
+  );
+  std_nor2 ag_48 (
+    .a(ag_04),
+    .b(sfnCheckDecodedWord_b_4 ),
+    .y(ag_15)
+  );
+  std_nor2 ag_49 (
+    .a(ag_15),
+    .b(ag_14),
+    .y(ag_16)
+  );
+  std_nand3 ag_50 (
+    .a(ag_16),
+    .b(ag_13),
+    .c(ag_10),
+    .y(ag_17)
+  );
+  std_nand2 ag_51 (
+    .a(ag_17),
+    .b(ag_09),
+    .y(ag_18)
+  );
+  std_nor2 ag_52 (
+    .a(sfnCheckDecodedWord_b_2 ),
+    .b(ag_01),
+    .y(ag_19)
+  );
+  std_inv ag_53 (
+    .a(sfnCheckDecodedWord_b_2 ),
+    .y(ag_20)
+  );
+  std_nor2 ag_54 (
+    .a(ag_20),
+    .b(sfnCheckDecodedWord_b_1 ),
+    .y(ag_21)
+  );
+  std_nor2 ag_55 (
+    .a(ag_21),
+    .b(ag_19),
+    .y(ag_22)
+  );
+  std_nand2 ag_56 (
+    .a(ag_22),
+    .b(sfnCheckDecodedWord_b_4 ),
+    .y(ag_23)
+  );
+  std_nor2 ag_57 (
+    .a(sfnCheckDecodedWord_b_6 ),
+    .b(ag_31),
+    .y(ag_24)
+  );
+  std_inv ag_58 (
+    .a(sfnCheckDecodedWord_b_6 ),
+    .y(ag_25)
+  );
+  std_nor2 ag_59 (
+    .a(ag_25),
+    .b(sfnCheckDecodedWord_b_3 ),
+    .y(ag_26)
+  );
+  std_nor3 ag_60 (
+    .a(ag_26),
+    .b(ag_24),
+    .c(ag_22),
+    .y(ag_27)
+  );
+  std_nor2 ag_61 (
+    .a(ag_26),
+    .b(ag_24),
+    .y(ag_28)
+  );
+  std_nor2 ag_62 (
+    .a(ag_28),
+    .b(sfnCheckDecodedWord_b_4 ),
+    .y(ag_29)
+  );
+  std_nor2 ag_63 (
+    .a(ag_29),
+    .b(ag_27),
+    .y(ag_30)
+  );
+  std_nand3 ag_64 (
+    .a(ag_30),
+    .b(ag_23),
+    .c(ag_18),
+    .y(fnCheckDecodedWord)
+  );
+endmodule
+
+module module_fnChkNodeCore(sfnChkNodeCore_i_0 , sfnChkNodeCore_i_1 , sfnChkNodeCore_i_2 , sfnChkNodeCore_0 , sfnChkNodeCore_1 , sfnChkNodeCore_2 );
+  wire ag_00;
+  wire ag_01;
+  wire ag_02;
+  wire ag_03;
+  wire ag_04;
+  wire ag_05;
+  wire ag_06;
+  wire ag_07;
+  wire ag_08;
+  output sfnChkNodeCore_0 ;
+  output sfnChkNodeCore_1 ;
+  output sfnChkNodeCore_2 ;
+  input sfnChkNodeCore_i_0 ;
+  input sfnChkNodeCore_i_1 ;
+  input sfnChkNodeCore_i_2 ;
+  std_inv ag_09 (
+    .a(sfnChkNodeCore_i_2 ),
+    .y(ag_06)
+  );
+  std_nand2 ag_10 (
+    .a(ag_06),
+    .b(sfnChkNodeCore_i_1 ),
+    .y(ag_07)
+  );
+  std_inv ag_11 (
+    .a(sfnChkNodeCore_i_1 ),
+    .y(ag_08)
+  );
+  std_nand2 ag_12 (
+    .a(sfnChkNodeCore_i_2 ),
+    .b(ag_08),
+    .y(ag_00)
+  );
+  std_nand2 ag_13 (
+    .a(ag_00),
+    .b(ag_07),
+    .y(sfnChkNodeCore_0 )
+  );
+  std_inv ag_14 (
+    .a(sfnChkNodeCore_i_0 ),
+    .y(ag_01)
+  );
+  std_nand2 ag_15 (
+    .a(ag_01),
+    .b(sfnChkNodeCore_i_2 ),
+    .y(ag_02)
+  );
+  std_nand2 ag_16 (
+    .a(sfnChkNodeCore_i_0 ),
+    .b(ag_06),
+    .y(ag_03)
+  );
+  std_nand2 ag_17 (
+    .a(ag_03),
+    .b(ag_02),
+    .y(sfnChkNodeCore_1 )
+  );
+  std_nand2 ag_18 (
+    .a(ag_01),
+    .b(sfnChkNodeCore_i_1 ),
+    .y(ag_04)
+  );
+  std_nand2 ag_19 (
+    .a(sfnChkNodeCore_i_0 ),
+    .b(ag_08),
+    .y(ag_05)
+  );
+  std_nand2 ag_20 (
+    .a(ag_05),
+    .b(ag_04),
+    .y(sfnChkNodeCore_2 )
+  );
+endmodule

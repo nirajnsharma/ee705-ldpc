@@ -438,7 +438,7 @@ module mkLdpcCore(CLK,
   assign WILL_FIRE_response_get = EN_response_get ;
 
   // submodule ffI
-  FIFO2 #(.width(32'd7), .guarded(32'd1)) ffI(.RST(RST_N),
+  FIFO2_7 ffI(.RST(RST_N),
 					      .CLK(CLK),
 					      .D_IN(ffI$D_IN),
 					      .ENQ(ffI$ENQ),
@@ -449,7 +449,7 @@ module mkLdpcCore(CLK,
 					      .EMPTY_N(ffI$EMPTY_N));
 
   // submodule ffO
-  FIFO2 #(.width(32'd7), .guarded(32'd1)) ffO(.RST(RST_N),
+  FIFO2_7 ffO(.RST(RST_N),
 					      .CLK(CLK),
 					      .D_IN(ffO$D_IN),
 					      .ENQ(ffO$ENQ),

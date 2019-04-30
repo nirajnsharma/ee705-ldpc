@@ -218,7 +218,7 @@ module mkChkNode(CLK,
   );
 
   // submodule vffB2C_0
-  FIFO2_1 #(.width(32'd1), .guarded(32'd1)) vffB2C_0(.RST(RST_N),
+  FIFO2_1 vffB2C_0(.RST(RST_N),
 						   .CLK(CLK),
 						   .D_IN(b2c_0_put),
 						   .ENQ(EN_b2c_0_put),
@@ -229,7 +229,7 @@ module mkChkNode(CLK,
 						   .EMPTY_N(vffB2C_0$EMPTY_N));
 
   // submodule vffB2C_1
-  FIFO2_1 #(.width(32'd1), .guarded(32'd1)) vffB2C_1(.RST(RST_N),
+  FIFO2_1 vffB2C_1(.RST(RST_N),
 						   .CLK(CLK),
 						   .D_IN(b2c_1_put),
 						   .ENQ(EN_b2c_1_put),
@@ -240,7 +240,7 @@ module mkChkNode(CLK,
 						   .EMPTY_N(vffB2C_1$EMPTY_N));
 
   // submodule vffB2C_2
-  FIFO2_1 #(.width(32'd1), .guarded(32'd1)) vffB2C_2(.RST(RST_N),
+  FIFO2_1 vffB2C_2(.RST(RST_N),
 						   .CLK(CLK),
 						   .D_IN(b2c_2_put),
 						   .ENQ(EN_b2c_2_put),
@@ -251,7 +251,7 @@ module mkChkNode(CLK,
 						   .EMPTY_N(vffB2C_2$EMPTY_N));
 
   // submodule vffC2B_0
-  FIFO2_1 #(.width(32'd1), .guarded(32'd1)) vffC2B_0(.RST(RST_N),
+  FIFO2_1 vffC2B_0(.RST(RST_N),
 						   .CLK(CLK),
 						   .D_IN(fnChkNodeCore___d16[0]),
 						   .ENQ(vffC2B_0$ENQ),
@@ -263,7 +263,7 @@ module mkChkNode(CLK,
   
 
   // submodule vffC2B_1
-  FIFO2_1 #(.width(32'd1), .guarded(32'd1)) vffC2B_1(.RST(RST_N),
+  FIFO2_1 vffC2B_1(.RST(RST_N),
 						   .CLK(CLK),
 						   .D_IN(fnChkNodeCore___d16[1]),
 						   .ENQ(vffC2B_1$ENQ),
@@ -274,7 +274,7 @@ module mkChkNode(CLK,
 						   .EMPTY_N(vffC2B_1$EMPTY_N));
 
   // submodule vffC2B_2
-  FIFO2_1 #(.width(32'd1), .guarded(32'd1)) vffC2B_2(.RST(RST_N),
+  FIFO2_1 vffC2B_2(.RST(RST_N),
 						   .CLK(CLK),
 						   .D_IN(fnChkNodeCore___d16[2]),
 						   .ENQ(vffC2B_2$ENQ),

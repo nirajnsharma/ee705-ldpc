@@ -14,7 +14,7 @@ mname=$(basename $1 ".v")
 # 1. Run yosys to generate spice and blif files.
 
 cat <<EOF | $YOSYS > ${mname}.log
-read_verilog rtl/$1 lib/FIFO2_1.v rtl/module_fnChkNodeCore.v rtl/mkChkNodeCtrl.v
+read_verilog rtl/$1 lib/FIFO2_1.v lib/FIFO2_7.v rtl/module_fnChkNodeCore.v rtl/mkChkNodeCtrl.v rtl/module_fnBitNodeCore.v rtl/mkChkNode.v rtl/mkBitNode.v rtl/module_fnCheckDecodedWord.v
 #read_verilog rtl/$1 lib/FIFO2_1.v rtl/module_fnBitNodeCore.v
 #read_verilog lib/$1
 #read_verilog rtl/$1
