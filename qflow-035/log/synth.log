@@ -1,0 +1,2331 @@
+Qflow synthesis logfile created on Thu May 2 17:24:31 IST 2019
+Running yosys for verilog parsing and synthesis
+yosys  -s mkLdpcCore.ys
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2016  Clifford Wolf <clifford@clifford.at>           |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.7 (git sha1 61f6811, gcc 6.2.0-11ubuntu1 -O2 -fdebug-prefix-map=/build/yosys-OIL3SR/yosys-0.7=. -fstack-protector-strong -fPIC -Os)
+
+
+-- Executing script file `mkLdpcCore.ys' --
+
+1. Executing Liberty frontend.
+Imported 39 cell types from liberty file.
+
+2. Executing Verilog-2005 frontend.
+Parsing Verilog input from `/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v' to AST representation.
+Warning: Found one of those horrible `(synopsys|synthesis) translate_off' comments.
+Yosys does support them but it is recommended to use `ifdef constructs instead!
+Generating RTLIL representation for module `\mkLdpcCore'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend.
+Parsing Verilog input from `module_fnCheckDecodedWord.v' to AST representation.
+Generating RTLIL representation for module `\module_fnCheckDecodedWord'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend.
+Parsing Verilog input from `mkChkNode.v' to AST representation.
+Generating RTLIL representation for module `\mkChkNode'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend.
+Parsing Verilog input from `mkBitNode.v' to AST representation.
+Generating RTLIL representation for module `\mkBitNode'.
+Successfully finished Verilog frontend.
+
+6. Executing Verilog-2005 frontend.
+Parsing Verilog input from `FIFO2.v' to AST representation.
+Generating RTLIL representation for module `\FIFO2'.
+Successfully finished Verilog frontend.
+
+7. Executing Verilog-2005 frontend.
+Parsing Verilog input from `module_fnBitNodeCore.v' to AST representation.
+Generating RTLIL representation for module `\module_fnBitNodeCore'.
+Successfully finished Verilog frontend.
+
+8. Executing Verilog-2005 frontend.
+Parsing Verilog input from `module_fnChkNodeCore.v' to AST representation.
+Generating RTLIL representation for module `\module_fnChkNodeCore'.
+Successfully finished Verilog frontend.
+
+9. Executing SYNTH pass.
+
+9.1. Executing HIERARCHY pass (managing design hierarchy).
+
+9.1.1. Analyzing design hierarchy..
+Top module:  \mkLdpcCore
+Used module:     \module_fnCheckDecodedWord
+Used module:     \mkChkNode
+Used module:         \module_fnChkNodeCore
+Used module:         \FIFO2
+Used module:     \mkBitNode
+Used module:         \module_fnBitNodeCore
+
+9.1.2. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 7
+Parameter \guarded = 1
+Generating RTLIL representation for module `$paramod\FIFO2\width=7\guarded=1'.
+
+9.1.3. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 7
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=7\guarded=1'.
+
+9.1.4. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Generating RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.5. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.6. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.7. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.8. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.9. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.10. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.11. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.12. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.13. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.14. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.15. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 1
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=1\guarded=1'.
+
+9.1.16. Analyzing design hierarchy..
+Top module:  \mkLdpcCore
+Used module:     \module_fnCheckDecodedWord
+Used module:     \mkChkNode
+Used module:         \module_fnChkNodeCore
+Used module:         $paramod\FIFO2\width=1\guarded=1
+Used module:     \mkBitNode
+Used module:         \module_fnBitNodeCore
+Used module:     $paramod\FIFO2\width=7\guarded=1
+
+9.1.17. Analyzing design hierarchy..
+Top module:  \mkLdpcCore
+Used module:     \module_fnCheckDecodedWord
+Used module:     \mkChkNode
+Used module:         \module_fnChkNodeCore
+Used module:         $paramod\FIFO2\width=1\guarded=1
+Used module:     \mkBitNode
+Used module:         \module_fnBitNodeCore
+Used module:     $paramod\FIFO2\width=7\guarded=1
+Removing unused module `\FIFO2'.
+Removed 1 unused modules.
+
+9.2. Executing PROC pass (convert processes to netlists).
+
+9.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+9.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+9.2.3. Executing PROC_INIT pass (extract init attributes).
+
+9.2.4. Executing PROC_ARST pass (detect async resets in processes).
+
+9.2.5. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:133$196'.
+     1/2: $0\data1_reg[6:0]
+     2/2: $0\data0_reg[6:0]
+Creating decoders for process `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:104$188'.
+     1/2: $0\empty_reg[0:0]
+     2/2: $0\full_reg[0:0]
+Creating decoders for process `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:133$228'.
+     1/2: $0\data1_reg[0:0]
+     2/2: $0\data0_reg[0:0]
+Creating decoders for process `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:104$220'.
+     1/2: $0\empty_reg[0:0]
+     2/2: $0\full_reg[0:0]
+Creating decoders for process `\mkLdpcCore.$proc$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1218$94'.
+     1/1: $0\rgIdle[0:0]
+
+9.2.6. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+9.2.7. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod\FIFO2\width=7\guarded=1.\data0_reg' using process `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:133$196'.
+  created $dff cell `$procdff$289' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=7\guarded=1.\data1_reg' using process `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:133$196'.
+  created $dff cell `$procdff$290' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=7\guarded=1.\full_reg' using process `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:104$188'.
+  created $dff cell `$procdff$291' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=7\guarded=1.\empty_reg' using process `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:104$188'.
+  created $dff cell `$procdff$292' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=1\guarded=1.\data0_reg' using process `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:133$228'.
+  created $dff cell `$procdff$293' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=1\guarded=1.\data1_reg' using process `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:133$228'.
+  created $dff cell `$procdff$294' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=1\guarded=1.\full_reg' using process `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:104$220'.
+  created $dff cell `$procdff$295' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=1\guarded=1.\empty_reg' using process `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:104$220'.
+  created $dff cell `$procdff$296' with positive edge clock.
+Creating register for signal `\mkLdpcCore.\rgIdle' using process `\mkLdpcCore.$proc$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1218$94'.
+  created $dff cell `$procdff$297' with positive edge clock.
+
+9.2.8. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:133$196'.
+Found and cleaned up 4 empty switches in `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:104$188'.
+Removing empty process `$paramod\FIFO2\width=7\guarded=1.$proc$FIFO2.v:104$188'.
+Removing empty process `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:133$228'.
+Found and cleaned up 4 empty switches in `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:104$220'.
+Removing empty process `$paramod\FIFO2\width=1\guarded=1.$proc$FIFO2.v:104$220'.
+Found and cleaned up 2 empty switches in `\mkLdpcCore.$proc$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1218$94'.
+Removing empty process `mkLdpcCore.$proc$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1218$94'.
+Cleaned up 10 empty switches.
+
+9.3. Executing OPT_EXPR pass (perform const folding).
+Replacing $eq cell `$eq$FIFO2.v:106$189' in module `$paramod\FIFO2\width=7\guarded=1' with inverter.
+Optimizing away select inverter for $mux cell `$procmux$257' in module `$paramod\FIFO2\width=7\guarded=1'.
+Optimizing away select inverter for $mux cell `$procmux$245' in module `$paramod\FIFO2\width=7\guarded=1'.
+Replacing $eq cell `$eq$FIFO2.v:106$221' in module `$paramod\FIFO2\width=1\guarded=1' with inverter.
+Optimizing away select inverter for $mux cell `$procmux$281' in module `$paramod\FIFO2\width=1\guarded=1'.
+Optimizing away select inverter for $mux cell `$procmux$269' in module `$paramod\FIFO2\width=1\guarded=1'.
+Replacing $eq cell `$eq$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1220$95' in module `mkLdpcCore' with inverter.
+Optimizing away select inverter for $mux cell `$procmux$287' in module `mkLdpcCore'.
+
+9.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+  removing unused `$not' cell `$eq$FIFO2.v:106$189'.
+Finding unused cells or wires in module \module_fnChkNodeCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+  removing unused `$not' cell `$eq$FIFO2.v:106$221'.
+Finding unused cells or wires in module \mkBitNode..
+  removing unused non-port wire \WILL_FIRE___me_check_1.
+  removing unused non-port wire \CAN_FIRE___me_check_1.
+  removing unused non-port wire \vffC2B_2$CLR.
+  removing unused non-port wire \vffC2B_1$CLR.
+  removing unused non-port wire \vffC2B_0$CLR.
+  removing unused non-port wire \ffDataOut$CLR.
+  removing unused non-port wire \ffCodeIn$CLR.
+  removing unused non-port wire \ffB2C$CLR.
+  removed 8 unused temporary wires.
+Finding unused cells or wires in module \mkChkNode..
+  removing unused non-port wire \vffC2B_2$CLR.
+  removing unused non-port wire \vffC2B_1$CLR.
+  removing unused non-port wire \vffC2B_0$CLR.
+  removing unused non-port wire \vffB2C_2$CLR.
+  removing unused non-port wire \vffB2C_1$CLR.
+  removing unused non-port wire \vffB2C_0$CLR.
+  removed 6 unused temporary wires.
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \mkLdpcCore..
+  removing unused `$not' cell `$eq$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1220$95'.
+  removing unused non-port wire \ffO$CLR.
+  removing unused non-port wire \ffI$CLR.
+  removed 2 unused temporary wires.
+
+9.5. Executing CHECK pass (checking for obvious problems).
+checking module $paramod\FIFO2\width=1\guarded=1..
+checking module $paramod\FIFO2\width=7\guarded=1..
+checking module mkBitNode..
+checking module mkChkNode..
+checking module mkLdpcCore..
+checking module module_fnBitNodeCore..
+checking module module_fnCheckDecodedWord..
+checking module module_fnChkNodeCore..
+found and reported 0 problems.
+
+9.6. Executing OPT pass (performing simple optimizations).
+
+9.6.1. Executing OPT_EXPR pass (perform const folding).
+
+9.6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+  Cell `$logic_not$FIFO2.v:86$203' is identical to cell `$logic_not$FIFO2.v:121$224'.
+    Redirecting output \Y: $logic_not$FIFO2.v:86$203_Y = $logic_not$FIFO2.v:121$224_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:86$203' from module `$paramod\FIFO2\width=1\guarded=1'.
+  Cell `$logic_not$FIFO2.v:87$208' is identical to cell `$logic_not$FIFO2.v:126$227'.
+    Redirecting output \Y: $logic_not$FIFO2.v:87$208_Y = $logic_not$FIFO2.v:126$227_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:87$208' from module `$paramod\FIFO2\width=1\guarded=1'.
+  Cell `$logic_not$FIFO2.v:88$210' is identical to cell `$logic_not$FIFO2.v:118$222'.
+    Redirecting output \Y: $logic_not$FIFO2.v:88$210_Y = $logic_not$FIFO2.v:118$222_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:88$210' from module `$paramod\FIFO2\width=1\guarded=1'.
+  Cell `$logic_not$FIFO2.v:88$211' is identical to cell `$logic_not$FIFO2.v:123$225'.
+    Redirecting output \Y: $logic_not$FIFO2.v:88$211_Y = $logic_not$FIFO2.v:123$225_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:88$211' from module `$paramod\FIFO2\width=1\guarded=1'.
+  Cell `$logic_not$FIFO2.v:88$213' is identical to cell `$logic_not$FIFO2.v:118$222'.
+    Redirecting output \Y: $logic_not$FIFO2.v:88$213_Y = $logic_not$FIFO2.v:118$222_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:88$213' from module `$paramod\FIFO2\width=1\guarded=1'.
+  Cell `$logic_not$FIFO2.v:88$216' is identical to cell `$logic_not$FIFO2.v:123$225'.
+    Redirecting output \Y: $logic_not$FIFO2.v:88$216_Y = $logic_not$FIFO2.v:123$225_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:88$216' from module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+  Cell `$logic_not$FIFO2.v:86$171' is identical to cell `$logic_not$FIFO2.v:121$192'.
+    Redirecting output \Y: $logic_not$FIFO2.v:86$171_Y = $logic_not$FIFO2.v:121$192_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:86$171' from module `$paramod\FIFO2\width=7\guarded=1'.
+  Cell `$logic_not$FIFO2.v:87$176' is identical to cell `$logic_not$FIFO2.v:126$195'.
+    Redirecting output \Y: $logic_not$FIFO2.v:87$176_Y = $logic_not$FIFO2.v:126$195_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:87$176' from module `$paramod\FIFO2\width=7\guarded=1'.
+  Cell `$logic_not$FIFO2.v:88$178' is identical to cell `$logic_not$FIFO2.v:118$190'.
+    Redirecting output \Y: $logic_not$FIFO2.v:88$178_Y = $logic_not$FIFO2.v:118$190_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:88$178' from module `$paramod\FIFO2\width=7\guarded=1'.
+  Cell `$logic_not$FIFO2.v:88$179' is identical to cell `$logic_not$FIFO2.v:123$193'.
+    Redirecting output \Y: $logic_not$FIFO2.v:88$179_Y = $logic_not$FIFO2.v:123$193_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:88$179' from module `$paramod\FIFO2\width=7\guarded=1'.
+  Cell `$logic_not$FIFO2.v:88$181' is identical to cell `$logic_not$FIFO2.v:118$190'.
+    Redirecting output \Y: $logic_not$FIFO2.v:88$181_Y = $logic_not$FIFO2.v:118$190_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:88$181' from module `$paramod\FIFO2\width=7\guarded=1'.
+  Cell `$logic_not$FIFO2.v:88$184' is identical to cell `$logic_not$FIFO2.v:123$193'.
+    Redirecting output \Y: $logic_not$FIFO2.v:88$184_Y = $logic_not$FIFO2.v:123$193_Y
+    Removing $logic_not cell `$logic_not$FIFO2.v:88$184' from module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+  Cell `$logic_and$mkChkNode.v:317$118' is identical to cell `$logic_and$mkChkNode.v:292$116'.
+    Redirecting output \Y: $logic_and$mkChkNode.v:317$118_Y = $logic_and$mkChkNode.v:292$116_Y
+    Removing $logic_and cell `$logic_and$mkChkNode.v:317$118' from module `\mkChkNode'.
+  Cell `$logic_and$mkChkNode.v:318$119' is identical to cell `$logic_and$mkChkNode.v:293$117'.
+    Redirecting output \Y: \vffC2B_0$ENQ = \vffB2C_0$DEQ
+    Removing $logic_and cell `$logic_and$mkChkNode.v:318$119' from module `\mkChkNode'.
+  Cell `$logic_and$mkChkNode.v:325$120' is identical to cell `$logic_and$mkChkNode.v:292$116'.
+    Redirecting output \Y: $logic_and$mkChkNode.v:325$120_Y = $logic_and$mkChkNode.v:292$116_Y
+    Removing $logic_and cell `$logic_and$mkChkNode.v:325$120' from module `\mkChkNode'.
+  Cell `$logic_and$mkChkNode.v:326$121' is identical to cell `$logic_and$mkChkNode.v:293$117'.
+    Redirecting output \Y: \vffC2B_1$ENQ = \vffB2C_0$DEQ
+    Removing $logic_and cell `$logic_and$mkChkNode.v:326$121' from module `\mkChkNode'.
+  Cell `$logic_and$mkChkNode.v:333$122' is identical to cell `$logic_and$mkChkNode.v:292$116'.
+    Redirecting output \Y: $logic_and$mkChkNode.v:333$122_Y = $logic_and$mkChkNode.v:292$116_Y
+    Removing $logic_and cell `$logic_and$mkChkNode.v:333$122' from module `\mkChkNode'.
+  Cell `$logic_and$mkChkNode.v:334$123' is identical to cell `$logic_and$mkChkNode.v:293$117'.
+    Redirecting output \Y: \vffC2B_2$ENQ = \vffB2C_0$DEQ
+    Removing $logic_and cell `$logic_and$mkChkNode.v:334$123' from module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+  Cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1019$59' is identical to cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56'.
+    Redirecting output \Y: $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1019$59_Y = $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56_Y
+    Removing $logic_and cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1019$59' from module `\mkLdpcCore'.
+  Cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1036$62' is identical to cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56'.
+    Redirecting output \Y: $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1036$62_Y = $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56_Y
+    Removing $logic_and cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1036$62' from module `\mkLdpcCore'.
+  Cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1053$65' is identical to cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56'.
+    Redirecting output \Y: $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1053$65_Y = $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56_Y
+    Removing $logic_and cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1053$65' from module `\mkLdpcCore'.
+  Cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1070$68' is identical to cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56'.
+    Redirecting output \Y: $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1070$68_Y = $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56_Y
+    Removing $logic_and cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1070$68' from module `\mkLdpcCore'.
+  Cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1087$71' is identical to cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56'.
+    Redirecting output \Y: $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1087$71_Y = $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56_Y
+    Removing $logic_and cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1087$71' from module `\mkLdpcCore'.
+  Cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1104$74' is identical to cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56'.
+    Redirecting output \Y: $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1104$74_Y = $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56_Y
+    Removing $logic_and cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1104$74' from module `\mkLdpcCore'.
+  Cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:962$51' is identical to cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56'.
+    Redirecting output \Y: \MUX_vBitNodes_0$codeIn_put_1__SEL_1 = $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56_Y
+    Removing $logic_and cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:962$51' from module `\mkLdpcCore'.
+  Cell `$logic_not$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:967$52' is identical to cell `$logic_not$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:960$49'.
+    Redirecting output \Y: $logic_not$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:967$52_Y = $logic_not$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:960$49_Y
+    Removing $logic_not cell `$logic_not$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:967$52' from module `\mkLdpcCore'.
+  Cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1020$60' is identical to cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1003$57'.
+    Redirecting output \Y: \vBitNodes_1$EN_codeIn_put = \vBitNodes_0$EN_codeIn_put
+    Removing $logic_or cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1020$60' from module `\mkLdpcCore'.
+  Cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1037$63' is identical to cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1003$57'.
+    Redirecting output \Y: \vBitNodes_2$EN_codeIn_put = \vBitNodes_0$EN_codeIn_put
+    Removing $logic_or cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1037$63' from module `\mkLdpcCore'.
+  Cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1054$66' is identical to cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1003$57'.
+    Redirecting output \Y: \vBitNodes_3$EN_codeIn_put = \vBitNodes_0$EN_codeIn_put
+    Removing $logic_or cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1054$66' from module `\mkLdpcCore'.
+  Cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1071$69' is identical to cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1003$57'.
+    Redirecting output \Y: \vBitNodes_4$EN_codeIn_put = \vBitNodes_0$EN_codeIn_put
+    Removing $logic_or cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1071$69' from module `\mkLdpcCore'.
+  Cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1088$72' is identical to cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1003$57'.
+    Redirecting output \Y: \vBitNodes_5$EN_codeIn_put = \vBitNodes_0$EN_codeIn_put
+    Removing $logic_or cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1088$72' from module `\mkLdpcCore'.
+  Cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1105$75' is identical to cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1003$57'.
+    Redirecting output \Y: \vBitNodes_6$EN_codeIn_put = \vBitNodes_0$EN_codeIn_put
+    Removing $logic_or cell `$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1105$75' from module `\mkLdpcCore'.
+  Cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:967$53' is identical to cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:960$50'.
+    Redirecting output \Y: $logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:967$53_Y = \ffO$ENQ
+    Removing $logic_and cell `$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:967$53' from module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 33 cells.
+
+9.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\FIFO2\width=1\guarded=1..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$269 (pure)
+    Root of a mux tree: $procmux$281 (pure)
+    Root of a mux tree: $ternary$FIFO2.v:147$234 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\FIFO2\width=7\guarded=1..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$245 (pure)
+    Root of a mux tree: $procmux$257 (pure)
+    Root of a mux tree: $ternary$FIFO2.v:147$202 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mkBitNode..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkChkNode..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkLdpcCore..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$287 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1013$58 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1030$61 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1047$64 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1064$67 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1081$70 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1098$73 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:996$55 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module \module_fnBitNodeCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnCheckDecodedWord..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnChkNodeCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+9.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\FIFO2\width=1\guarded=1.
+  Optimizing cells in module $paramod\FIFO2\width=7\guarded=1.
+  Optimizing cells in module \mkBitNode.
+  Optimizing cells in module \mkChkNode.
+  Optimizing cells in module \mkLdpcCore.
+  Optimizing cells in module \module_fnBitNodeCore.
+  Optimizing cells in module \module_fnCheckDecodedWord.
+  Optimizing cells in module \module_fnChkNodeCore.
+Performed a total of 0 changes.
+
+9.6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.6.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+9.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.6.8. Executing OPT_EXPR pass (perform const folding).
+
+9.6.9. Finished OPT passes. (There is nothing left to do.)
+
+9.7. Executing WREDUCE pass (reducing word size of cells).
+
+9.8. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module $paramod\FIFO2\width=1\guarded=1:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod\FIFO2\width=7\guarded=1:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module mkBitNode:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module mkChkNode:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module mkLdpcCore:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module module_fnBitNodeCore:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module module_fnCheckDecodedWord:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module module_fnChkNodeCore:
+  created 0 $alu and 0 $macc cells.
+
+9.9. Executing SHARE pass (SAT-based resource sharing).
+
+9.10. Executing OPT pass (performing simple optimizations).
+
+9.10.1. Executing OPT_EXPR pass (perform const folding).
+
+9.10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\FIFO2\width=1\guarded=1..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$269 (pure)
+    Root of a mux tree: $procmux$281 (pure)
+    Root of a mux tree: $ternary$FIFO2.v:147$234 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\FIFO2\width=7\guarded=1..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$245 (pure)
+    Root of a mux tree: $procmux$257 (pure)
+    Root of a mux tree: $ternary$FIFO2.v:147$202 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mkBitNode..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkChkNode..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkLdpcCore..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$287 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1013$58 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1030$61 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1047$64 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1064$67 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1081$70 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1098$73 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:996$55 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module \module_fnBitNodeCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnCheckDecodedWord..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnChkNodeCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+9.10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\FIFO2\width=1\guarded=1.
+  Optimizing cells in module $paramod\FIFO2\width=7\guarded=1.
+  Optimizing cells in module \mkBitNode.
+  Optimizing cells in module \mkChkNode.
+  Optimizing cells in module \mkLdpcCore.
+  Optimizing cells in module \module_fnBitNodeCore.
+  Optimizing cells in module \module_fnCheckDecodedWord.
+  Optimizing cells in module \module_fnChkNodeCore.
+Performed a total of 0 changes.
+
+9.10.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.10.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+9.10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.10.8. Executing OPT_EXPR pass (perform const folding).
+
+9.10.9. Finished OPT passes. (There is nothing left to do.)
+
+9.11. Executing FSM pass (extract and optimize FSM).
+
+9.11.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+9.11.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+9.11.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+9.11.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.11.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+9.11.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+9.11.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+9.11.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+9.12. Executing OPT pass (performing simple optimizations).
+
+9.12.1. Executing OPT_EXPR pass (perform const folding).
+
+9.12.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.12.3. Executing OPT_RMDFF pass (remove dff with constant values).
+
+9.12.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.12.5. Finished fast OPT passes.
+
+9.13. Executing MEMORY pass.
+
+9.13.1. Executing MEMORY_DFF pass (merging $dff cells to $memrd and $memwr).
+
+9.13.2. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.13.3. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+9.13.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.13.5. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+9.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.15. Executing OPT pass (performing simple optimizations).
+
+9.15.1. Executing OPT_EXPR pass (perform const folding).
+Replacing $mux cell `$procmux$263' in module `$paramod\FIFO2\width=1\guarded=1' with or-gate.
+Replacing $mux cell `$procmux$272' in module `$paramod\FIFO2\width=1\guarded=1' with or-gate.
+Replacing $mux cell `$procmux$278' in module `$paramod\FIFO2\width=1\guarded=1' with or-gate.
+Replacing $mux cell `$procmux$269' in module `$paramod\FIFO2\width=1\guarded=1' with and-gate.
+Replacing $mux cell `$procmux$248' in module `$paramod\FIFO2\width=7\guarded=1' with or-gate.
+Replacing $mux cell `$procmux$254' in module `$paramod\FIFO2\width=7\guarded=1' with or-gate.
+Replacing $mux cell `$procmux$239' in module `$paramod\FIFO2\width=7\guarded=1' with or-gate.
+Replacing $mux cell `$procmux$245' in module `$paramod\FIFO2\width=7\guarded=1' with and-gate.
+
+9.15.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.15.3. Executing OPT_RMDFF pass (remove dff with constant values).
+
+9.15.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.15.5. Finished fast OPT passes.
+
+9.16. Executing MEMORY_MAP pass (converting $mem cells to logic and flip-flops).
+
+9.17. Executing OPT pass (performing simple optimizations).
+
+9.17.1. Executing OPT_EXPR pass (perform const folding).
+
+9.17.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.17.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\FIFO2\width=1\guarded=1..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$260 (pure)
+    Root of a mux tree: $procmux$266 (pure)
+    Root of a mux tree: $procmux$275 (pure)
+    Root of a mux tree: $procmux$281 (pure)
+    Root of a mux tree: $ternary$FIFO2.v:147$234 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\FIFO2\width=7\guarded=1..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$236 (pure)
+    Root of a mux tree: $procmux$242 (pure)
+    Root of a mux tree: $procmux$251 (pure)
+    Root of a mux tree: $procmux$257 (pure)
+    Root of a mux tree: $ternary$FIFO2.v:147$202 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module \mkBitNode..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkChkNode..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkLdpcCore..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $procmux$287 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1013$58 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1030$61 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1047$64 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1064$67 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1081$70 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1098$73 (pure)
+    Root of a mux tree: $ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:996$55 (pure)
+  Analyzing evaluation results.
+Running muxtree optimizer on module \module_fnBitNodeCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnCheckDecodedWord..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnChkNodeCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+9.17.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\FIFO2\width=1\guarded=1.
+  Optimizing cells in module $paramod\FIFO2\width=7\guarded=1.
+  Optimizing cells in module \mkBitNode.
+  Optimizing cells in module \mkChkNode.
+  Optimizing cells in module \mkLdpcCore.
+  Optimizing cells in module \module_fnBitNodeCore.
+  Optimizing cells in module \module_fnCheckDecodedWord.
+  Optimizing cells in module \module_fnChkNodeCore.
+Performed a total of 0 changes.
+
+9.17.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.17.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+9.17.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.17.8. Executing OPT_EXPR pass (perform const folding).
+
+9.17.9. Finished OPT passes. (There is nothing left to do.)
+
+9.18. Executing TECHMAP pass (map to technology primitives).
+
+9.18.1. Executing Verilog-2005 frontend.
+Parsing Verilog input from `<techmap.v>' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `\$__div_mod_u'.
+Generating RTLIL representation for module `\$__div_mod'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_pmux'.
+Generating RTLIL representation for module `\_90_lut'.
+Successfully finished Verilog frontend.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:772$1 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:773$2 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:774$3 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:779$4 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:780$5 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:781$6 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:786$7 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:787$8 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:788$9 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:793$10 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:794$11 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:795$12 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:800$13 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:801$14 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:802$15 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:807$16 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:808$17 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:809$18 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:814$19 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:815$20 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:816$21 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:821$22 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:826$23 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:832$24 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:838$25 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:844$26 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:850$27 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:856$28 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:862$29 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:868$30 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:874$31 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:880$32 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:886$33 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:892$34 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:898$35 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:904$36 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:910$37 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:916$38 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:922$39 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:928$40 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:934$41 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:940$42 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:947$43 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:948$44 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:953$45 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:954$46 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_not$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:955$47 ($logic_not) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:955$48 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_not$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:960$49 ($logic_not) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:960$50 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:968$54 ($logic_or) with simplemap.
+Mapping mkLdpcCore.$ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:996$55 ($mux) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1002$56 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_or$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1003$57 ($logic_or) with simplemap.
+Mapping mkLdpcCore.$ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1013$58 ($mux) with simplemap.
+Mapping mkLdpcCore.$ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1030$61 ($mux) with simplemap.
+Mapping mkLdpcCore.$ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1047$64 ($mux) with simplemap.
+Mapping mkLdpcCore.$ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1064$67 ($mux) with simplemap.
+Mapping mkLdpcCore.$ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1081$70 ($mux) with simplemap.
+Mapping mkLdpcCore.$ternary$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1098$73 ($mux) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1195$76 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1196$77 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1197$78 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1198$79 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1199$80 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1200$81 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1202$82 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1203$83 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1204$84 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1205$85 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1206$86 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1207$87 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1209$88 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1210$89 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1211$90 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1212$91 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1213$92 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$logic_and$/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/source/mkLdpcCore.v:1214$93 ($logic_and) with simplemap.
+Mapping mkLdpcCore.$procmux$287 ($mux) with simplemap.
+Mapping mkLdpcCore.$procmux$284 ($mux) with simplemap.
+Mapping mkLdpcCore.$procdff$297 ($dff) with simplemap.
+Mapping mkBitNode.$logic_and$mkBitNode.v:289$127 ($logic_and) with simplemap.
+Mapping mkBitNode.$logic_and$mkBitNode.v:294$128 ($logic_and) with simplemap.
+Mapping mkBitNode.$logic_and$mkBitNode.v:294$129 ($logic_and) with simplemap.
+Mapping mkBitNode.$logic_and$mkBitNode.v:295$130 ($logic_and) with simplemap.
+Mapping mkChkNode.$logic_and$mkChkNode.v:292$116 ($logic_and) with simplemap.
+Mapping mkChkNode.$logic_and$mkChkNode.v:293$117 ($logic_and) with simplemap.
+Mapping mkChkNode.$logic_and$mkChkNode.v:344$124 ($logic_and) with simplemap.
+Mapping mkChkNode.$logic_and$mkChkNode.v:344$125 ($logic_and) with simplemap.
+Mapping mkChkNode.$logic_and$mkChkNode.v:345$126 ($logic_and) with simplemap.
+Mapping module_fnCheckDecodedWord.$or$module_fnCheckDecodedWord.v:61$96 ($or) with simplemap.
+Mapping module_fnCheckDecodedWord.$or$module_fnCheckDecodedWord.v:64$97 ($or) with simplemap.
+Mapping module_fnCheckDecodedWord.$or$module_fnCheckDecodedWord.v:65$98 ($or) with simplemap.
+Mapping module_fnCheckDecodedWord.$or$module_fnCheckDecodedWord.v:66$99 ($or) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:67$100 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$or$module_fnCheckDecodedWord.v:68$101 ($or) with simplemap.
+Mapping module_fnCheckDecodedWord.$or$module_fnCheckDecodedWord.v:69$102 ($or) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:70$103 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:71$104 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:72$105 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:73$106 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:74$107 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:75$108 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:76$109 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:77$110 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:78$111 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:79$112 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:80$113 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:81$114 ($xor) with simplemap.
+Mapping module_fnCheckDecodedWord.$xor$module_fnCheckDecodedWord.v:82$115 ($xor) with simplemap.
+Mapping module_fnChkNodeCore.$xor$module_fnChkNodeCore.v:43$168 ($xor) with simplemap.
+Mapping module_fnChkNodeCore.$xor$module_fnChkNodeCore.v:42$169 ($xor) with simplemap.
+Mapping module_fnChkNodeCore.$xor$module_fnChkNodeCore.v:41$170 ($xor) with simplemap.
+Mapping module_fnBitNodeCore.$or$module_fnBitNodeCore.v:43$163 ($or) with simplemap.
+Mapping module_fnBitNodeCore.$or$module_fnBitNodeCore.v:46$164 ($or) with simplemap.
+Mapping module_fnBitNodeCore.$and$module_fnBitNodeCore.v:47$165 ($and) with simplemap.
+Mapping module_fnBitNodeCore.$and$module_fnBitNodeCore.v:48$166 ($and) with simplemap.
+Mapping module_fnBitNodeCore.$and$module_fnBitNodeCore.v:49$167 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procdff$292 ($dff) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procdff$291 ($dff) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procdff$290 ($dff) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procdff$289 ($dff) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procmux$257 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procmux$254 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procmux$251 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procmux$248 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procmux$245 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procmux$242 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procmux$239 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$procmux$236 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:86$172 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:86$173 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:86$174 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_or$FIFO2.v:86$175 ($logic_or) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:87$177 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:88$180 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:88$182 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_or$FIFO2.v:88$183 ($logic_or) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:88$185 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_or$FIFO2.v:88$186 ($logic_or) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$and$FIFO2.v:89$187 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_not$FIFO2.v:118$190 ($logic_not) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:118$191 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_not$FIFO2.v:121$192 ($logic_not) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_not$FIFO2.v:123$193 ($logic_not) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_and$FIFO2.v:123$194 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$logic_not$FIFO2.v:126$195 ($logic_not) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$and$FIFO2.v:145$197 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$and$FIFO2.v:145$198 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$or$FIFO2.v:145$199 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$and$FIFO2.v:145$200 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$or$FIFO2.v:145$201 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=7\guarded=1.$ternary$FIFO2.v:147$202 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procdff$294 ($dff) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procdff$293 ($dff) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procmux$263 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procmux$260 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procmux$281 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procmux$278 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procdff$296 ($dff) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procmux$275 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procmux$272 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procdff$295 ($dff) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procmux$269 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$procmux$266 ($mux) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:86$204 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:86$205 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:86$206 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_or$FIFO2.v:86$207 ($logic_or) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:87$209 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:88$212 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:88$214 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_or$FIFO2.v:88$215 ($logic_or) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:88$217 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_or$FIFO2.v:88$218 ($logic_or) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$and$FIFO2.v:89$219 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_not$FIFO2.v:118$222 ($logic_not) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:118$223 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_not$FIFO2.v:121$224 ($logic_not) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_not$FIFO2.v:123$225 ($logic_not) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_and$FIFO2.v:123$226 ($logic_and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$logic_not$FIFO2.v:126$227 ($logic_not) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$and$FIFO2.v:145$229 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$and$FIFO2.v:145$230 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$or$FIFO2.v:145$231 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$and$FIFO2.v:145$232 ($and) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$or$FIFO2.v:145$233 ($or) with simplemap.
+Mapping $paramod\FIFO2\width=1\guarded=1.$ternary$FIFO2.v:147$234 ($mux) with simplemap.
+No more expansions possible.
+
+9.19. Executing OPT pass (performing simple optimizations).
+
+9.19.1. Executing OPT_EXPR pass (perform const folding).
+
+9.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.19.3. Executing OPT_RMDFF pass (remove dff with constant values).
+
+9.19.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.19.5. Finished fast OPT passes.
+
+9.20. Executing ABC pass (technology mapping using ABC).
+
+9.20.1. Extracting gate netlist of module `$paramod\FIFO2\width=1\guarded=1' to `<abc-temp-dir>/input.blif'..
+Extracted 31 gates and 42 wires to a netlist network with 9 inputs and 4 outputs.
+
+9.20.1.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 15 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + retime -o 
+ABC: + map 
+ABC: Warning: The network was strashed and balanced before mapping.
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.20.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:        3
+ABC RESULTS:              AOI3 cells:        5
+ABC RESULTS:              AOI4 cells:        1
+ABC RESULTS:               MUX cells:        1
+ABC RESULTS:              NAND cells:        2
+ABC RESULTS:               NOT cells:        6
+ABC RESULTS:              OAI3 cells:        2
+ABC RESULTS:              OAI4 cells:        1
+ABC RESULTS:                OR cells:        4
+ABC RESULTS:        internal signals:       29
+ABC RESULTS:           input signals:        9
+ABC RESULTS:          output signals:        4
+Removing temp directory.
+
+9.20.2. Extracting gate netlist of module `$paramod\FIFO2\width=7\guarded=1' to `<abc-temp-dir>/input.blif'..
+Extracted 67 gates and 96 wires to a netlist network with 27 inputs and 16 outputs.
+
+9.20.2.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 15 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + retime -o 
+ABC: + map 
+ABC: Warning: The network was strashed and balanced before mapping.
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.20.2.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:        3
+ABC RESULTS:              AOI3 cells:        5
+ABC RESULTS:              AOI4 cells:        7
+ABC RESULTS:               MUX cells:        7
+ABC RESULTS:              NAND cells:        2
+ABC RESULTS:               NOT cells:       12
+ABC RESULTS:              OAI3 cells:        8
+ABC RESULTS:              OAI4 cells:        1
+ABC RESULTS:                OR cells:        4
+ABC RESULTS:        internal signals:       53
+ABC RESULTS:           input signals:       27
+ABC RESULTS:          output signals:       16
+Removing temp directory.
+
+9.20.3. Extracting gate netlist of module `\mkBitNode' to `<abc-temp-dir>/input.blif'..
+Extracted 4 gates and 10 wires to a netlist network with 6 inputs and 2 outputs.
+
+9.20.3.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 15 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + retime -o 
+ABC: + map 
+ABC: Warning: The network was strashed and balanced before mapping.
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.20.3.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:        4
+ABC RESULTS:        internal signals:        2
+ABC RESULTS:           input signals:        6
+ABC RESULTS:          output signals:        2
+Removing temp directory.
+
+9.20.4. Extracting gate netlist of module `\mkChkNode' to `<abc-temp-dir>/input.blif'..
+Extracted 5 gates and 11 wires to a netlist network with 6 inputs and 1 outputs.
+
+9.20.4.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 15 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + retime -o 
+ABC: + map 
+ABC: Warning: The network was strashed and balanced before mapping.
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.20.4.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:        5
+ABC RESULTS:        internal signals:        4
+ABC RESULTS:           input signals:        6
+ABC RESULTS:          output signals:        1
+Removing temp directory.
+
+9.20.5. Extracting gate netlist of module `\mkLdpcCore' to `<abc-temp-dir>/input.blif'..
+Extracted 80 gates and 184 wires to a netlist network with 103 inputs and 40 outputs.
+
+9.20.5.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 15 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + retime -o 
+ABC: + map 
+ABC: Warning: The network was strashed and balanced before mapping.
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.20.5.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:       60
+ABC RESULTS:               MUX cells:        7
+ABC RESULTS:              NAND cells:        1
+ABC RESULTS:               NOR cells:        2
+ABC RESULTS:               NOT cells:        4
+ABC RESULTS:              OAI4 cells:        1
+ABC RESULTS:                OR cells:        3
+ABC RESULTS:        internal signals:       41
+ABC RESULTS:           input signals:      103
+ABC RESULTS:          output signals:       40
+Removing temp directory.
+
+9.20.6. Extracting gate netlist of module `\module_fnBitNodeCore' to `<abc-temp-dir>/input.blif'..
+Extracted 5 gates and 8 wires to a netlist network with 3 inputs and 1 outputs.
+
+9.20.6.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 15 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + retime -o 
+ABC: + map 
+ABC: Warning: The network was strashed and balanced before mapping.
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.20.6.2. Re-integrating ABC results.
+ABC RESULTS:              NAND cells:        2
+ABC RESULTS:              OAI3 cells:        1
+ABC RESULTS:        internal signals:        4
+ABC RESULTS:           input signals:        3
+ABC RESULTS:          output signals:        1
+Removing temp directory.
+
+9.20.7. Extracting gate netlist of module `\module_fnCheckDecodedWord' to `<abc-temp-dir>/input.blif'..
+Extracted 20 gates and 27 wires to a netlist network with 7 inputs and 1 outputs.
+
+9.20.7.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 15 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + retime -o 
+ABC: + map 
+ABC: Warning: The network was strashed and balanced before mapping.
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.20.7.2. Re-integrating ABC results.
+ABC RESULTS:               NOT cells:        2
+ABC RESULTS:                OR cells:        6
+ABC RESULTS:              XNOR cells:        5
+ABC RESULTS:               XOR cells:        9
+ABC RESULTS:        internal signals:       19
+ABC RESULTS:           input signals:        7
+ABC RESULTS:          output signals:        1
+Removing temp directory.
+
+9.20.8. Extracting gate netlist of module `\module_fnChkNodeCore' to `<abc-temp-dir>/input.blif'..
+Extracted 3 gates and 6 wires to a netlist network with 3 inputs and 3 outputs.
+
+9.20.8.1. Executing ABC.
+Running ABC command: berkeley-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: Entered genlib library with 15 gates from file "<abc-temp-dir>/stdcells.genlib".
+ABC: + retime -o 
+ABC: + map 
+ABC: Warning: The network was strashed and balanced before mapping.
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+9.20.8.2. Re-integrating ABC results.
+ABC RESULTS:               XOR cells:        3
+ABC RESULTS:        internal signals:        0
+ABC RESULTS:           input signals:        3
+ABC RESULTS:          output signals:        3
+Removing temp directory.
+
+9.21. Executing OPT pass (performing simple optimizations).
+
+9.21.1. Executing OPT_EXPR pass (perform const folding).
+
+9.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+9.21.3. Executing OPT_RMDFF pass (remove dff with constant values).
+
+9.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+  removing unused non-port wire \d0d1.
+  removing unused non-port wire \d0di.
+  removing unused non-port wire \d0h.
+  removing unused non-port wire \d1di.
+  removed 4 unused temporary wires.
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+  removing unused non-port wire \d0d1.
+  removing unused non-port wire \d0di.
+  removing unused non-port wire \d0h.
+  removing unused non-port wire \d1di.
+  removed 4 unused temporary wires.
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+  removing unused non-port wire \vffB2C_2_i_notEmpty_AND_vffC2B_0_i_notFull_AND_ETC___d9.
+  removed 1 unused temporary wires.
+Finding unused cells or wires in module \mkLdpcCore..
+  removing unused non-port wire \MUX_vBitNodes_0$codeIn_put_1__SEL_1.
+  removing unused non-port wire \rgIdle$EN.
+  removing unused non-port wire \vBitNodes_0_RDY_codeIn_put__41_AND_vBitNodes_1_ETC___d178.
+  removing unused non-port wire \vBitNodes_1_RDY_codeIn_put__42_AND_vBitNodes_2_ETC___d154.
+  removing unused non-port wire \vBitNodes_2_RDY_dataOut_get__68_AND_vBitNodes__ETC___d185.
+  removed 5 unused temporary wires.
+Finding unused cells or wires in module \module_fnBitNodeCore..
+  removing unused non-port wire \x__h27.
+  removing unused non-port wire \x__h29.
+  removing unused non-port wire \y__h28.
+  removing unused non-port wire \y__h30.
+  removed 4 unused temporary wires.
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+  removing unused non-port wire \x__h27.
+  removing unused non-port wire \x__h29.
+  removing unused non-port wire \x__h31.
+  removing unused non-port wire \x__h310.
+  removing unused non-port wire \x__h33.
+  removing unused non-port wire \x__h35.
+  removing unused non-port wire \x__h37.
+  removing unused non-port wire \x__h380.
+  removing unused non-port wire \x__h39.
+  removing unused non-port wire \x__h429.
+  removing unused non-port wire \x__h478.
+  removing unused non-port wire \x__h506.
+  removing unused non-port wire \x__h534.
+  removing unused non-port wire \y__h28.
+  removing unused non-port wire \y__h30.
+  removing unused non-port wire \y__h32.
+  removing unused non-port wire \y__h34.
+  removing unused non-port wire \y__h36.
+  removing unused non-port wire \y__h38.
+  removed 19 unused temporary wires.
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+9.21.5. Finished fast OPT passes.
+
+9.22. Executing HIERARCHY pass (managing design hierarchy).
+
+9.22.1. Analyzing design hierarchy..
+Top module:  \mkLdpcCore
+Used module:     $paramod\FIFO2\width=7\guarded=1
+Used module:     \module_fnCheckDecodedWord
+Used module:     \mkBitNode
+Used module:         $paramod\FIFO2\width=1\guarded=1
+Used module:         \module_fnBitNodeCore
+Used module:     \mkChkNode
+Used module:         \module_fnChkNodeCore
+
+9.22.2. Analyzing design hierarchy..
+Top module:  \mkLdpcCore
+Used module:     $paramod\FIFO2\width=7\guarded=1
+Used module:     \module_fnCheckDecodedWord
+Used module:     \mkBitNode
+Used module:         $paramod\FIFO2\width=1\guarded=1
+Used module:         \module_fnBitNodeCore
+Used module:     \mkChkNode
+Used module:         \module_fnChkNodeCore
+Removed 0 unused modules.
+
+9.23. Printing statistics.
+
+=== $paramod\FIFO2\width=1\guarded=1 ===
+
+   Number of wires:                 38
+   Number of wire bits:             38
+   Number of public wires:          13
+   Number of public wire bits:      13
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 29
+     $_AND_                          3
+     $_AOI3_                         5
+     $_AOI4_                         1
+     $_DFF_P_                        4
+     $_MUX_                          1
+     $_NAND_                         2
+     $_NOT_                          6
+     $_OAI3_                         2
+     $_OAI4_                         1
+     $_OR_                           4
+
+=== $paramod\FIFO2\width=7\guarded=1 ===
+
+   Number of wires:                 50
+   Number of wire bits:             86
+   Number of public wires:          13
+   Number of public wire bits:      37
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 65
+     $_AND_                          3
+     $_AOI3_                         5
+     $_AOI4_                         7
+     $_DFF_P_                       16
+     $_MUX_                          7
+     $_NAND_                         2
+     $_NOT_                         12
+     $_OAI3_                         8
+     $_OAI4_                         1
+     $_OR_                           4
+
+=== mkBitNode ===
+
+   Number of wires:                 74
+   Number of wire bits:             74
+   Number of public wires:          72
+   Number of public wire bits:      72
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 11
+     $_AND_                          4
+     $paramod\FIFO2\width=1\guarded=1      6
+     module_fnBitNodeCore            1
+
+=== mkChkNode ===
+
+   Number of wires:                 75
+   Number of wire bits:             77
+   Number of public wires:          71
+   Number of public wire bits:      73
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 12
+     $_AND_                          5
+     $paramod\FIFO2\width=1\guarded=1      6
+     module_fnChkNodeCore            1
+
+=== mkLdpcCore ===
+
+   Number of wires:                379
+   Number of wire bits:            415
+   Number of public wires:         340
+   Number of public wire bits:     376
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 96
+     $_AND_                         60
+     $_DFF_P_                        1
+     $_MUX_                          7
+     $_NAND_                         1
+     $_NOR_                          2
+     $_NOT_                          4
+     $_OAI4_                         1
+     $_OR_                           3
+     $paramod\FIFO2\width=7\guarded=1      2
+     mkBitNode                       7
+     mkChkNode                       7
+     module_fnCheckDecodedWord       1
+
+=== module_fnBitNodeCore ===
+
+   Number of wires:                  4
+   Number of wire bits:              6
+   Number of public wires:           2
+   Number of public wire bits:       4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  3
+     $_NAND_                         2
+     $_OAI3_                         1
+
+=== module_fnCheckDecodedWord ===
+
+   Number of wires:                 23
+   Number of wire bits:             29
+   Number of public wires:           2
+   Number of public wire bits:       8
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 22
+     $_NOT_                          2
+     $_OR_                           6
+     $_XNOR_                         5
+     $_XOR_                          9
+
+=== module_fnChkNodeCore ===
+
+   Number of wires:                  2
+   Number of wire bits:              6
+   Number of public wires:           2
+   Number of public wire bits:       6
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  3
+     $_XOR_                          3
+
+=== design hierarchy ===
+
+   mkLdpcCore                        1
+     $paramod\FIFO2\width=7\guarded=1      2
+     mkBitNode                       7
+       $paramod\FIFO2\width=1\guarded=1      6
+       module_fnBitNodeCore          1
+     mkChkNode                       7
+       $paramod\FIFO2\width=1\guarded=1      6
+       module_fnChkNodeCore          1
+     module_fnCheckDecodedWord       1
+
+   Number of wires:               4779
+   Number of wire bits:           4949
+   Number of public wires:        2489
+   Number of public wire bits:    2635
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               2772
+     $_AND_                        381
+     $_AOI3_                       430
+     $_AOI4_                        98
+     $_DFF_P_                      369
+     $_MUX_                        105
+     $_NAND_                       187
+     $_NOR_                          2
+     $_NOT_                        534
+     $_OAI3_                       191
+     $_OAI4_                        87
+     $_OR_                         353
+     $_XNOR_                         5
+     $_XOR_                         30
+
+9.24. Executing CHECK pass (checking for obvious problems).
+checking module $paramod\FIFO2\width=1\guarded=1..
+checking module $paramod\FIFO2\width=7\guarded=1..
+checking module mkBitNode..
+checking module mkChkNode..
+checking module mkLdpcCore..
+checking module module_fnBitNodeCore..
+checking module module_fnCheckDecodedWord..
+checking module module_fnChkNodeCore..
+found and reported 0 problems.
+
+10. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+  cell DFFNEGX1 (noninv, pins=3, area=384.00) is a direct match for cell type $_DFF_N_.
+  cell DFFPOSX1 (noninv, pins=3, area=384.00) is a direct match for cell type $_DFF_P_.
+  cell DFFSR (noninv, pins=5, area=704.00) is a direct match for cell type $_DFFSR_PNN_.
+  create mapping for $_DFFSR_PPN_ from mapping for $_DFFSR_PNN_.
+  create mapping for $_DFFSR_PNP_ from mapping for $_DFFSR_PNN_.
+  create mapping for $_DFFSR_PPP_ from mapping for $_DFFSR_PNP_.
+  create mapping for $_DFFSR_NNN_ from mapping for $_DFFSR_PNN_.
+  create mapping for $_DFFSR_NPN_ from mapping for $_DFFSR_NNN_.
+  create mapping for $_DFFSR_NNP_ from mapping for $_DFFSR_NNN_.
+  create mapping for $_DFFSR_NPP_ from mapping for $_DFFSR_NNP_.
+  create mapping for $_DFF_NN0_ from mapping for $_DFFSR_NNN_.
+  create mapping for $_DFF_NN1_ from mapping for $_DFFSR_NNN_.
+  create mapping for $_DFF_NP0_ from mapping for $_DFFSR_NPP_.
+  create mapping for $_DFF_NP1_ from mapping for $_DFFSR_NPP_.
+  create mapping for $_DFF_PN0_ from mapping for $_DFFSR_PNN_.
+  create mapping for $_DFF_PN1_ from mapping for $_DFFSR_PNN_.
+  create mapping for $_DFF_PP0_ from mapping for $_DFFSR_PPP_.
+  create mapping for $_DFF_PP1_ from mapping for $_DFFSR_PPP_.
+  final dff cell mappings:
+    DFFNEGX1 _DFF_N_ (.CLK( C), .D( D), .Q( Q));
+    DFFPOSX1 _DFF_P_ (.CLK( C), .D( D), .Q( Q));
+    DFFSR _DFF_NN0_ (.CLK(~C), .D( D), .Q( Q), .R( R), .S( 1));
+    DFFSR _DFF_NN1_ (.CLK(~C), .D( D), .Q( Q), .R( 1), .S( R));
+    DFFSR _DFF_NP0_ (.CLK(~C), .D( D), .Q( Q), .R(~R), .S( 1));
+    DFFSR _DFF_NP1_ (.CLK(~C), .D( D), .Q( Q), .R( 1), .S(~R));
+    DFFSR _DFF_PN0_ (.CLK( C), .D( D), .Q( Q), .R( R), .S( 1));
+    DFFSR _DFF_PN1_ (.CLK( C), .D( D), .Q( Q), .R( 1), .S( R));
+    DFFSR _DFF_PP0_ (.CLK( C), .D( D), .Q( Q), .R(~R), .S( 1));
+    DFFSR _DFF_PP1_ (.CLK( C), .D( D), .Q( Q), .R( 1), .S(~R));
+    DFFSR _DFFSR_NNN_ (.CLK(~C), .D( D), .Q( Q), .R( R), .S( S));
+    DFFSR _DFFSR_NNP_ (.CLK(~C), .D( D), .Q( Q), .R(~R), .S( S));
+    DFFSR _DFFSR_NPN_ (.CLK(~C), .D( D), .Q( Q), .R( R), .S(~S));
+    DFFSR _DFFSR_NPP_ (.CLK(~C), .D( D), .Q( Q), .R(~R), .S(~S));
+    DFFSR _DFFSR_PNN_ (.CLK( C), .D( D), .Q( Q), .R( R), .S( S));
+    DFFSR _DFFSR_PNP_ (.CLK( C), .D( D), .Q( Q), .R(~R), .S( S));
+    DFFSR _DFFSR_PPN_ (.CLK( C), .D( D), .Q( Q), .R( R), .S(~S));
+    DFFSR _DFFSR_PPP_ (.CLK( C), .D( D), .Q( Q), .R(~R), .S(~S));
+Mapping DFF cells in module `$paramod\FIFO2\width=1\guarded=1':
+  mapped 4 $_DFF_P_ cells to \DFFPOSX1 cells.
+Mapping DFF cells in module `$paramod\FIFO2\width=7\guarded=1':
+  mapped 16 $_DFF_P_ cells to \DFFPOSX1 cells.
+Mapping DFF cells in module `\mkBitNode':
+Mapping DFF cells in module `\mkChkNode':
+Mapping DFF cells in module `\mkLdpcCore':
+  mapped 1 $_DFF_P_ cells to \DFFPOSX1 cells.
+Mapping DFF cells in module `\module_fnBitNodeCore':
+Mapping DFF cells in module `\module_fnCheckDecodedWord':
+Mapping DFF cells in module `\module_fnChkNodeCore':
+
+11. Executing OPT pass (performing simple optimizations).
+
+11.1. Executing OPT_EXPR pass (perform const folding).
+
+11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+11.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\FIFO2\width=1\guarded=1..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\FIFO2\width=7\guarded=1..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkBitNode..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkChkNode..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \mkLdpcCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnBitNodeCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnCheckDecodedWord..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \module_fnChkNodeCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+11.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\FIFO2\width=1\guarded=1.
+  Optimizing cells in module $paramod\FIFO2\width=7\guarded=1.
+  Optimizing cells in module \mkBitNode.
+  Optimizing cells in module \mkChkNode.
+  Optimizing cells in module \mkLdpcCore.
+  Optimizing cells in module \module_fnBitNodeCore.
+  Optimizing cells in module \module_fnCheckDecodedWord.
+  Optimizing cells in module \module_fnChkNodeCore.
+Performed a total of 0 changes.
+
+11.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\FIFO2\width=1\guarded=1'.
+Finding identical cells in module `$paramod\FIFO2\width=7\guarded=1'.
+Finding identical cells in module `\mkBitNode'.
+Finding identical cells in module `\mkChkNode'.
+Finding identical cells in module `\mkLdpcCore'.
+Finding identical cells in module `\module_fnBitNodeCore'.
+Finding identical cells in module `\module_fnCheckDecodedWord'.
+Finding identical cells in module `\module_fnChkNodeCore'.
+Removed a total of 0 cells.
+
+11.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+11.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\FIFO2\width=1\guarded=1..
+Finding unused cells or wires in module $paramod\FIFO2\width=7\guarded=1..
+Finding unused cells or wires in module \mkBitNode..
+Finding unused cells or wires in module \mkChkNode..
+Finding unused cells or wires in module \mkLdpcCore..
+Finding unused cells or wires in module \module_fnBitNodeCore..
+Finding unused cells or wires in module \module_fnCheckDecodedWord..
+Finding unused cells or wires in module \module_fnChkNodeCore..
+
+11.8. Executing OPT_EXPR pass (perform const folding).
+
+11.9. Finished OPT passes. (There is nothing left to do.)
+
+12. Executing ABC pass (technology mapping using ABC).
+
+12.1. Extracting gate netlist of module `$paramod\FIFO2\width=1\guarded=1' to `<abc-temp-dir>/input.blif'..
+Extracted 25 gates and 34 wires to a netlist network with 9 inputs and 4 outputs.
+
+12.1.1. Executing ABC.
+Running ABC command: /usr/local/share/qflow/bin/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.00 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFNEGX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFPOSX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFSR".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "LATCH".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "PADINOUT".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX2".
+ABC: Scl_LibertyReadGenlib() skipped cell "PADFC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADNC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADVDD" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADGND" without logic function.
+ABC: Library "osu035_stdcells" from "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" has 28 cells (11 skipped: 4 seq; 3 tri-state; 4 no func).  Time =     0.00 sec
+ABC: Memory =    0.38 MB. Time =     0.00 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FAX1").
+ABC: + strash 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + ifraig 
+ABC: + retime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + map -M 1 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.1.2. Re-integrating ABC results.
+ABC RESULTS:            AND2X2 cells:        1
+ABC RESULTS:           AOI21X1 cells:        1
+ABC RESULTS:           AOI22X1 cells:        2
+ABC RESULTS:             INVX1 cells:        7
+ABC RESULTS:           NAND2X1 cells:        5
+ABC RESULTS:           NAND3X1 cells:        2
+ABC RESULTS:            NOR2X1 cells:        2
+ABC RESULTS:           OAI21X1 cells:        6
+ABC RESULTS:           XNOR2X1 cells:        1
+ABC RESULTS:        internal signals:       21
+ABC RESULTS:           input signals:        9
+ABC RESULTS:          output signals:        4
+Removing temp directory.
+
+12.2. Extracting gate netlist of module `$paramod\FIFO2\width=7\guarded=1' to `<abc-temp-dir>/input.blif'..
+Extracted 49 gates and 76 wires to a netlist network with 27 inputs and 16 outputs.
+
+12.2.1. Executing ABC.
+Running ABC command: /usr/local/share/qflow/bin/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.00 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFNEGX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFPOSX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFSR".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "LATCH".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "PADINOUT".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX2".
+ABC: Scl_LibertyReadGenlib() skipped cell "PADFC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADNC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADVDD" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADGND" without logic function.
+ABC: Library "osu035_stdcells" from "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" has 28 cells (11 skipped: 4 seq; 3 tri-state; 4 no func).  Time =     0.00 sec
+ABC: Memory =    0.38 MB. Time =     0.00 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FAX1").
+ABC: + strash 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + ifraig 
+ABC: + retime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + map -M 1 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.2.2. Re-integrating ABC results.
+ABC RESULTS:            AND2X2 cells:        1
+ABC RESULTS:           AOI21X1 cells:        2
+ABC RESULTS:           AOI22X1 cells:        7
+ABC RESULTS:             INVX1 cells:       12
+ABC RESULTS:           NAND2X1 cells:       16
+ABC RESULTS:           NAND3X1 cells:        2
+ABC RESULTS:            NOR2X1 cells:        4
+ABC RESULTS:           OAI21X1 cells:       18
+ABC RESULTS:             OR2X2 cells:        1
+ABC RESULTS:        internal signals:       33
+ABC RESULTS:           input signals:       27
+ABC RESULTS:          output signals:       16
+Removing temp directory.
+
+12.3. Extracting gate netlist of module `\mkBitNode' to `<abc-temp-dir>/input.blif'..
+Extracted 4 gates and 10 wires to a netlist network with 6 inputs and 2 outputs.
+
+12.3.1. Executing ABC.
+Running ABC command: /usr/local/share/qflow/bin/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.00 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFNEGX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFPOSX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFSR".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "LATCH".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "PADINOUT".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX2".
+ABC: Scl_LibertyReadGenlib() skipped cell "PADFC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADNC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADVDD" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADGND" without logic function.
+ABC: Library "osu035_stdcells" from "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" has 28 cells (11 skipped: 4 seq; 3 tri-state; 4 no func).  Time =     0.00 sec
+ABC: Memory =    0.38 MB. Time =     0.00 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FAX1").
+ABC: + strash 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + ifraig 
+ABC: + retime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + map -M 1 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.3.2. Re-integrating ABC results.
+ABC RESULTS:            AND2X2 cells:        1
+ABC RESULTS:           NAND2X1 cells:        2
+ABC RESULTS:            NOR2X1 cells:        1
+ABC RESULTS:        internal signals:        2
+ABC RESULTS:           input signals:        6
+ABC RESULTS:          output signals:        2
+Removing temp directory.
+
+12.4. Extracting gate netlist of module `\mkChkNode' to `<abc-temp-dir>/input.blif'..
+Extracted 5 gates and 11 wires to a netlist network with 6 inputs and 1 outputs.
+
+12.4.1. Executing ABC.
+Running ABC command: /usr/local/share/qflow/bin/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.00 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFNEGX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFPOSX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFSR".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "LATCH".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "PADINOUT".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX2".
+ABC: Scl_LibertyReadGenlib() skipped cell "PADFC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADNC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADVDD" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADGND" without logic function.
+ABC: Library "osu035_stdcells" from "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" has 28 cells (11 skipped: 4 seq; 3 tri-state; 4 no func).  Time =     0.00 sec
+ABC: Memory =    0.38 MB. Time =     0.00 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FAX1").
+ABC: + strash 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + ifraig 
+ABC: + retime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + map -M 1 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.4.2. Re-integrating ABC results.
+ABC RESULTS:           NAND2X1 cells:        3
+ABC RESULTS:            NOR3X1 cells:        1
+ABC RESULTS:        internal signals:        4
+ABC RESULTS:           input signals:        6
+ABC RESULTS:          output signals:        1
+Removing temp directory.
+
+12.5. Extracting gate netlist of module `\mkLdpcCore' to `<abc-temp-dir>/input.blif'..
+Extracted 78 gates and 181 wires to a netlist network with 103 inputs and 40 outputs.
+
+12.5.1. Executing ABC.
+Running ABC command: /usr/local/share/qflow/bin/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.00 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFNEGX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFPOSX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFSR".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "LATCH".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "PADINOUT".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX2".
+ABC: Scl_LibertyReadGenlib() skipped cell "PADFC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADNC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADVDD" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADGND" without logic function.
+ABC: Library "osu035_stdcells" from "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" has 28 cells (11 skipped: 4 seq; 3 tri-state; 4 no func).  Time =     0.01 sec
+ABC: Memory =    0.38 MB. Time =     0.01 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FAX1").
+ABC: + strash 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + ifraig 
+ABC: + retime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + map -M 1 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.5.2. Re-integrating ABC results.
+ABC RESULTS:            AND2X2 cells:       22
+ABC RESULTS:             INVX1 cells:       13
+ABC RESULTS:           NAND2X1 cells:       27
+ABC RESULTS:           NAND3X1 cells:       12
+ABC RESULTS:            NOR2X1 cells:       15
+ABC RESULTS:            NOR3X1 cells:        1
+ABC RESULTS:           OAI21X1 cells:        7
+ABC RESULTS:        internal signals:       38
+ABC RESULTS:           input signals:      103
+ABC RESULTS:          output signals:       40
+Removing temp directory.
+
+12.6. Extracting gate netlist of module `\module_fnBitNodeCore' to `<abc-temp-dir>/input.blif'..
+Extracted 3 gates and 6 wires to a netlist network with 3 inputs and 1 outputs.
+
+12.6.1. Executing ABC.
+Running ABC command: /usr/local/share/qflow/bin/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.00 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFNEGX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFPOSX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFSR".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "LATCH".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "PADINOUT".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX2".
+ABC: Scl_LibertyReadGenlib() skipped cell "PADFC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADNC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADVDD" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADGND" without logic function.
+ABC: Library "osu035_stdcells" from "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" has 28 cells (11 skipped: 4 seq; 3 tri-state; 4 no func).  Time =     0.01 sec
+ABC: Memory =    0.38 MB. Time =     0.01 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FAX1").
+ABC: + strash 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + ifraig 
+ABC: + retime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + map -M 1 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.6.2. Re-integrating ABC results.
+ABC RESULTS:           NAND2X1 cells:        2
+ABC RESULTS:           OAI21X1 cells:        1
+ABC RESULTS:        internal signals:        2
+ABC RESULTS:           input signals:        3
+ABC RESULTS:          output signals:        1
+Removing temp directory.
+
+12.7. Extracting gate netlist of module `\module_fnCheckDecodedWord' to `<abc-temp-dir>/input.blif'..
+Extracted 22 gates and 29 wires to a netlist network with 7 inputs and 1 outputs.
+
+12.7.1. Executing ABC.
+Running ABC command: /usr/local/share/qflow/bin/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.00 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFNEGX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFPOSX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFSR".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "LATCH".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "PADINOUT".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX2".
+ABC: Scl_LibertyReadGenlib() skipped cell "PADFC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADNC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADVDD" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADGND" without logic function.
+ABC: Library "osu035_stdcells" from "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" has 28 cells (11 skipped: 4 seq; 3 tri-state; 4 no func).  Time =     0.01 sec
+ABC: Memory =    0.38 MB. Time =     0.01 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FAX1").
+ABC: + strash 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + ifraig 
+ABC: + retime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + map -M 1 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.7.2. Re-integrating ABC results.
+ABC RESULTS:            AND2X2 cells:        4
+ABC RESULTS:           AOI21X1 cells:        2
+ABC RESULTS:           AOI22X1 cells:        1
+ABC RESULTS:             INVX1 cells:        2
+ABC RESULTS:           NAND2X1 cells:        3
+ABC RESULTS:           NAND3X1 cells:        3
+ABC RESULTS:            NOR2X1 cells:        4
+ABC RESULTS:           OAI21X1 cells:        2
+ABC RESULTS:             OR2X2 cells:        3
+ABC RESULTS:           XNOR2X1 cells:        1
+ABC RESULTS:            XOR2X1 cells:        1
+ABC RESULTS:        internal signals:       21
+ABC RESULTS:           input signals:        7
+ABC RESULTS:          output signals:        1
+Removing temp directory.
+
+12.8. Extracting gate netlist of module `\module_fnChkNodeCore' to `<abc-temp-dir>/input.blif'..
+Extracted 3 gates and 6 wires to a netlist network with 3 inputs and 3 outputs.
+
+12.8.1. Executing ABC.
+Running ABC command: /usr/local/share/qflow/bin/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
+ABC: ABC command line: "source <abc-temp-dir>/abc.script".
+ABC: 
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_lib -w /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib 
+ABC: Parsing finished successfully.  Parsing time =     0.00 sec
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFNEGX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFPOSX1".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "DFFSR".
+ABC: Scl_LibertyReadGenlib() skipped sequential cell "LATCH".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "PADINOUT".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX1".
+ABC: Scl_LibertyReadGenlib() skipped three-state cell "TBUFX2".
+ABC: Scl_LibertyReadGenlib() skipped cell "PADFC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADNC" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADVDD" without logic function.
+ABC: Scl_LibertyReadGenlib() skipped cell "PADGND" without logic function.
+ABC: Library "osu035_stdcells" from "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" has 28 cells (11 skipped: 4 seq; 3 tri-state; 4 no func).  Time =     0.00 sec
+ABC: Memory =    0.38 MB. Time =     0.00 sec
+ABC: Warning: Detected 2 multi-output gates (for example, "FAX1").
+ABC: + strash 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + ifraig 
+ABC: + retime 
+ABC: + strash 
+ABC: + dch -f 
+ABC: + map -M 1 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+12.8.2. Re-integrating ABC results.
+ABC RESULTS:            AND2X2 cells:        3
+ABC RESULTS:            NOR2X1 cells:        6
+ABC RESULTS:        internal signals:        0
+ABC RESULTS:           input signals:        3
+ABC RESULTS:          output signals:        3
+Removing temp directory.
+
+13. Executing FLATTEN pass (flatten design).
+Mapping mkLdpcCore.vCheckNodes_6 using mkChkNode.
+Mapping mkLdpcCore.instance_fnCheckDecodedWord_0 using module_fnCheckDecodedWord.
+Mapping mkLdpcCore.ffO using $paramod\FIFO2\width=7\guarded=1.
+Mapping mkLdpcCore.vBitNodes_6 using mkBitNode.
+Mapping mkLdpcCore.vCheckNodes_5 using mkChkNode.
+Mapping mkLdpcCore.vBitNodes_5 using mkBitNode.
+Mapping mkLdpcCore.vCheckNodes_4 using mkChkNode.
+Mapping mkLdpcCore.vBitNodes_4 using mkBitNode.
+Mapping mkLdpcCore.vCheckNodes_3 using mkChkNode.
+Mapping mkLdpcCore.vBitNodes_3 using mkBitNode.
+Mapping mkLdpcCore.vCheckNodes_2 using mkChkNode.
+Mapping mkLdpcCore.vBitNodes_2 using mkBitNode.
+Mapping mkLdpcCore.vCheckNodes_1 using mkChkNode.
+Mapping mkLdpcCore.vBitNodes_1 using mkBitNode.
+Mapping mkLdpcCore.vCheckNodes_0 using mkChkNode.
+Mapping mkLdpcCore.vBitNodes_0 using mkBitNode.
+Mapping mkLdpcCore.ffI using $paramod\FIFO2\width=7\guarded=1.
+Mapping mkLdpcCore.vBitNodes_4.ffCodeIn using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_4.ffB2C using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_1.vffB2C_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_1.ffCodeIn using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_1.ffB2C using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_1.vffB2C_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_2.ffCodeIn using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_2.ffB2C using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_1.vffB2C_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_1.instance_fnChkNodeCore_0 using module_fnChkNodeCore.
+Mapping mkLdpcCore.vCheckNodes_1.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_1.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_1.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_4.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_6.ffCodeIn using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_6.ffB2C using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_3.vffB2C_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_3.ffCodeIn using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_3.ffB2C using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_3.vffB2C_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_3.vffB2C_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_3.instance_fnChkNodeCore_0 using module_fnChkNodeCore.
+Mapping mkLdpcCore.vCheckNodes_3.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_3.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_3.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_4.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_5.ffCodeIn using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_5.ffB2C using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_4.vffB2C_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_0.ffCodeIn using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_0.ffB2C using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_4.vffB2C_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_4.vffB2C_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_4.instance_fnChkNodeCore_0 using module_fnChkNodeCore.
+Mapping mkLdpcCore.vCheckNodes_4.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_4.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_4.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_4.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_4.instance_fnBitNodeCore_0 using module_fnBitNodeCore.
+Mapping mkLdpcCore.vBitNodes_4.ffDataOut using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_0.vffB2C_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_0.vffB2C_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_0.vffB2C_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_0.instance_fnChkNodeCore_0 using module_fnChkNodeCore.
+Mapping mkLdpcCore.vCheckNodes_0.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_0.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_0.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_3.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_2.vffB2C_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_2.vffB2C_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_2.vffB2C_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_2.instance_fnChkNodeCore_0 using module_fnChkNodeCore.
+Mapping mkLdpcCore.vCheckNodes_2.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_2.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_2.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_3.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_3.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_3.instance_fnBitNodeCore_0 using module_fnBitNodeCore.
+Mapping mkLdpcCore.vBitNodes_3.ffDataOut using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_6.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_5.vffB2C_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_5.vffB2C_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_5.vffB2C_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_5.instance_fnChkNodeCore_0 using module_fnChkNodeCore.
+Mapping mkLdpcCore.vCheckNodes_5.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_5.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_5.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_6.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_6.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_6.vffB2C_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_6.vffB2C_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_6.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_6.vffB2C_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vCheckNodes_6.instance_fnChkNodeCore_0 using module_fnChkNodeCore.
+Mapping mkLdpcCore.vCheckNodes_6.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_6.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_6.instance_fnBitNodeCore_0 using module_fnBitNodeCore.
+Mapping mkLdpcCore.vBitNodes_6.ffDataOut using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_2.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_2.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_2.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_2.instance_fnBitNodeCore_0 using module_fnBitNodeCore.
+Mapping mkLdpcCore.vBitNodes_2.ffDataOut using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_0.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_0.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_0.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_0.instance_fnBitNodeCore_0 using module_fnBitNodeCore.
+Mapping mkLdpcCore.vBitNodes_0.ffDataOut using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_5.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_5.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_5.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_5.instance_fnBitNodeCore_0 using module_fnBitNodeCore.
+Mapping mkLdpcCore.vBitNodes_5.ffDataOut using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_1.vffC2B_0 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_1.vffC2B_1 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_1.vffC2B_2 using $paramod\FIFO2\width=1\guarded=1.
+Mapping mkLdpcCore.vBitNodes_1.instance_fnBitNodeCore_0 using module_fnBitNodeCore.
+Mapping mkLdpcCore.vBitNodes_1.ffDataOut using $paramod\FIFO2\width=1\guarded=1.
+No more expansions possible.
+Deleting now unused module $paramod\FIFO2\width=1\guarded=1.
+Deleting now unused module $paramod\FIFO2\width=7\guarded=1.
+Deleting now unused module mkBitNode.
+Deleting now unused module mkChkNode.
+Deleting now unused module module_fnBitNodeCore.
+Deleting now unused module module_fnCheckDecodedWord.
+Deleting now unused module module_fnChkNodeCore.
+Removed 0 unused cells and 5499 unused wires.
+
+14. Executing IOPADMAP pass (mapping inputs/outputs to IO-PAD cells).
+Don't map input port mkLdpcCore.CLK: Missing option -inpad.
+Don't map input port mkLdpcCore.EN_request_put: Missing option -inpad.
+Don't map input port mkLdpcCore.EN_response_get: Missing option -inpad.
+Mapping port mkLdpcCore.RDY_request_put using BUFX2.
+Mapping port mkLdpcCore.RDY_response_get using BUFX2.
+Don't map input port mkLdpcCore.RST_N: Missing option -inpad.
+Don't map input port mkLdpcCore.request_put: Missing option -inpad.
+Mapping port mkLdpcCore.response_get using BUFX2.
+
+15. Executing OPT pass (performing simple optimizations).
+
+15.1. Executing OPT_EXPR pass (perform const folding).
+
+15.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mkLdpcCore'.
+Removed a total of 0 cells.
+
+15.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \mkLdpcCore..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+15.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \mkLdpcCore.
+Performed a total of 0 changes.
+
+15.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\mkLdpcCore'.
+Removed a total of 0 cells.
+
+15.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+15.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \mkLdpcCore..
+
+15.8. Executing OPT_EXPR pass (perform const folding).
+
+15.9. Finished OPT passes. (There is nothing left to do.)
+
+16. Executing BLIF backend.
+
+17. Printing statistics.
+
+=== mkLdpcCore ===
+
+   Number of wires:               2986
+   Number of wire bits:           3046
+   Number of public wires:        2986
+   Number of public wire bits:    3046
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               3035
+     AND2X2                        140
+     AOI21X1                        90
+     AOI22X1                       183
+     BUFX2                           9
+     DFFPOSX1                      369
+     INVX1                         627
+     NAND2X1                       531
+     NAND3X1                       187
+     NOR2X1                        244
+     NOR3X1                          8
+     OAI21X1                       556
+     OR2X2                           5
+     XNOR2X1                        85
+     XOR2X1                          1
+
+End of script. Logfile hash: 49c4393a0a
+CPU: user 0.74s system 0.03s, MEM: 45.77 MB total, 18.54 MB resident
+Yosys 0.7 (git sha1 61f6811, gcc 6.2.0-11ubuntu1 -O2 -fdebug-prefix-map=/build/yosys-OIL3SR/yosys-0.7=. -fstack-protector-strong -fPIC -Os)
+Time spent: 15% 14x opt_clean (0 sec), 14% 2x clean (0 sec), ...
+Running getpowerground to determine power and ground net names.
+getpowerground.tcl  /usr/local/share/qflow/tech/osu035/osu035_stdcells.lef
+Cleaning up output syntax
+ypostproc.tcl mkLdpcCore_mapped.blif mkLdpcCore /usr/local/share/qflow/tech/osu035/osu035.sh vdd gnd 
+Cleaning up blif file syntax
+Running blifFanout (iterative)
+Each iteration calls:
+blifFanout -l 200 -c 30 -I mkLdpcCore_nofanout  -p /usr/local/share/qflow/tech/osu035/osu035_stdcells.lib -b BUFX2,CLKBUF1 -i A,A -o Y,Y tmp.blif mkLdpcCore.blif
+
+blifFanout for qflow 1.3.13
+Parsing library "osu035_stdcells"
+End of library at line 6636
+Lib Read:  Processed 6637 lines.
+Top internal fanout is 49 (load 1196.66) from node vBitNodes_0$EN_codeIn_put,
+driven by NAND2X1 with strength 102.232 (fF driven at latency 200)
+Top fanout load-to-strength ratio is 11.7053 (latency = 2341.06 ps)
+Top input node fanout is 369 (load 14950.3) from node CLK.
+0 gates exceed specified minimum load.
+178 buffers were added.
+0 gates were changed.
+
+Gate counts by drive strength:
+
+
+Number of gates changed: 178
+gates resized: 178
+blifFanout for qflow 1.3.13
+Parsing library "osu035_stdcells"
+End of library at line 6636
+Lib Read:  Processed 6637 lines.
+Top internal fanout is 14 (load 692.714) from node _131_,
+driven by NOR2X1 with strength 108.686 (fF driven at latency 200)
+Top fanout load-to-strength ratio is 3.07835 (latency = 615.67 ps)
+Top input node fanout is 51 (load 2800.95) from node CLK.
+0 gates exceed specified minimum load.
+7 buffers were added.
+0 gates were changed.
+
+Gate counts by drive strength:
+
+
+Number of gates changed: 7
+gates resized: 7
+blifFanout for qflow 1.3.13
+Parsing library "osu035_stdcells"
+End of library at line 6636
+Lib Read:  Processed 6637 lines.
+Top internal fanout is 14 (load 692.714) from node _131_,
+driven by NOR2X1 with strength 108.686 (fF driven at latency 200)
+Top fanout load-to-strength ratio is 3.07835 (latency = 615.67 ps)
+Top input node fanout is 9 (load 129.383) from node RST_N.
+0 gates exceed specified minimum load.
+0 buffers were added.
+0 gates were changed.
+
+Gate counts by drive strength:
+
+
+Number of gates changed: 0
+gates resized: 0
+
+Generating RTL verilog and SPICE netlist file in directory
+	 /home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/synthesis
+Files:
+   Verilog: /home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/synthesis/mkLdpcCore.rtl.v
+   Verilog: /home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/synthesis/mkLdpcCore.rtlnopwr.v
+   Verilog: /home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/synthesis/mkLdpcCore.rtlbb.v
+   Spice:   /home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/synthesis/mkLdpcCore.spc
+
+Running blif2Verilog.
+Running blif2BSpice.
+Running spi2xspice.py
+spi2xspice.py "/usr/local/share/qflow/tech/osu035/osu035_stdcells.lib" mkLdpcCore.spc mkLdpcCore.xspice
+
+Synthesis script ended on Thu May 2 17:24:33 IST 2019

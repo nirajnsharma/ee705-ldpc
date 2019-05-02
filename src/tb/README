@@ -1,0 +1,4 @@
+LdpcTb      - TB for LdpcCore                               DONE
+LdpcTop     - LdpcCore + Avalon Slave Interface             DONE
+LdpcTopTb   - TB for LdpcTop before integration with NIOS   DONE
+Final verification by running decoder on FPGA               DONE

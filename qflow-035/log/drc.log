@@ -1,0 +1,36 @@
+Qflow DRC logfile created on Thu May 2 17:27:03 IST 2019
+magic -dnull -noconsole  /home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/layout/run_drc_mkLdpcCore.tcl
+
+Magic 8.2 revision 110 - Compiled on Wed May  1 11:34:27 IST 2019.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+Using NULL graphics device.
+Processing system .magicrc file
+Input style lambda=0.20(p): scaleFactor=20, multiplier=1
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+4 Magic internal units = 1 Lambda
+Loading "/home/nirajns/work/courses/EE705/ee705-ldpc/qflow-035/layout/run_drc_mkLdpcCore.tcl" from command line.
+Reading LEF data from file /usr/local/share/qflow/tech/osu035/osu035_stdcells.lef.
+This action cannot be undone.
+LEF Read, Line 16: Unknown keyword "OBS" in LEF file; ignoring.
+LEF Read, Line 17: Unknown keyword "PIN" in LEF file; ignoring.
+LEF file:  Defines site corner (ignored)
+LEF file:  Defines site IO (ignored)
+LEF file:  Defines site core (ignored)
+Moving label "CLK" from metal1 to m2contact in cell DFFNEGX1.
+Moving label "CLK" from metal1 to m2contact in cell DFFNEGX1.
+Moving label "A" from metal1 to m2contact in cell XNOR2X1.
+LEF read: Processed 3179 lines.
+LEF Read: encountered 2 errors total.
+Scaled magic input cell mkLdpcCore geometry by factor of 2
+mkLdpcCore: 10000 rects
+mkLdpcCore: 20000 rects
+mkLdpcCore: 30000 rects
+Processing timestamp mismatches: FILL, NAND3X1, AOI22X1, OAI21X1, NAND2X1, INVX1, DFFPOSX1, NOR2X1, AND2X2, AOI21X1, XNOR2X1, BUFX2, CLKBUF1, NOR3X1, OR2X2, XOR2X1.
+drc = 0
+DRC checking script ended on Thu May 2 17:27:04 IST 2019
