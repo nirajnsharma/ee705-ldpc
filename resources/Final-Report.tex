@@ -1,0 +1,236 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{noweb}
+\usepackage{amsmath}
+\usepackage{a4wide}  % Set margins automatically for wider use of A4
+\usepackage{graphicx}
+\usepackage{float}      % place multiple floats in one float
+\usepackage{subfig}     % place multiple figs in one figure
+\usepackage{placeins}   % to stop floats from floating
+\usepackage{wrapfig}
+\noweboptions{}
+\title{EE705 Course Project -- LDPC Decoder}
+\author{Anuja Singh (184074001), Niraj N Sharma (184077001), Sandeep Mishra (184076005) \and Sonali Shukla (184070014)}
+\date{Final Report: May 2, 2019}
+\begin{document}
+\maketitle
+The project involves the design and layout of a LDPC decoder block. After
+the creation of behavioural RTL using BSV and Verilog, we have chosen to use
+an open-source ASIC design flow to generate the GDS2 for the design.
+
+\section{LDPC Background}
+In communication system normally the transmitter appends parity bits to
+message bits in order allow the receiver to correct or detect errors. These
+are called error correcting codes. There is a generator matrix which
+encapsulates the implementation of the parity check equations :
+\[
+C = M*G
+\]
+
+Here, C is the coded message, M is the original message and G is the generator
+matrix. At the receiver side we have the received message bit and the parity
+check matrix, from which we decode the message.
+
+In LDPC codes there is a property that every code digit is contained in the
+same no. of equations and each equations contains the same no. of code
+symbols. LDPC codes are usually represented by the tanner graph. Tanner graph
+contains two set of vertices: 
+\begin{enumerate}
+   \item $n$ vertices for the code word bits called a bit nodes.
+   \item $m$ vertices for the check equation called check node.
+\end{enumerate}
+
+\begin{figure}[hbt]
+\includegraphics{pic2.png}
+\label{fig:pic2}
+\caption{Representation in a tanner graph}
+\end{figure}
+
+\subsection{The Parity Matrix}
+The parity matrix dictates the connections between the bit-nodes and
+check-nodes and encodes a tanner graph. So, in order to build a hardware LDPC
+decoder, we have to fix this parity matrix. We have chosen the following
+matrix which has been provided to us by Mandar J.~Datar from the HPC Lab:
+
+\[
+H = \begin{bmatrix}
+1 1 0 1 0 0 0 \\
+0 1 1 0 1 0 0 \\
+0 0 1 1 0 1 0 \\
+0 0 0 1 1 0 1 \\
+1 0 0 0 1 1 0 \\
+0 1 0 0 0 1 1 \\
+1 0 1 0 0 0 1 \\
+\end{bmatrix}
+\]
+
+A $1$ at row $i$, column $j$ indicates a connection between $i^{th}$ checknode
+and $j^{th}$ bitnode as show in figure~\ref{fig:bc}.
+
+\begin{figure}[hbt]
+%\includegraphics[width=\linewidth]{pic1.jpg}
+\includegraphics{pic1.jpg}
+\label{fig:bc}
+\caption{Bitnodes and Checknodes connections based on the given H matrix}
+\end{figure}
+
+\subsection{Decoder Algorithm}
+Here we used the Bit Flipping algorithm, in which the received message bits
+are decoded according to the parity matrix and if the bit obtained is not
+correct, then the respective bit is flipped and then again the equations are
+checked. The bit flip decoder directly gives it output whenever a valid code
+word has obtained which satisfies all the parity check equation.
+Here the $c_1$ means the first bit of coded word is taking the input from the
+$b_1$, $b_2$, $b_4$, then bit which it will send back to the $b_0$ is:
+
+\[
+   c_1 = b_1 \oplus b_2 \oplus b_4
+\]
+\[
+   c_2 = b_2 \oplus b_3 \oplus b_5
+\]
+
+These are sent back to the respective bitnodes. For instance bitnode-1 will
+receive inputs from checknodes 1, 6 and 7 and so on. Now, the bit assigned to
+the b1 is the majority of the bits which are send by the c1, c6 and c7.
+
+Like this all the bits have one value assigned to them, now to check whether
+the decoded messages bits are correct or not all the parity equations should
+be checked using:
+\[
+   (b_1 \oplus b_2 \oplus b_4) \vee (b_2 \oplus b3 \oplus b5) \vee (b3 \oplus
+   b4 \oplus b6) \vee (b4 \oplus b5 \oplus b7) \vee (b1 \oplus b5 \oplus b6)
+   \vee (b2 \oplus b6 \oplus b7) \vee (b1 \oplus b3 \oplus b7)
+\]
+If the output of the above equation is zero means the decoded message bits are
+correct otherwise, it will again send the bit obtained to the check nodes and
+again do the calculations until the result of the equation is zero.
+
+\section{LDPC Decoder Block Diagram}
+The LDPC decoder core represents the design which was developed and
+implemented upto GDSII. The LDPC decoder top-level represents the top-level
+for functional verification on a DE-Nano FPGA board using Quartus. For
+verification the LDPC decoder core was integrated as a NIOS peripheral with an
+Avalon slave interface.
+
+\begin{figure}[hbt]
+\includegraphics[width=\linewidth]{LDPC-Block.jpg}
+\label{fig:bd}
+\end{figure}
+
+Appendix A describes in detail how the RTL design of the LDPC core and its
+components were carried out. The design is hierarchical:
+
+\begin{figure}[hbt]
+\includegraphics{des-hier.pdf}
+\label{fig:dh}
+\end{figure}
+
+\section{From RTL to GDSII}
+In the course of the project we experimented with two different design flows
+to realise a circuit for the LDPC decoder. The starting point of both flows
+was after the design had been sufficiently verified through functional
+simulations as well as by running as an Avalon slave on the DE-Nano board.
+
+\subsection{Bottom-up Flow Using Java Electric}
+
+Figure~\ref{fig:flow1} captures the steps involved in a bottom-up flow using
+the Electric tool-flow introduced as part of the course:
+
+\begin{figure}[hbt]
+\includegraphics[width=\linewidth]{FLOW1.jpg}
+\label{fig:flow}
+\caption{Flow using Java Electric}
+\end{figure}
+
+The Yosys synthesis tool reads in behavioural RTL and generates a structural
+netlist, given a cell library. The tool uses the abc tool in the background to
+actually do the synthesis. 
+
+The structural RTL is then converted to structural VHDL. This step usually
+involved running multiple scripts to get it into just the correct format for
+input to the Electric tool suite.
+
+In the bottom-up flow we begin at the lowest level of the hierarchy,
+individually, synthesizing, and then creating layouts and schematic for each
+module. Each individual module is taken through DRC and LVS.
+
+As the leaf module got bigger, manual schematic entry became problemmatic. So
+we decided to carry out LVS by comparing the spice netlist dumped from the
+layout versus the spice netlist created by Yosys. 
+
+Java Electric was not able to check DRC on the complete design repeatedly
+crashing after a few hours of running DRC. 
+
+\subsubsection{Manual stitching in Electric}
+We have used electric 9.07 using bottom-up appraoch for creating layout out of
+the VHDL files. It has created layout for each node with successful design
+rule check(DRC) and earlier the plan was to make layout for individual module
+and then make layout manually for the overall LDPC decoder using these
+individual module. But the layouts for the individual modules were quite big
+and creating layout for the whole circuit using those big layout became
+extremely difficult. We are using 7 bitnodes and 7 checknodes and for
+each node there is an individual layout means 14 layouts only for these
+bitnodes and checknodes, leaving other nodes aside. This was becoming
+something which was going out of reach for the mannual layout.
+
+Then we decided to combine all the vhdl code files for respective modules in
+the vhdl code file of the top level circuit and tried to generate the
+automatic layout from electric 9.07. We have tried to make changes in the
+placement settings,routing settings and to use metal layers more than 2 but
+electric remains unresponsive and creating layout with the default settings.
+But there was a problem in running DRC for this top level circuit layout
+because it was taking too long to complete the DRC and still not displaying
+the results/errors.To solve this problem we decided to shift towards Qflow
+open circuit design tool.
+
+\subsection{Top-down Flow Using Q-Flow}
+The limitations with DRC on Java Electric led us to explore an alternate
+design flow. For this we settled on a top-down flow called qflow, which
+integrates a set of open-source tools. In this flow we have to explicitly do
+placement and routing - it is not integrated under a single tool like Java
+Electric. On the other hand, this flow has complete PDKs for 350nm and 180nm
+processes which makes it possible to generate a GDS-II.
+
+\begin{figure}[hbt]
+\includegraphics[scale=0.5]{FLOW2.jpg}
+\label{fig:flow-q}
+\caption{Flow using QFlow}
+\end{figure}
+
+The other big difference from the Electric based flow is the use of a top-down
+approach where the whole LDPC core is flattened allowing the place and route
+tool greater flexibility. We also did try a bottom-up approach with this flow,
+but it resulted in several DRC violations at the top-level which we haven't
+yet managed to debug.
+
+The QFlow based flow also integrates static timing analysis -- something which
+was missing on the Electric based flow. 
+
+\section{Results}
+These results were obtained using OSU's 350nm PDK. A hierarchical layout and
+flat layout are contrasted on figure~\ref{fig:routes}. The flat layout is
+clearly superior in terms of timing and area due to the much higher compaction
+obtained by automatic layout.
+
+\begin{figure}[!ht]
+   \subfloat[Hierarchical \label{route:h}]{
+      \includegraphics[width=0.45\linewidth]{routing.png}
+   }
+   \subfloat[Flat \label{route:f}]{
+      \includegraphics[width=0.45\linewidth]{routing-flat.png}
+   }
+   \caption{Routes -- Hierarchical and Flat}
+\end{figure}
+
+From our bottom-up synthesis of the bitnode and checknode, the pre and
+post-layout maximum operating frequencies are:
+
+\begin{description}
+   \item[mkBitNode:] 535.41 MHz, 533 MHz
+   \item[mkChkNode:] 481.60 MHz, 479.11 MHz
+\end{description}
+
+\appendix
+\include{LdpcTop}
+\include{Nodes}
+\end{document}
